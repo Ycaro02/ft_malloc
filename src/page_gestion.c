@@ -19,6 +19,8 @@ t_data *init_data_by_type(e_type type, size_t size)
 	size_t page_size = 0;
 	page_size = get_page_size(type, size);
 	data = malloc(page_size); // to_change for my_malloc mmapcall
+	// data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+
 	if (!data)
 		return (NULL);
 	data->type = type;
@@ -36,10 +38,7 @@ t_block *init_data(e_type type, size_t size)
 	{
 		t_block *block = try_add_block(type, size);
 		if (block)
-		{
-			printf("new block added\n");
 			return (block);
-		}
 	}
 	data = init_data_by_type(type, size);
 	data_add_back(&g_data, data);
@@ -65,5 +64,5 @@ void *t_malloc(size_t size)
 		return (NULL);
 	type = detect_type(size);
 	t_block *block = init_data(type, size);
-	return ((void *)(block + BLOCK_SIZE));
+	return ((void *)block + BLOCK_SIZE); // CARE arithmétique ptr again
 }

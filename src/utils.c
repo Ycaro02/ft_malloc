@@ -21,18 +21,11 @@ int get_lst_block_len(t_block *lst)
 
 void free_block()
 {
-	t_data *data = g_data;
-	t_block *block_tmp;
-	t_data *data_tmp;
+	t_data  *data = g_data;
+	t_data  *data_tmp;
 	while (data)
 	{
 		data_tmp = data->next;
-		while (data->block)
-		{
-			block_tmp = data->block->next;
-			// free(data->block);
-			data->block = block_tmp;
-		}
 		free(data);
 		data = data_tmp;
 	}

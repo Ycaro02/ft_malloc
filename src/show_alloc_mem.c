@@ -1,32 +1,37 @@
 #include "../malloc.h"
 
-void print_bloc(t_data *data, e_type type)
+size_t print_bloc(t_data *data)
 {
-
-	while (data && !(data->type & type))
-		data = data->next;
-	if (data)
+	int total = 0;
+	if (data->type & TINY)
+		printf("TINY");
+	else if (data->type & SMALL)
+		printf("SMALL");
+	else
+		printf("LARGE");
+	printf(" : %p\n", data);
+	t_block *block = data->block;
+	while (block)
 	{
-		if (type & TINY)
-			printf("TINY");
-		else if (type & SMALL)
-			printf("SMALL");
-		else
-			printf("LARGE");
-		printf(" : %p\n", data);
-		t_block *block = data->block;
-		while (block)
-		{
-			printf("%p - %p", (block + BLOCK_SIZE), (block + BLOCK_SIZE) + block->size);
-			printf(": %ld bytes\n", (block + BLOCK_SIZE) + block->size - (block + BLOCK_SIZE));
-			block = block->next;
-		}
+		void *ptr = (void *)block + BLOCK_SIZE;
+		printf("%p - %p", ptr, ptr + block->size);
+		printf(": %ld bytes\n", ptr + block->size - ptr);
+		total += ptr + block->size - ptr;
+		block = block->next;
 	}
+	return (total);
 }
 
 void show_alloc_mem()
 {
-	print_bloc(g_data, TINY);
-	print_bloc(g_data, SMALL);
-	print_bloc(g_data, LARGE);
+	t_data *tmp = g_data;
+	size_t total = 0;
+	printf("--------------------------------------------------\n");
+	while (tmp)
+	{
+		total += print_bloc(tmp);
+		tmp = tmp->next;
+	}
+	printf("Total: %zu bytes\n", total);
+	printf("--------------------------------------------------\n");
 }
