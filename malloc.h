@@ -62,8 +62,6 @@ typedef struct s_block {
 // data->block : pointer of linked list block of same type 
 // data->next : pointer to next data struct
 
-
-
 typedef struct s_data {
     char            type;
     size_t          size;
@@ -82,9 +80,11 @@ extern t_data *g_data;
 // void    *ft_realloc(void *ptr, size_t size);
 void    show_alloc_mem();
 
-
 //page_gestion.c
-t_block *init_data(e_type type, size_t size); 
+t_block *init_data(e_type type, size_t size);
+e_type  detect_type(size_t size);
+size_t  get_page_size(e_type type, size_t size);
+
 // t_block *check_add_page(e_type type, size_t size);
 size_t  get_page_size(e_type type, size_t size);
 
@@ -104,13 +104,13 @@ int     ft_strlen(char *str);
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(e_type type, size_t size);
-void    t_free(void* ptr);
-void    free_meta_block(t_block* block, t_data *data);
 
 //show_alloc_mem.c
 void show_alloc_mem();
-void *t_malloc(size_t size);
 
+// malloc.c
+void    *t_malloc(size_t size);
+void    t_free(void* ptr);
 
 /* show mem format
     TINY : 0xA0000

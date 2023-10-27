@@ -56,13 +56,3 @@ e_type detect_type(size_t size)
 		type = LARGE;
 	return (type);
 }
-
-void *t_malloc(size_t size)
-{
-	e_type type;
-	if (size <= 0)
-		return (NULL);
-	type = detect_type(size);
-	t_block *block = init_data(type, size);
-	return ((void *)block + BLOCK_SIZE); // CARE arithmétique ptr again
-}

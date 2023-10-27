@@ -1,44 +1,5 @@
 #include "../malloc.h"
 
-void t_free(void* ptr)
-{
-	t_data *head = g_data;
-	t_block *test = (t_block *)(ptr - BLOCK_SIZE);
-	if (!ptr)
-		return ;
-	while(g_data)
-	{
-		t_block *head_block = g_data->block;
-		while (g_data->block)
-		{
-			if (g_data->block == (t_block *)test)
-			{
-				free_meta_block(g_data->block, g_data);
-				g_data->block = head_block;
-				g_data = head;
-				return ;
-			}
-			g_data->block = g_data->block->next;
-		}
-		g_data->block = head_block;
-		g_data = g_data->next;
-	}
-	g_data = head;
-	return ;
-}
-
-void free_meta_block(t_block* block, t_data *data)
-{
-    size_t align = get_align_by_type(data->type);
-    if (!(data->type & LARGE)) 
-	{
-        data->size_free -= align + BLOCK_SIZE;
-        block->size = 0;
-    }
-	else
-		printf("free large block maybe munmap instant\n");
-}
-
 t_block* refill_block(t_block* block, int pos, int size)
 {
     int i = 0;
