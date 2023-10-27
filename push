@@ -2,5 +2,5 @@
 
 git add .
 git commit -m "${1}"
-xclip -sel clip /home/nfour/.pat
+xclip -sel clip ~/.pat
 git push
