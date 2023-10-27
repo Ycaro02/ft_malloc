@@ -20,7 +20,7 @@ void replace_test(void)
 	char *ptr1 = t_malloc(sizeof(char) * (12 + 1));
 	char *ptr2 = t_malloc(sizeof(char) * (13 + 1));
 	char *ptr3 = t_malloc(sizeof(char) * (14 + 1));
-	printf("--------------------------------------------------\n");
+	display_line(NULL, '-');
 	printf("ptr1 = %p\n", ptr1);
 	printf("ptr2 = %p\n", ptr2);
 	printf("ptr3 = %p\n", ptr3);
@@ -36,15 +36,19 @@ void replace_test(void)
 	show_alloc_mem();
 	printf("1: %s\n2: %s\n3: %s\n", ptr1, ptr2, ptr3);
 	t_free(ptr2);
+	display_line(NULL, '-');
+	display_line("FREE", '-');
 	show_alloc_mem();
 	char* ptr4 = t_malloc(sizeof(char) * (15 + 1));
 	for (int i = 0; i < 15 ;i++)
 		ptr4[i] = 'K';
 	ptr4[15] = '\0';
+	display_line("REFILL", '-');
+	display_line(NULL, '-');
 	printf("ptr1 = %p\n", ptr1);
 	printf("ptr4 = %p\n", ptr4);
 	printf("ptr3 = %p\n", ptr3);
-	printf("--------------------------------------------------\n");
+	display_line(NULL, '-');
 	printf("1: %s\n2: %s\n3: %s\n", ptr1, ptr4, ptr3);
 	show_alloc_mem();
 }

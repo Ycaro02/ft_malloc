@@ -18,7 +18,6 @@
 #define TINY_MULT 8
 #define SMALL_MULT 32
 
-
 # define PAGE_SIZE              (size_t)getpagesize()
 # define TINY_SIZE              (size_t)256
 # define SMALL_SIZE             (size_t)1024
@@ -36,13 +35,13 @@
 # define DATA_SIZE           sizeof(t_data)
 # define ALIGN_VALUE            64
 
-enum type {
+enum e__type {
     TINY=1,
     SMALL=2,
     LARGE=4,
 };
 
-enum s_bool {
+enum e__bool {
     TRUE,
     FALSE,
 };
@@ -73,8 +72,8 @@ typedef struct s_data {
     struct s_data   *next;
 }   t_data;
 
-typedef enum type e_type;
-typedef enum s_bool e_bool;
+typedef enum e__type e_type;
+typedef enum e__bool e_bool;
 
 extern t_data *g_data;
 
@@ -94,17 +93,19 @@ size_t  get_page_size(e_type type, size_t size);
 size_t get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
 void    free_block();
-void    data_add_back(t_data **lst, t_data *new);
-void    block_add_back(t_block **lst, t_block *new);
+void    data_add_back(t_data **lst, t_data *data);
+void    block_add_back(t_block **lst, t_block *block);
 void    print_define(void);
+void    display_line(char *str, char to_display);
+int     ft_strlen(char *str);
 
 
 //block.c
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(e_type type, size_t size);
-
-
+void    t_free(void* ptr);
+void    free_meta_block(t_block* block, t_data *data);
 
 //show_alloc_mem.c
 void show_alloc_mem();

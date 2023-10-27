@@ -1,5 +1,25 @@
 #include "../malloc.h"
 
+int ft_strlen(char *str)
+{
+	int i = 0;
+	while (str && str[i])
+		i++;
+	return (i);
+}
+
+void display_line(char *str, char to_display)
+{
+	int nb = 25 - ft_strlen(str);
+	for (int i = 0; i < 25; i++)
+			write(1, &to_display, 1);
+	if (str)
+			write(1, str, ft_strlen(str));
+	for (int i = 0; i < nb; i++)
+			write(1, &to_display, 1);
+	write(1, "\n", 1);
+}
+
 size_t get_align_by_type(e_type type)
 {
     int align = ALIGN_VALUE;
@@ -33,36 +53,36 @@ void free_block()
 
 void    data_add_back(t_data **lst, t_data *new)
 {
-        t_data  *current;
+	t_data  *current;
 
-        if (new == NULL)
-                return ;
-        if (*lst == NULL)
-        {
-                *lst = new;
-                return ;
-        }
-        current = *lst;
-        while (current->next != NULL)
-                current = current->next;
-        current->next = new;
+	if (new == NULL)
+			return ;
+	if (*lst == NULL)
+	{
+			*lst = new;
+			return ;
+	}
+	current = *lst;
+	while (current->next != NULL)
+			current = current->next;
+	current->next = new;
 }
 
 void    block_add_back(t_block **lst, t_block *new)
 {
-        t_block  *current;
+	t_block  *current;
 
-        if (new == NULL)
-                return ;
-        if (*lst == NULL)
-        {
-                *lst = new;
-                return ;
-        }
-        current = *lst;
-        while (current->next != NULL)
-                current = current->next;
-        current->next = new;
+	if (new == NULL)
+			return ;
+	if (*lst == NULL)
+	{
+			*lst = new;
+			return ;
+	}
+	current = *lst;
+	while (current->next != NULL)
+			current = current->next;
+	current->next = new;
 }
 
 void print_define(void)

@@ -26,12 +26,12 @@ void show_alloc_mem()
 {
 	t_data *tmp = g_data;
 	size_t total = 0;
-	printf("--------------------------------------------------\n");
+	display_line(NULL, '-');
 	while (tmp)
 	{
 		total += print_bloc(tmp);
 		tmp = tmp->next;
 	}
 	printf("Total: %zu bytes\n", total);
-	printf("--------------------------------------------------\n");
+	display_line(NULL, '-');
 }
