@@ -1,4 +1,4 @@
-#include "../malloc.h"
+#include "../include/malloc.h"
 
 t_block* refill_block(t_block* block, int pos, int size)
 {
@@ -50,7 +50,7 @@ t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **b
 	return (NULL);
 }
 
-t_block *try_add_block(e_type type, size_t size)
+t_block *try_add_block(char type, size_t size)
 {
 	t_data *head = g_data;
 	t_block *new = NULL;

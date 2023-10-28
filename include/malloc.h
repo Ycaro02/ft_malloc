@@ -36,7 +36,6 @@
 # define DATA_SIZE           sizeof(t_data)
 # define ALIGN_VALUE            64
 
-
 enum e__type {
     TINY=1,
     SMALL=2,
@@ -44,8 +43,8 @@ enum e__type {
 };
 
 enum e__bool {
-    FALSE,
     TRUE,
+    FALSE,
 };
 
 // block->size :ALIGNED(size of block require by user + sizeof(t_block))
@@ -77,23 +76,22 @@ typedef enum e__bool e_bool;
 
 extern t_data *g_data;
 
-//show_alloc_mem.c
+// void    ffree(void *ptr);
+// void    *fmalloc(size_t size);
+// void    *ft_realloc(void *ptr, size_t size);
 void    show_alloc_mem();
-
-// malloc.c
-void    *malloc(size_t size);
-void    free(void* ptr);
-void    free_meta_data();
 
 //page_gestion.c
 t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
 
+// t_block *check_add_page(e_type type, size_t size);
 size_t  get_page_size(e_type type, size_t size);
 
+
 //utils.c
-size_t  get_align_by_type(e_type type);
+size_t get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
 void    free_block();
 void    data_add_back(t_data **lst, t_data *data);
@@ -106,6 +104,14 @@ size_t  ft_strlen(char *str);
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(char type, size_t size);
+
+//show_alloc_mem.c
+void show_alloc_mem();
+
+// malloc.c
+void    *malloc(size_t size);
+void    free(void* ptr);
+void    free_meta_data();
 
 // ft_printf.c
 int	ft_printf_fd(int fd, const char *s, ...);

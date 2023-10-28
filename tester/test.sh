@@ -1,5 +1,4 @@
 #!/bin/bash
-
 mkdir -p .tmp
 
 gcc -o ${1} real/${1}.c

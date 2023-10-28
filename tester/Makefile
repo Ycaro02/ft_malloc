@@ -47,12 +47,4 @@ fclean:		clean
 
 re:			fclean all
 
-
 .PHONY:		all clean fclean re bonus
-		
-			# if [[ -v $(HOSTTYPE) ]];\
-			# then\
-			# echo "Variable having name 'A' is already set.";\
-			# else\
-			# echo "Variable having name 'A' is not set.";\
-			# fi

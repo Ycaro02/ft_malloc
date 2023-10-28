@@ -1,21 +1,21 @@
-#include "../malloc.h"
+#include "../include/malloc.h"
 
 size_t print_bloc(t_data *data)
 {
 	int total = 0;
 	if (data->type & TINY)
-		printf("TINY");
+		ft_printf_fd(1, "TINY");
 	else if (data->type & SMALL)
-		printf("SMALL");
+		ft_printf_fd(1, "SMALL");
 	else
-		printf("LARGE");
-	printf(" : %p\n", data);
+		ft_printf_fd(1, "LARGE");
+	ft_printf_fd(1, " : %p\n", data);
 	t_block *block = data->block;
 	while (block)
 	{
 		void *ptr = (void *)block + BLOCK_SIZE;
-		printf("%p - %p", ptr, ptr + block->size);
-		printf(": %ld bytes\n", ptr + block->size - ptr);
+		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
+		ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
 		total += ptr + block->size - ptr;
 		block = block->next;
 	}
@@ -32,6 +32,6 @@ void show_alloc_mem()
 		total += print_bloc(tmp);
 		tmp = tmp->next;
 	}
-	printf("Total: %zu bytes\n", total);
+	ft_printf_fd(1, "Total: %U bytes\n", total);
 	display_line(NULL, '-');
 }

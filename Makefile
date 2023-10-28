@@ -14,7 +14,14 @@ CC		= gcc
 
 CFLAGS	= -Wall -Wextra -Werror -g
 
-SRCS	=	src/malloc.c\
+SRCS	=	src/malloc.c \
+			src/block.c \
+			src/page_gestion.c \
+			src/show_alloc_mem.c \
+			src/utils.c \
+			src/printf_fd/ft_intfunction.c \
+			src/printf_fd/ft_printf.c \
+			src/printf_fd/ft_put_and_count.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -23,6 +30,8 @@ RM	= rm -f
 HOSTTYPE ?= $(shell uname -m)_$(shell uname -s)
 
 NAME	= libft_malloc_$(HOSTTYPE).so
+
+LIBFT	= libft/libft.a
 
 all:		${NAME}
 	echo $(HOSTTYPE)

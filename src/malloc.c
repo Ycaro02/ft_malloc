@@ -1,8 +1,8 @@
-#include "../malloc.h"
+#include "../include/malloc.h"
 
 t_data *g_data = NULL;
 
-void *t_malloc(size_t size)
+void *malloc(size_t size)
 {
 	e_type type;
 	if (size <= 0)
@@ -15,15 +15,17 @@ void *t_malloc(size_t size)
 
 void free_page(t_data *data)
 {
-	munmap(g_data, g_data->size);
+	munmap(data, data->size);
 }
 
 void free_meta_data()
 {
+	t_data *ptr = g_data;
 	while (g_data)
 	{
+		ptr = ptr->next;
 		free_page(g_data);
-		g_data = g_data->next;
+		g_data = ptr;
 	}
 }
 
@@ -39,7 +41,7 @@ void free_meta_block(t_block* block, t_data *data)
 		free_page(data);
 }
 
-void t_free(void* ptr)
+void free(void* ptr)
 {
 	t_data *head = g_data;
 	t_block *test = NULL; 

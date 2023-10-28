@@ -51,7 +51,7 @@ main(int argc, char *argv[])
 
     addr = mmap(NULL, length + offset - pa_offset, PROT_READ,
                 MAP_PRIVATE, fd, pa_offset);
-    printf("addr ptr = %p\n", addr);
+    ("addr ptr = %p\n", addr);
     if (addr == MAP_FAILED)
         handle_error("mmap");
 

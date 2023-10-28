@@ -1,4 +1,4 @@
-#include "../malloc.h"
+#include "../include/malloc.h"
 
 size_t get_page_size(e_type type, size_t size)
 {
@@ -18,8 +18,8 @@ t_data *init_data_by_type(e_type type, size_t size)
 	t_data *data = NULL;
 	size_t page_size = 0;
 	page_size = get_page_size(type, size);
-	data = malloc(page_size); // to_change for my_malloc mmapcall
-	// data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	// data = malloc(page_size); // to_change for my_malloc mmapcall
+	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 
 	if (!data)
 		return (NULL);
