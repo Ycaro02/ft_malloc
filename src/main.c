@@ -4,6 +4,13 @@
 
 // t_data *g_data = NULL;
 
+void realloc_test(int max)
+{
+  char *test = NULL;
+  for ( int i = 0; i < max; i++)
+
+}
+
 void basic_test(int max, int len)
 {
 	for (int j = 0; j < max; j++)
