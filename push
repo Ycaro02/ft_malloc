@@ -1,6 +1,10 @@
 #!/bin/bash
-
-git add .
-git commit -m "${1}"
-xclip -sel clip ~/.pat
-git push
+if [ ! -v ${1} ];
+then
+	git add .
+	git commit -m "${1}"
+	xclip -sel clip ~/.pat
+	git push
+else
+	printf "One argument require\nUsage: ./push COMMIT_NAME\n"
+fi
