@@ -12,17 +12,22 @@
 // 4096 / 256 = 16
 // AKA PAGE_SIZE / TINY_SIZE
 // 16 * 8 > 100;
+// 
 // AKA (PAGE_SIZE / TINY_SIZE) * x > 100
-
 // 4096 / 1024 = 4
+// 4 * 32 > 100
+
+// 4096 / 128 = 32
+// 32 * 4 > 100
+
 
 #define TINY_MULT 8
 #define SMALL_MULT 32
 
 # define PAGE_SIZE              (size_t)getpagesize()
-# define TINY_SIZE              (size_t)256
+# define TINY_SIZE              (size_t)128
 # define SMALL_SIZE             (size_t)1024
-# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 8)
+# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 4)
 # define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * 32)
 
 //
@@ -90,17 +95,15 @@ t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
 
-size_t  get_page_size(e_type type, size_t size);
-
 //utils.c
 size_t  get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
 void    free_block();
 void    data_add_back(t_data **lst, t_data *data);
 void    block_add_back(t_block **lst, t_block *block);
-void    print_define(void);
 void    display_line(char *str, char to_display);
 size_t  ft_strlen(char *str);
+void    print_define(void);
 
 //block.c
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);

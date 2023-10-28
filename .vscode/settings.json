@@ -9,6 +9,7 @@
         "utility": "c",
         "string": "c",
         "string_view": "c",
-        "random": "c"
+        "random": "c",
+        "malloc.h": "c"
     }
 }

@@ -1,4 +1,6 @@
-#include <stdlib.h>
+#include <../../include/malloc.h>
+
+void print_define(void);
 
 int main()
 {
@@ -15,6 +17,7 @@ while (i < 1024)
 }
 for (int j = 0; j < 1024; j++)
     free(addr[j]);
-free(addr);
+print_define();
+// free(addr);
 return (0);
 }

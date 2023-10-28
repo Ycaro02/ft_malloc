@@ -48,9 +48,9 @@ t_block *init_data(e_type type, size_t size)
 e_type detect_type(size_t size)
 {
 	e_type type;
-	if (size < TINY_SIZE)
+	if (size <= TINY_SIZE)
 		type = TINY;
-	else if (size < SMALL_SIZE)
+	else if (size <= SMALL_SIZE)
 		type = SMALL;
 	else
 		type = LARGE;

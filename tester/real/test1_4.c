@@ -16,6 +16,6 @@ while (i < (1024 * 4))
 }
 for (int j = 0; j < (1024 * 4); j++)
     free(addr[j]);
-free(addr);
+// free(addr);
 return (0);
 }
