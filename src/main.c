@@ -53,7 +53,7 @@ void replace_test(void)
 	show_alloc_mem();
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
 	// if (argc < 2)
 	// 	return (1);

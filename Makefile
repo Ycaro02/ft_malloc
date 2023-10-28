@@ -23,6 +23,8 @@ SRCS	=	src/malloc.c \
 			src/printf_fd/ft_printf.c \
 			src/printf_fd/ft_put_and_count.c \
 
+MAIN	= 	src/main.c \
+
 OBJS = $(SRCS:.c=.o)
 
 RM	= rm -f
@@ -34,7 +36,7 @@ NAME	= libft_malloc_$(HOSTTYPE).so
 LIBFT	= libft/libft.a
 
 all:		${NAME}
-	echo $(HOSTTYPE)
+
 %.o : %.c
 	@$(CC) ${CFLAGS} -fPIC -c $< -o $@
 
@@ -42,12 +44,17 @@ ${NAME}:	$(OBJS)
 			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
 			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS)
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m\n"
-			ln -sf ${NAME} libft_malloc.so
+			@ln -sf ${NAME} libft_malloc.so
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"
 			@${RM} ${OBJS}
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
+
+test : all
+			@$(CC) $(CFLAGS) -o main_test $(SRCS) $(MAIN)
+			@./main_test
+			@rm main_test
 
 fclean:		clean
 			@${RM} ${NAME} libft_malloc.so

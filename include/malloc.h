@@ -12,17 +12,22 @@
 // 4096 / 256 = 16
 // AKA PAGE_SIZE / TINY_SIZE
 // 16 * 8 > 100;
+// 
 // AKA (PAGE_SIZE / TINY_SIZE) * x > 100
-
 // 4096 / 1024 = 4
+// 4 * 32 > 100
+
+// 4096 / 128 = 32
+// 32 * 4 > 100
+
 
 #define TINY_MULT 8
 #define SMALL_MULT 32
 
 # define PAGE_SIZE              (size_t)getpagesize()
-# define TINY_SIZE              (size_t)256
+# define TINY_SIZE              (size_t)128
 # define SMALL_SIZE             (size_t)1024
-# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 8)
+# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 4)
 # define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * 32)
 
 //
@@ -36,6 +41,7 @@
 # define DATA_SIZE           sizeof(t_data)
 # define ALIGN_VALUE            64
 
+
 enum e__type {
     TINY=1,
     SMALL=2,
@@ -43,10 +49,15 @@ enum e__type {
 };
 
 enum e__bool {
-    TRUE,
     FALSE,
+    TRUE,
 };
 
+enum e__event {
+    NONE,
+    FREE,
+    REALLOC,
+};
 // block->size :ALIGNED(size of block require by user + sizeof(t_block))
 // block->next : pointer to next block struct
 
@@ -71,47 +82,41 @@ typedef struct s_data {
     struct s_data   *next;
 }   t_data;
 
-typedef enum e__type e_type;
-typedef enum e__bool e_bool;
+typedef enum e__type    e_type;
+typedef enum e__bool    e_bool;
+typedef enum e__event   e_event;
 
 extern t_data *g_data;
 
-// void    ffree(void *ptr);
-// void    *fmalloc(size_t size);
-// void    *ft_realloc(void *ptr, size_t size);
+//show_alloc_mem.c
 void    show_alloc_mem();
+
+// malloc.c
+void    *malloc(size_t size);
+void    free(void* ptr);
+void    *realloc(void *ptr, size_t size);
+//
+void    free_meta_data();
 
 //page_gestion.c
 t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
 
-// t_block *check_add_page(e_type type, size_t size);
-size_t  get_page_size(e_type type, size_t size);
-
-
 //utils.c
-size_t get_align_by_type(e_type type);
+size_t  get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
 void    free_block();
 void    data_add_back(t_data **lst, t_data *data);
 void    block_add_back(t_block **lst, t_block *block);
-void    print_define(void);
 void    display_line(char *str, char to_display);
 size_t  ft_strlen(char *str);
+void    print_define(void);
 
 //block.c
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(char type, size_t size);
-
-//show_alloc_mem.c
-void show_alloc_mem();
-
-// malloc.c
-void    *malloc(size_t size);
-void    free(void* ptr);
-void    free_meta_data();
 
 // ft_printf.c
 int	ft_printf_fd(int fd, const char *s, ...);
