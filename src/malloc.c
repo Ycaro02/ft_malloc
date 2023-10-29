@@ -97,7 +97,10 @@ e_bool check_reallocs(t_data *data, t_block *block, size_t size)
 	{
 		align = get_align_by_type(data->type);
 		if (new_size < align)
+		{
+			block->size += size;
 			return (TRUE);
+		}
 	}
 	return (FALSE);
 }
