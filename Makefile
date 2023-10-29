@@ -54,7 +54,7 @@ clean:
 			@${RM} ${OBJS}
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
-test :
+test :		all
 			@clear
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
 			@./${TEST}

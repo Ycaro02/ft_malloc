@@ -17,12 +17,6 @@ jobs:
     - name: Run make
       run: make
       
-    # - name: install valgrind
-      # run: sudo apt update && sudo apt install valgrind -y
-
-    # - name: Run test
-      # run: make testv
-      
     - name: Run test
       run: make test
 
