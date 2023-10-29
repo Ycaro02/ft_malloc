@@ -38,7 +38,7 @@ void free_meta_block(t_block* block, t_data *data)
 	block->size = 0;
 }
 
-e_bool find_valid_ptr(void *ptr, e_event event)
+e_bool try_free(void *ptr
 {
 	t_data *data = g_data;
 
@@ -51,8 +51,7 @@ e_bool find_valid_ptr(void *ptr, e_event event)
 		{
 			if (ptr == (void *)((void *)tmp + BLOCK_SIZE))
 			{
-				if (event == FREE)
-					free_meta_block(tmp, data);
+				free_meta_block(tmp, data);
 				return (TRUE);
 			}
 			tmp = tmp->next;
@@ -75,7 +74,7 @@ void *malloc(size_t size)
 
 void free(void* ptr)
 {
-	if (ptr && find_valid_ptr(ptr, FREE) == FALSE)
+	if (ptr && try_free(ptr) == FALSE)
 		ft_printf_fd(2, "Invalid free\n");
 }
 
