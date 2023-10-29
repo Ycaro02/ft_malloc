@@ -64,7 +64,7 @@ testv :
 
 fclean:		clean
 			@${RM} ${NAME} libft_malloc.so
-			@${RM}${TEST}
+			@${RM} ${TEST}
 
 re:			fclean all
 
