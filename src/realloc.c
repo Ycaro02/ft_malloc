@@ -43,14 +43,8 @@ void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, voi
 				else
 				{
 					save = current->next;
-                    if (prev)
-                        printf("all info prev: addr: %p, size: %zu, next: %p\n", prev, prev->block->size, prev->next);
-                    printf("all info curr: addr: %p, size: %zu, next: %p\n", current, current->block->size, current->next);
-                    printf("all info save: addr: %p, size: %zu, next: %p\n", save, save->block->size, save->next);
 					t_free_page(current);
 					prev == NULL ? ( g_data = save) : (prev->next = save);
-                    if (prev)
-                        printf("AFT info prev: addr: %p, size: %zu, next: %p\n", prev, prev->size, prev->next);
 				}
 			}
 			else
@@ -107,3 +101,10 @@ void *t_realloc(void *ptr, size_t size)
 		printf("get block addr return NULL\n");
 	return (new_ptr);
 }
+
+// if (prev)
+// 	printf("all info prev: addr: %p, size: %zu, next: %p\n", prev, prev->block->size, prev->next);
+// printf("all info curr: addr: %p, size: %zu, next: %p\n", current, current->block->size, current->next);
+// printf("all info save: addr: %p, size: %zu, next: %p\n", save, save->block->size, save->next);
+// if (prev)
+// 	printf("AFT info prev: addr: %p, size: %zu, next: %p\n", prev, prev->size, prev->next);
