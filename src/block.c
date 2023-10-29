@@ -78,7 +78,7 @@ size_t align_mem_block(size_t m_size, size_t size)
 		m_size = size;
 	else if (mod != 0)
 		m_size += size - mod;
-	printt("for size = %zu mod= %zu size - mod =%zu/n", size, mod, size - mod);
+	printf("for size = %zu mod= %zu size - mod =%zu/n", size, mod, size - mod);
 	return (m_size);
 }
 
