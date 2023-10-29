@@ -3,6 +3,7 @@
 size_t print_bloc(t_data *data)
 {
 	int total = 0;
+	printf("addr in print block %p\n", data);
 	if (data->type & TINY)
 		ft_printf_fd(1, "TINY");
 	else if (data->type & SMALL)

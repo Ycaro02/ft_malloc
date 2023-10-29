@@ -14,16 +14,19 @@ CC		= gcc
 
 CFLAGS	= -Wall -Wextra -Werror -g
 
-SRCS	=	src/malloc.c \
-			src/block.c \
-			src/page_gestion.c \
-			src/show_alloc_mem.c \
-			src/utils.c \
-			src/printf_fd/ft_intfunction.c \
-			src/printf_fd/ft_printf.c \
-			src/printf_fd/ft_put_and_count.c \
+SRCS	=	src/malloc.c 						\
+			src/block.c 						\
+			src/page_gestion.c					\
+			src/show_alloc_mem.c 				\
+			src/utils.c 						\
+			src/printf_fd/ft_intfunction.c 		\
+			src/printf_fd/ft_printf.c 			\
+			src/printf_fd/ft_put_and_count.c	\
+			src/realloc.c						\
 
-MAIN	= 	src/main.c \
+MAIN	= 	src/main.c
+
+TEST	=	main_test
 
 OBJS = $(SRCS:.c=.o)
 
@@ -51,18 +54,17 @@ clean:
 			@${RM} ${OBJS}
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
-test : all
-			@$(CC) $(CFLAGS) -o main_test $(SRCS) $(MAIN)
-			@./main_test
-			@rm main_test
+test :
+			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
+			@./${TEST}
 
-testv : all
-			@$(CC) $(CFLAGS) -o main_test $(SRCS) $(MAIN)
-			@valgrind ./main_test
-			@rm main_test
+testv :
+			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
+			@valgrind --leak-check=full ./${TEST}
 
 fclean:		clean
 			@${RM} ${NAME} libft_malloc.so
+			@${RM}${TEST}
 
 re:			fclean all
 

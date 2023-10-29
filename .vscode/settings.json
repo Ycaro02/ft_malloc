@@ -10,6 +10,7 @@
         "string": "c",
         "string_view": "c",
         "random": "c",
-        "malloc.h": "c"
+        "t_malloc.h": "c",
+        "numeric": "c"
     }
 }

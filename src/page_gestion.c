@@ -18,7 +18,7 @@ t_data *init_data_by_type(e_type type, size_t size)
 	t_data *data = NULL;
 	size_t page_size = 0;
 	page_size = get_page_size(type, size);
-	// data = malloc(page_size); // to_change for my_malloc mmapcall
+	// data = t_malloc(page_size); // to_change for my_t_malloc mmapcall
 	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 
 	if (!data)
@@ -26,7 +26,7 @@ t_data *init_data_by_type(e_type type, size_t size)
 	data->type = type;
 	data->size = page_size - DATA_SIZE;
 	data->block = init_block(data->block, size, type, 0, data);
-	data->size_free = page_size - data->block->size + DATA_SIZE;
+	data->size_t_free = page_size - data->block->size + DATA_SIZE;
 	data->next = NULL;
 	return (data);
 }
