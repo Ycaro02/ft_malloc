@@ -10,6 +10,7 @@ void realloc_test(int max)
   for ( int i = 0; i < max; i++)
   {
     test = realloc(test, sizeof(char) * (100 * (i + 1)));
+    test[i] ='a';
     show_alloc_mem();
    }
  }
