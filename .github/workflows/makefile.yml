@@ -14,11 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Install dependencies
-      run: make
-
     - name: Run make
       run: make
 
     - name: Run test
       run: make test
+      
+    - name: clean
+      run: make fclean
