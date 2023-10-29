@@ -8,9 +8,11 @@ void realloc_test(int max)
 {
   char *test = NULL;
   for ( int i = 0; i < max; i++)
+  {
     test = realloc(sizeof(char) * (100 * (i + 1));
-  show_alloc_mem();
-}
+    show_alloc_mem();
+   }
+ }
 
 void basic_test(int max, int len)
 {
@@ -69,6 +71,7 @@ int main(void)
 	// int len = atoi(argv[2]);
 	// 	basic_test(max, len);
 	replace_test();
+	realloc_test(20);
 
 	free_meta_data();
 	display_line("After free meta data", '-');
