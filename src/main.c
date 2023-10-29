@@ -9,7 +9,7 @@ void realloc_test(int max)
   char *test = NULL;
   for ( int i = 0; i < max; i++)
   {
-    test = realloc(sizeof(char) * (100 * (i + 1));
+    test = realloc(sizeof(char) * (100 * (i + 1)));
     show_alloc_mem();
    }
  }
