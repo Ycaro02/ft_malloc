@@ -11,7 +11,7 @@
 # fi  
 
 # function ft_test {
-#     local NAME=libft_t_malloc_
+#     local NAME=libft_malloc_
 #     NAME+=$HOSTTYPE
 #     NAME+=.so
 
@@ -30,15 +30,15 @@ then
     make -s -C .. re
     mkdir -p .tmp
     gcc -o ${1}_real ${REAL}${1}.c
-    gcc -o ${2}_me ${ME}${2}.c ../libft_t_malloc.so
+    gcc -o ${2}_me ${ME}${2}.c ../libft_malloc.so
     /usr/bin/time -v ./${1}_real 2> .tmp/out_real${1}
     /usr/bin/time -v ./${2}_me 2> .tmp/out_me${2}
     echo "diff :"
     diff .tmp/out_real${1} .tmp/out_me${2} 2> .tmp/diff_out
     cat .tmp/diff_out
-    echo "page for real t_malloc :"
+    echo "page for real malloc :"
     cat .tmp/out_real${1} | grep Minor
-    echo "page for my t_malloc :"
+    echo "page for my malloc :"
     cat .tmp/out_me${2} | grep Minor
     rm -rf .tmp ${1}_real ${2}_me
 else

@@ -1,5 +1,5 @@
-#ifndef t_malloc_H
-# define t_malloc_H
+#ifndef malloc_H
+# define malloc_H
 
 #include <unistd.h>
 #include <stddef.h> 
@@ -57,7 +57,7 @@ enum e__event {
 
 // block->size :ALIGNED(size of block require by user + sizeof(t_block))
 // block->next : pointer to next block struct
-// when t_free block dont't remove node, just block->size = -1 and check it for refill
+// when free block dont't remove node, just block->size = -1 and check it for refill
 
 typedef struct s_block {
     size_t          size;
@@ -66,14 +66,14 @@ typedef struct s_block {
 
 // data->type : type of page allocate TINY, SMALL, LARGE
 // data->size : ALIGNED(size of total page)
-// data->size_t_free : size of data t_free in bytes
+// data->size_free : size of data free in bytes
 // data->block : pointer of linked list block of same type 
 // data->next : pointer to next data struct
 
 typedef struct s_data {
     char            type;
     size_t          size;
-    size_t          size_t_free;
+    size_t          size_free;
     struct s_block  *block;
     struct s_data   *next;
 }   t_data;
@@ -87,14 +87,15 @@ extern t_data *g_data;
 //show_alloc_mem.c
 void    show_alloc_mem();
 
-// t_malloc.c
-void    *t_malloc(size_t size);
-void    t_free(void* ptr);
-void    t_free_meta_block(t_block* block, t_data *data);
-void    t_free_meta_data();
-void    t_free_page(t_data *data);
+// malloc.c
+void    *malloc(size_t size);
+void    free(void* ptr);
+void    free_meta_block(t_block* block, t_data *data);
+void    free_meta_data();
+e_bool  page_empty(t_data *block);
+void    free_page(t_data *data);
 //realloc.c
-void    *t_realloc(void *ptr, size_t size);
+void    *realloc(void *ptr, size_t size);
 //
 
 //page_gestion.c
@@ -105,7 +106,7 @@ size_t  get_page_size(e_type type, size_t size);
 //utils.c
 size_t  get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
-void    t_free_block();
+void    free_block();
 void    data_add_back(t_data **lst, t_data *data);
 void    block_add_back(t_block **lst, t_block *block);
 void    display_line(char *str, char to_display);
@@ -133,4 +134,4 @@ int	ft_printf_fd(int fd, const char *s, ...);
 */  
 
 
-# endif /* t_malloc_H */
+# endif /* malloc_H */

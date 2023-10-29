@@ -39,14 +39,14 @@ int get_lst_block_len(t_block *lst)
 	return (len);
 }
 
-void t_free_block()
+void free_block()
 {
 	t_data  *data = g_data;
 	t_data  *data_tmp;
 	while (data)
 	{
 		data_tmp = data->next;
-		t_free(data);
+		free(data);
 		data = data_tmp;
 	}
 }

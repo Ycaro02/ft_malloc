@@ -17,7 +17,7 @@ t_block* refill_block(t_block* block, int pos, int size)
     return (tmp);
 }
 
-int check_for_t_free_node(t_block* block)
+int check_for_free_node(t_block* block)
 {
     int pos = 0;
     while(block)
@@ -33,9 +33,9 @@ int check_for_t_free_node(t_block* block)
 t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **block)
 {
 	size_t align = get_align_by_type(data->type);
-	if (data->size_t_free >= BLOCK_SIZE + align)
+	if (data->size_free >= BLOCK_SIZE + align)
 	{
-		pos = check_for_t_free_node(data->block);
+		pos = check_for_free_node(data->block);
 		if (pos != -1)
 		{
 			new = refill_block(data->block, pos, size);
@@ -44,7 +44,7 @@ t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **b
 		pos = get_lst_block_len(data->block);
 		new = init_block(new, size, data->type, pos, data);
 		block_add_back(block, new);
-		data->size_t_free -= (align + BLOCK_SIZE);
+		data->size_free -= (align + BLOCK_SIZE);
 		return (new);
 	}
 	return (NULL);

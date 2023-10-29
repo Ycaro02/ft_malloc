@@ -8,21 +8,21 @@ void basic_test(int max, int len)
 {
 	for (int j = 0; j < max; j++)
 	{
-		char *test = (char *)t_malloc(len + 1);
+		char *test = (char *)malloc(len + 1);
 		for (int i = 0; i < len; i++)
 			test[i] = '3';
 		test[len] = '\0';
 	}
 }
 
-void test_realloc_large_only()
+void tesrealloc_large_only()
 {
 	char *test = NULL;
 	for (int i = 1; i < 10; i ++)
 	{
 		int j = 0;
 		int len = 4096 * i;
-		test = t_realloc(test, len);
+		test = realloc(test, len);
 		while (j < len)
 		{
 			test[j] = 'b';
@@ -36,19 +36,22 @@ void test_realloc_large_only()
 	}
 }
 
-void t_realloc_test(int max)
+void realloc_test(int max)
 {
+	char *coucou = NULL;
 	char *test = NULL;
 	for ( int i = 1; i < max; i++)
 	{
 		if (i == 1)
 		{
-			char *coucou = t_malloc(10 + i);
+			coucou = malloc(10 + i);
 			for (int k =0; k < 10 + i; k++)
 				coucou[k] = '3';
 		}
+		if (i == max - 1)
+			free(coucou);
 		int power = i * 3000;
-		test = t_realloc(test, power);
+		test = realloc(test, power);
 		int j = 0;
 		while (j < power)
 		{
@@ -67,9 +70,9 @@ void t_realloc_test(int max)
 
 void replace_test(void)
 {
-	char *ptr1 = t_malloc(sizeof(char) * (12 + 1));
-	char *ptr2 = t_malloc(sizeof(char) * (13 + 1));
-	char *ptr3 = t_malloc(sizeof(char) * (14 + 1));
+	char *ptr1 = malloc(sizeof(char) * (12 + 1));
+	char *ptr2 = malloc(sizeof(char) * (13 + 1));
+	char *ptr3 = malloc(sizeof(char) * (14 + 1));
 	display_line(NULL, '-');
 	ft_printf_fd(1, "ptr1 = %p\n", ptr1);
 	ft_printf_fd(1, "ptr2 = %p\n", ptr2);
@@ -85,11 +88,11 @@ void replace_test(void)
 	ptr3[14] = '\0';
 	show_alloc_mem();
 	ft_printf_fd(1, "1: %s\n2: %s\n3: %s\n", ptr1, ptr2, ptr3);
-	t_free(ptr2);
+	free(ptr2);
 	display_line(NULL, '-');
-	display_line("t_free", '-');
+	display_line("free", '-');
 	show_alloc_mem();
-	char* ptr4 = t_malloc(sizeof(char) * (15 + 1));
+	char* ptr4 = malloc(sizeof(char) * (15 + 1));
 	for (int i = 0; i < 15 ;i++)
 		ptr4[i] = 'K';
 	ptr4[15] = '\0';
@@ -103,20 +106,41 @@ void replace_test(void)
 	show_alloc_mem();
 }
 
+void basic_realloc_test(int max)
+{
+	char *test = NULL;
+	for ( int i = 1; i < max; i++)
+	{
+		int power = i;
+		test = realloc(test, power);
+		int j = 0;
+		while (j < power)
+		{
+    		test[j] ='a';
+			j++;
+		}
+		test[j] = '\0';
+		// display_line(NULL, '-');
+		// display_line(NULL, '-');
+		// ft_printf_fd(1, "test R = %d\n", power);
+    	// show_alloc_mem();
+	}
+ }
+
+
 int main(void)
 {
-	// if (argc < 2)
-	// 	return (1);
-	// int max = atoi(argv[1]);
-	// int len = atoi(argv[2]);
-	// 	basic_test(max, len);
-	// replace_test();
-	t_realloc_test(8);
-	display_line("After t_free meta data", '-');
-	t_free_meta_data();
+	basic_test(2, 2);
 	show_alloc_mem();
-	replace_test();
+	basic_realloc_test(50); // SMALL 435b
+	show_alloc_mem();
+	basic_test(2, 200);
+	show_alloc_mem();
+	basic_realloc_test(70); // SMALL 435b
+	show_alloc_mem();
 
-	// t_free_block();
+	// realloc_test(8);
+	// display_line("After free meta data", '-');
+	free_meta_data();
 	return (0);
 }

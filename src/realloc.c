@@ -2,7 +2,7 @@
 
 void *exec_realloc(t_block *block, size_t size)
 {
-	unsigned char *new_ptr = t_malloc(block->size + size);
+	unsigned char *new_ptr = malloc(block->size + size);
 	if (!new_ptr)
 		return (NULL);
 	size_t i = 0;
@@ -28,18 +28,23 @@ e_bool need_realloc(t_data *data, t_block *block, size_t size)
 	return (TRUE);
 }
 
+// ft_printf_fd(1, "MATCH for size = %U block = %p\n", size, block);
+
 void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
 {
 	while (block)
 	{
-		if (block && ptr == (void *)block + BLOCK_SIZE)
+		if (ptr == (void *)block + BLOCK_SIZE)
 		{
 			if (need_realloc(current, block, size) == TRUE)
 			{
 				ptr = exec_realloc(block, size);
-				t_free_meta_block(block, current);
-				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
-				t_free_page(current);
+				free_meta_block(block, current);
+				if (page_empty(current)== TRUE)
+				{
+					prev == NULL ? (g_data = current->next) : (prev->next = current->next);
+					free_page(current);
+				}
 			}
 			else
 				block->size += size;
@@ -69,16 +74,16 @@ void *get_block_addr(void *ptr, size_t size)
 	return (ptr);
 }
 
-// If ptr is NULL, then the call is equivalent to t_malloc(size)
-// If size is equal to zero, and ptr is not NULL, then the call is equivalent to t_free(ptr)
-void *t_realloc(void *ptr, size_t size)
+// If ptr is NULL, then the call is equivalent to malloc(size)
+// If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr)
+void *realloc(void *ptr, size_t size)
 {
-	// printf("my t_realloc called\n");
+	// printf("my realloc called\n");
 	if (!ptr)
-		return (t_malloc(size));
+		return (malloc(size));
 	if (size == 0)
 	{
-		t_free(ptr);
+		free(ptr);
 		return (NULL);
 	}
 	void *new_ptr = get_block_addr(ptr, size);

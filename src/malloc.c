@@ -2,27 +2,40 @@
 
 t_data *g_data = NULL;
 
-void t_free_page(t_data *data) { munmap(data, data->size); }
+void free_page(t_data *data) { munmap(data, data->size); }
 
-void t_free_meta_data()
+void free_meta_data()
 {
 	t_data *ptr = g_data;
 	while (g_data)
 	{
 		ptr = ptr->next;
-		t_free_page(g_data);
+		free_page(g_data);
 		g_data = ptr;
 	}
 }
 
-void t_free_meta_block(t_block* block, t_data *data)
+e_bool page_empty(t_data *data)
+{
+	t_block *block = data->block;
+	while (block)
+	{
+		if (block->size == 0)
+			block = block->next;
+		else 
+			return (FALSE);
+	}
+	return(TRUE);
+}
+
+void free_meta_block(t_block* block, t_data *data)
 {
 	if (!(data->type & LARGE))
 	{
 		size_t align = get_align_by_type(data->type);
-		data->size_t_free -= align + BLOCK_SIZE;
-		block->size = 0;
+		data->size_free -= align + BLOCK_SIZE;
 	}
+	block->size = 0;
 }
 
 e_bool find_valid_ptr(void *ptr, e_event event)
@@ -39,7 +52,7 @@ e_bool find_valid_ptr(void *ptr, e_event event)
 			if (ptr == (void *)((void *)tmp + BLOCK_SIZE))
 			{
 				if (event == FREE)
-					t_free_meta_block(tmp, data);
+					free_meta_block(tmp, data);
 				return (TRUE);
 			}
 			tmp = tmp->next;
@@ -49,9 +62,9 @@ e_bool find_valid_ptr(void *ptr, e_event event)
 	return (FALSE);
 }
 
-void *t_malloc(size_t size)
+void *malloc(size_t size)
 {
-	// printf("my t_malloc called\n");
+	// printf("my malloc called\n");
 	e_type type;
 	if (size <= 0)
 		return (NULL);
@@ -60,10 +73,10 @@ void *t_malloc(size_t size)
 	return ((void *)block + BLOCK_SIZE); // CARE arithmétique ptr again
 }
 
-void t_free(void* ptr)
+void free(void* ptr)
 {
 	if (ptr && find_valid_ptr(ptr, FREE) == FALSE)
-		ft_printf_fd(2, "Invalid t_free\n");
+		ft_printf_fd(2, "Invalid free\n");
 }
 
 
