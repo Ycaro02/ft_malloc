@@ -53,6 +53,11 @@ clean:
 
 test : all
 			@$(CC) $(CFLAGS) -o main_test $(SRCS) $(MAIN)
+			@./main_test
+			@rm main_test
+
+testv : all
+			@$(CC) $(CFLAGS) -o main_test $(SRCS) $(MAIN)
 			@valgrind ./main_test
 			@rm main_test
 
