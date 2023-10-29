@@ -18,7 +18,7 @@ jobs:
       run: make
       
     - name: install valgrind
-      run: apt update && apt install valgrind -y
+      run: sudo apt update && sudo apt install valgrind -y
 
     - name: Run test
       run: make test
