@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Run make
+      run: apt uldate && apt install valgrind -y
       run: make
 
     - name: Run test
