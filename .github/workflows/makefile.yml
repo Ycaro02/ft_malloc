@@ -21,7 +21,10 @@ jobs:
       run: sudo apt update && sudo apt install valgrind -y
 
     - name: Run test
-      run: make test
+      run: make testv
       
+    - name: Run test
+      run: make test
+
     - name: clean
       run: make fclean
