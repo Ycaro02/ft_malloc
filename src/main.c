@@ -138,8 +138,8 @@ int main(void)
 	show_alloc_mem();
 	basic_realloc_test(70);
 	show_alloc_mem();
-	basic_realloc_test(100);
-	show_alloc_mem();
+	// basic_realloc_test(100);
+	// show_alloc_mem();
 
 	// realloc_test(8);
 	// display_line("After free meta data", '-');
