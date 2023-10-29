@@ -5,9 +5,7 @@
 #include <stddef.h> 
 #include "ft_printf.h"
 #include <sys/mman.h> //mmap
-//
-#include <stdio.h>
-//
+
 // 4096 / 256 = 16
 // AKA PAGE_SIZE / TINY_SIZE
 // 16 * 8 > 100;

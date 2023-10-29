@@ -1,6 +1,6 @@
 #include "../include/malloc.h"
 
-void *exec_t_realloc(t_block *block, size_t size)
+void *exec_realloc(t_block *block, size_t size)
 {
 	unsigned char *new_ptr = t_malloc(block->size + size);
 	if (!new_ptr)
@@ -15,7 +15,7 @@ void *exec_t_realloc(t_block *block, size_t size)
 	return ((void *)new_ptr);
 }
 
-e_bool check_t_reallocs(t_data *data, t_block *block, size_t size)
+e_bool need_realloc(t_data *data, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
@@ -23,9 +23,9 @@ e_bool check_t_reallocs(t_data *data, t_block *block, size_t size)
 	{
 		align = get_align_by_type(data->type);
 		if (new_size <= align)
-			return (TRUE);
+			return (FALSE);
 	}
-	return (FALSE);
+	return (TRUE);
 }
 
 void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
@@ -34,9 +34,9 @@ void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, voi
 	{
 		if (block && ptr == (void *)block + BLOCK_SIZE)
 		{
-			if (check_t_reallocs(current, block, size) == FALSE)
+			if (need_realloc(current, block, size) == TRUE)
 			{
-				ptr = exec_t_realloc(block, size);
+				ptr = exec_realloc(block, size);
 				t_free_meta_block(block, current);
 				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 				t_free_page(current);
@@ -83,7 +83,7 @@ void *t_realloc(void *ptr, size_t size)
 	}
 	void *new_ptr = get_block_addr(ptr, size);
 	if (!new_ptr)
-		printf("get block addr return NULL\n");
+		ft_printf_fd(2, "get block addr return NULL\n");
 	return (new_ptr);
 }
 
