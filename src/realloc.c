@@ -30,7 +30,6 @@ e_bool check_t_reallocs(t_data *data, t_block *block, size_t size)
 
 void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
 {
-	t_data *save = NULL;
 	while (block)
 	{
 		if (block && ptr == (void *)block + BLOCK_SIZE)
@@ -38,14 +37,9 @@ void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, voi
 			if (check_t_reallocs(current, block, size) == FALSE)
 			{
 				ptr = exec_t_realloc(block, size);
-				if (!(current->type & LARGE))
-					t_free_meta_block(block, current);
-				else
-				{
-					save = current->next;
-					t_free_page(current);
-					prev == NULL ? ( g_data = save) : (prev->next = save);
-				}
+				t_free_meta_block(block, current);
+				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
+				t_free_page(current);
 			}
 			else
 				block->size += size;
@@ -62,23 +56,14 @@ void *get_block_addr(void *ptr, size_t size)
 
 	if (!ptr)
 		return (NULL);
-	if (data && data->next == NULL)
-	{
-		ptr = check_for_realloc_block(NULL, data, data->block, ptr, size);
-		return (ptr);
-	}
 	t_data *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
 	if (test != ptr)
 		return (test);
 	while(data && data->next)
 	{
-        t_block *block = data->next->block;
-		while (data->next && block)
-		{
-			if (ptr == ((void *)block + BLOCK_SIZE))
-				return  (check_for_realloc_block(data, data->next, block, ptr, size));
-			block = block->next;
-		}
+		test = check_for_realloc_block(data, data->next, data->next->block, ptr, size);
+		if (test != ptr)
+			return (test);
 		data = data->next;
 	}
 	return (ptr);

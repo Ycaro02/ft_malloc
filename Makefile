@@ -55,10 +55,12 @@ clean:
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
 test :
+			@clear
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
 			@./${TEST}
 
 testv :
+			@clear
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
 			@valgrind --leak-check=full ./${TEST}
 

@@ -17,9 +17,12 @@ void t_free_meta_data()
 
 void t_free_meta_block(t_block* block, t_data *data)
 {
-    size_t align = get_align_by_type(data->type);
-	data->size_t_free -= align + BLOCK_SIZE;
-	block->size = 0;
+	if (!(data->type & LARGE))
+	{
+		size_t align = get_align_by_type(data->type);
+		data->size_t_free -= align + BLOCK_SIZE;
+		block->size = 0;
+	}
 }
 
 e_bool find_valid_ptr(void *ptr, e_event event)
