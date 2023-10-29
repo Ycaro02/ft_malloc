@@ -38,7 +38,7 @@ void free_meta_block(t_block* block, t_data *data)
 	block->size = 0;
 }
 
-e_bool try_free(void *ptr
+e_bool try_free(void *ptr)
 {
 	t_data *data = g_data;
 

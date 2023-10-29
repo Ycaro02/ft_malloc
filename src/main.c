@@ -130,16 +130,16 @@ void basic_realloc_test(int max)
 
 int main(void)
 {
-	// basic_test(2, 2);
-	// show_alloc_mem();
-	// basic_realloc_test(50); // SMALL 435b
-	// show_alloc_mem();
-	// basic_test(2, 200);
-	// show_alloc_mem();
-	// basic_realloc_test(70); // SMALL 435b
-	// show_alloc_mem();
-
-	basic_realloc_test(70); // SMALL 435b
+	basic_test(2, 2);
+	show_alloc_mem();
+	basic_realloc_test(50);
+	show_alloc_mem();
+	basic_test(2, 200);
+	show_alloc_mem();
+	basic_realloc_test(70);
+	show_alloc_mem();
+	basic_realloc_test(100);
+	show_alloc_mem();
 
 	// realloc_test(8);
 	// display_line("After free meta data", '-');
