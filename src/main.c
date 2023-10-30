@@ -109,12 +109,15 @@ void replace_test(void)
 void basic_realloc_test(int max)
 {
 	char *test = NULL;
+	int total = 0;
 	for ( int i = 1; i < max; i++)
 	{
-		int power = i;
+		int power = 64;
+		total += power;
 		test = realloc(test, power);
 		int j = 0;
-		while (j < power)
+		ft_printf_fd(1, "total sizze = %d\n", total);
+		while (j < total)
 		{
     		test[j] ='a';
 			j++;
@@ -123,20 +126,24 @@ void basic_realloc_test(int max)
 		// display_line(NULL, '-');
 		// display_line(NULL, '-');
 		// ft_printf_fd(1, "test R = %d\n", power);
-    	// show_alloc_mem();
+    	show_alloc_mem();
 	}
  }
 
 
 int main(void)
 {
-	basic_test(2, 2);
-	show_alloc_mem();
-	basic_realloc_test(50);
-	show_alloc_mem();
-	basic_test(2, 200);
-	show_alloc_mem();
-	basic_realloc_test(70);
+	// basic_test(2, 2);
+	// show_alloc_mem();
+	// basic_realloc_test(50);
+	// show_alloc_mem();
+	// basic_test(2, 200);
+	// show_alloc_mem();
+	// basic_realloc_test(70);
+	// show_alloc_mem();
+	// basic_realloc_test(110);
+	// show_alloc_mem();
+	basic_realloc_test(1000);
 	show_alloc_mem();
 	// basic_realloc_test(100);
 	// show_alloc_mem();

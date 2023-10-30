@@ -2,12 +2,15 @@
 
 void *exec_realloc(t_block *block, size_t size)
 {
-	unsigned char *new_ptr = malloc(block->size + size);
+	size_t block_size = block->size;
+	char *new_ptr = malloc(block->size + size);
 	if (!new_ptr)
 		return (NULL);
 	size_t i = 0;
-	unsigned char *content = (unsigned char *)(void *)block + BLOCK_SIZE;
-	while (i < block->size)
+	char *content = (char *)((void *)block + BLOCK_SIZE);
+	ft_printf_fd(1, "block sizze = %U\n", block->size);
+	// ft_printf_fd(1, "block data = %s\n", (char *)block + BLOCK_SIZE);
+	while (i < block_size)
 	{
 		new_ptr[i] = content[i];
 		i++;
@@ -78,7 +81,7 @@ void *get_block_addr(void *ptr, size_t size)
 // If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr)
 void *realloc(void *ptr, size_t size)
 {
-	// printf("my realloc called\n");
+	ft_printf_fd(1, "my realloc called\n");
 	if (!ptr)
 		return (malloc(size));
 	if (size == 0)

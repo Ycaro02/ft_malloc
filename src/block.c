@@ -89,8 +89,10 @@ t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *d
 	block = (t_block *)((void *)data + DATA_SIZE + skip);
 	
 	size_t block_size = size;
-	if (type & LARGE)
-		block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
+	(void)type;
+	// if (type & LARGE)
+		// block_size = data->size - DATA_SIZE - BLOCK_SIZE;
+		// block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
 	block->size = block_size;
 	block->next = NULL;
 	return (block);

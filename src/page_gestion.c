@@ -9,7 +9,7 @@ size_t get_page_size(e_type type, size_t size)
 	else if (type & SMALL)
 		m_size = SMALL_PAGE_SIZE;
 	else
-		m_size = align_mem_block(size + sizeof(t_data), PAGE_SIZE);
+		m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
 	return (m_size);
 }
 

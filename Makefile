@@ -65,7 +65,7 @@ ctest :		all
 
 testv :
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN}
-			@valgrind --leak-check=full ./${TEST}
+			@valgrind --soname-synonyms=somalloc=libft_malloc.so ./${TEST}
 
 fclean:		clean
 			@${RM} ${NAME} libft_malloc.so

@@ -63,7 +63,7 @@ e_bool try_free(void *ptr)
 
 void *malloc(size_t size)
 {
-	// printf("my malloc called\n");
+	ft_printf_fd(1, "my malloc called\n");
 	e_type type;
 	if (size <= 0)
 		return (NULL);
