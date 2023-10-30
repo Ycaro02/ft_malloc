@@ -52,7 +52,8 @@ enum e__bool {
 
 enum e__event {
     NONE,
-    FREE,
+    FREE_ALL,
+    PARTIAL_FREE,
 };
 
 // block->size :ALIGNED(size of block require by user + sizeof(t_block))

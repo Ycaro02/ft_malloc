@@ -81,7 +81,7 @@ void *get_block_addr(void *ptr, size_t size)
 // If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr)
 void *realloc(void *ptr, size_t size)
 {
-	ft_printf_fd(1, "my realloc called\n");
+	// ft_printf_fd(1, "my realloc called\n");
 	if (!ptr)
 		return (malloc(size));
 	if (size == 0)

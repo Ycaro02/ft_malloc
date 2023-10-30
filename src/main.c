@@ -106,7 +106,7 @@ void replace_test(void)
 	show_alloc_mem();
 }
 
-void basic_realloc_test(int max)
+void *basic_realloc_test(int max)
 {
 	char *test = NULL;
 	int total = 0;
@@ -128,8 +128,79 @@ void basic_realloc_test(int max)
 		// ft_printf_fd(1, "test R = %d\n", power);
     	show_alloc_mem();
 	}
+	return ((void*)test);
  }
 
+void basic_test_double_tab(int max)
+{
+	char **test1, **test2 = NULL;
+	int i = 0, j = 0, c = 1000, d = 3000;
+	test1 = malloc(sizeof(char *) * max);
+	test2 = malloc(sizeof(char *) * max);
+	for (i = 0; i < max; i++)
+	{
+		test1[i] = malloc(c);
+		for (j = 0; j < c; j++)
+			test1[i][j] = 'c';
+		test2[i] = malloc(d);
+		for (j = 0; j < d; j++)
+			test2[i][j] = 'd';
+	}
+}
+
+void test_free_between(int max, e_event event)
+{
+	char **test1, **test2 = NULL;
+	int i = 0, j = 0, c = 1000, d = 3000;
+	test1 = malloc(sizeof(char *) * max);
+	test2 = malloc(sizeof(char *) * max);
+	for (i = 0; i < max; i++)
+	{
+		test1[i] = malloc(c);
+		for (j = 0; j < c; j++)
+			test1[i][j] = 'c';
+		test2[i] = malloc(d);
+		for (j = 0; j < d; j++)
+			test2[i][j] = 'd';
+	}
+	if (event == PARTIAL_FREE)
+	{
+		for (i = 0; i < max; i++)
+			free(test1[i]);
+		free(test1);
+	}
+	if (event == FREE_ALL)
+	{
+		for (i = 0; i < max; i++)
+		{
+			free(test1[i]);
+			free(test2[i]);
+		}
+		free(test1);
+		free(test2);
+
+	}
+}
+
+
+void free_test()
+{
+	basic_test_double_tab(2);
+	test_free_between(2, PARTIAL_FREE);
+	show_alloc_mem();
+	display_line("FREE ALL", '-');
+	free_meta_data();
+	show_alloc_mem();
+	test_free_between(2, PARTIAL_FREE);
+	show_alloc_mem();
+	display_line("FREE ALL", '-');
+	free_meta_data();
+	basic_test(1, 2);
+	basic_test(3, 8000);
+	show_alloc_mem();
+	test_free_between(2, FREE_ALL);
+	show_alloc_mem();
+}
 
 int main(void)
 {
@@ -143,13 +214,13 @@ int main(void)
 	// show_alloc_mem();
 	// basic_realloc_test(110);
 	// show_alloc_mem();
-	basic_realloc_test(1000);
-	show_alloc_mem();
 	// basic_realloc_test(100);
+	free_test();
+
+	// test_free_between(2, PARTIAL_FREE);
 	// show_alloc_mem();
 
 	// realloc_test(8);
 	// display_line("After free meta data", '-');
-	free_meta_data();
 	return (0);
 }

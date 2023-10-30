@@ -38,32 +38,53 @@ void free_meta_block(t_block* block, t_data *data)
 	block->size = 0;
 }
 
+
+e_bool check_for_free_page(t_data *prev, t_data *current, t_block *block, void *ptr)
+{
+	while (block)
+	{
+		if (ptr == (void *)block + BLOCK_SIZE)
+		{
+			free_meta_block(block, current);
+			if (page_empty(current)== TRUE)
+			{
+				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
+				free_page(current);
+			}
+			return (TRUE);
+		}
+		block = block->next;
+	}
+	return(FALSE);
+}
+
 e_bool try_free(void *ptr)
 {
 	t_data *data = g_data;
 
-	if (!ptr)
-		return (FALSE);
-	while(data)
+	if (check_for_free_page(NULL, data, data->block, ptr) == TRUE)
+		return (TRUE);
+	while(data && data->next)
 	{
-		t_block *tmp = data->block;
-		while (tmp)
-		{
-			if (ptr == (void *)((void *)tmp + BLOCK_SIZE))
-			{
-				free_meta_block(tmp, data);
-				return (TRUE);
-			}
-			tmp = tmp->next;
-		}
+		if (check_for_free_page(data, data->next, data->next->block, ptr) == TRUE)
+			return (TRUE);
 		data = data->next;
 	}
 	return (FALSE);
 }
 
+void free(void* ptr)
+{
+	// ft_printf_fd(1, "my free called\n");
+	if (!ptr)
+		return ;
+	if (try_free(ptr) == FALSE)
+		ft_printf_fd(2, "Invalid free\n");
+}
+
 void *malloc(size_t size)
 {
-	ft_printf_fd(1, "my malloc called\n");
+	// ft_printf_fd(1, "my malloc called\n");
 	e_type type;
 	if (size <= 0)
 		return (NULL);
@@ -72,13 +93,6 @@ void *malloc(size_t size)
 	return ((void *)block + BLOCK_SIZE); // CARE arithmétique ptr again
 }
 
-void free(void* ptr)
-{
-	if (ptr && try_free(ptr) == FALSE)
-		ft_printf_fd(2, "Invalid free\n");
-}
-
-
 
 // char *check = (char *)ptr;
 // for (size_t i = 0; i< size; i++)
@@ -86,3 +100,25 @@ void free(void* ptr)
 // check[size] = '\0';
 
 // printf("prev next = %p currnet = %p, save %p, save->next = %p\n", prev->next, current, save, save->next);
+
+// e_bool try_free(void *ptr)
+// {
+// 	t_data *data = g_data;
+
+	
+// 	while(data)
+// 	{
+// 		t_block *tmp = data->block;
+// 		while (tmp)
+// 		{
+// 			if (ptr == (void *)((void *)tmp + BLOCK_SIZE))
+// 			{
+// 				free_meta_block(tmp, data);
+// 				return (TRUE);
+// 			}
+// 			tmp = tmp->next;
+// 		}
+// 		data = data->next;
+// 	}
+// 	return (FALSE);
+// }
