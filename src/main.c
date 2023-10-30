@@ -195,6 +195,7 @@ void free_test()
 	show_alloc_mem();
 	display_line("FREE ALL", '-');
 	free_meta_data();
+	show_alloc_mem();
 	basic_test(1, 2);
 	basic_test(3, 8000);
 	show_alloc_mem();
