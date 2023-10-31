@@ -26,13 +26,13 @@ jobs:
       run: make testv
     
     - name: Run test0
-      run: test0
+      run: make test0
     
     - name: Run test1
-      run: test1
+      run: make test1
 
     - name: Run test2
-      run: test2
+      run: make test2
 
     - name: clean
       run: make fclean
