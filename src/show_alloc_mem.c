@@ -1,6 +1,6 @@
 #include "../include/malloc.h"
 
-size_t print_bloc(t_data *data)
+static size_t print_bloc(t_data *data)
 {
 	int total = 0;
 	if (data->type & TINY)

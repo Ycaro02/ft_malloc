@@ -1,5 +1,17 @@
 #include "../include/malloc.h"
 
+e_type detect_type(size_t size)
+{
+	e_type type;
+	if (size <= TINY_SIZE)
+		type = TINY;
+	else if (size <= SMALL_SIZE)
+		type = SMALL;
+	else
+		type = LARGE;
+	return (type);
+}
+
 size_t get_page_size(e_type type, size_t size)
 {
 	size_t m_size = 0;
@@ -13,7 +25,7 @@ size_t get_page_size(e_type type, size_t size)
 	return (m_size);
 }
 
-t_data *init_data_by_type(e_type type, size_t size)
+static t_data *init_data_by_type(e_type type, size_t size)
 {
 	t_data *data = NULL;
 	size_t page_size = 0;
@@ -44,14 +56,19 @@ t_block *init_data(e_type type, size_t size)
 	return (data->block);
 }
 
-e_type detect_type(size_t size)
+void    data_add_back(t_data **lst, t_data *new)
 {
-	e_type type;
-	if (size <= TINY_SIZE)
-		type = TINY;
-	else if (size <= SMALL_SIZE)
-		type = SMALL;
-	else
-		type = LARGE;
-	return (type);
+	t_data  *current;
+
+	if (new == NULL)
+			return ;
+	if (*lst == NULL)
+	{
+			*lst = new;
+			return ;
+	}
+	current = *lst;
+	while (current->next != NULL)
+			current = current->next;
+	current->next = new;
 }

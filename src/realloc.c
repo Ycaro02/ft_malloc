@@ -1,6 +1,6 @@
 #include "../include/malloc.h"
 
-void *exec_realloc(t_block *block, size_t size)
+static void *exec_realloc(t_block *block, size_t size)
 {
 	size_t block_size = block->size;
 	char *new_ptr = malloc(block->size + size);
@@ -18,7 +18,7 @@ void *exec_realloc(t_block *block, size_t size)
 	return ((void *)new_ptr);
 }
 
-e_bool need_realloc(t_data *data, t_block *block, size_t size)
+static e_bool need_realloc(t_data *data, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
@@ -33,7 +33,7 @@ e_bool need_realloc(t_data *data, t_block *block, size_t size)
 
 // ft_printf_fd(1, "MATCH for size = %U block = %p\n", size, block);
 
-void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
+static void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
 {
 	while (block)
 	{
@@ -58,7 +58,7 @@ void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, voi
 	return (ptr);
 }
 
-void *get_block_addr(void *ptr, size_t size)
+static void *get_block_addr(void *ptr, size_t size)
 {
 	t_data *data = g_data;
 

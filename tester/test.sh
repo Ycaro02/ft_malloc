@@ -1,33 +1,11 @@
 #!/bin/bash
 
-# echo at begin hosttype = $HOSTTYPE
-
-# if [ ! -z ${HOSTTYPE} ];  
-# then
-#     echo "Variable having name 'HOSTTYPE' is already set."
-# else
-#     echo "Variable having name 'HOSTTYPE' is not set."  
-#     HOSTTYPE=$(uname -m)_$(uname -s)
-# fi  
-
-# function ft_test {
-#     local NAME=libft_malloc_
-#     NAME+=$HOSTTYPE
-#     NAME+=.so
-
-#     echo HOSTYPE: $HOSTTYPE
-#     echo NAME: $NAME
-
-# }
-
-# ft_test "${1}" "${2}"
-
 REAL="real/"
 ME="me/"
 
 if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
 then
-    make -s -C .. re
+    make -s -C .. re > /dev/null
     mkdir -p .tmp
     gcc -o ${1}_real ${REAL}${1}.c
     gcc -o ${2}_me ${ME}${2}.c ../libft_malloc.so
@@ -44,3 +22,20 @@ then
 else
     echo File ${REAL}$1.c or ${ME}$2.c not found
 fi
+
+
+# echo at begin hosttype = $HOSTTYPE
+# if [ ! -z ${HOSTTYPE} ];  
+# then
+#     echo "Variable having name 'HOSTTYPE' is already set."
+# else
+#     echo "Variable having name 'HOSTTYPE' is not set."  
+#     HOSTTYPE=$(uname -m)_$(uname -s)
+# fi  
+# function ft_test {
+#     local NAME=libft_malloc_
+#     NAME+=$HOSTTYPE
+#     NAME+=.so
+#     echo HOSTYPE: $HOSTTYPE
+#     echo NAME: $NAME
+# ft_test "${1}" "${2}"

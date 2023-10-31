@@ -33,41 +33,50 @@ void free_meta_block(t_block* block, t_data *data)
 	if (!(data->type & LARGE))
 	{
 		size_t align = get_align_by_type(data->type);
-		data->size_free -= align + BLOCK_SIZE;
+		data->size_free += align + BLOCK_SIZE;
 	}
 	block->size = 0;
 }
 
-
-e_bool check_for_free_page(t_data *prev, t_data *current, t_block *block, void *ptr)
+static int check_for_free_page(t_data *prev, t_data *current, t_block *block, void *ptr)
 {
 	while (block)
 	{
 		if (ptr == (void *)block + BLOCK_SIZE)
 		{
+			if (block->size == 0)
+				return (-1);
 			free_meta_block(block, current);
-			if (page_empty(current)== TRUE)
+			(void)prev;
+			if (page_empty(current)== TRUE && get_lst_block_len(block) != 1)
 			{
 				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 				free_page(current);
 			}
-			return (TRUE);
+			return (0);
 		}
 		block = block->next;
 	}
-	return(FALSE);
+	return(1);
 }
 
-e_bool try_free(void *ptr)
+static e_bool try_free(void *ptr)
 {
 	t_data *data = g_data;
+	int ret = 1;
 
-	if (check_for_free_page(NULL, data, data->block, ptr) == TRUE)
+	ret = check_for_free_page(NULL, data, data->block, ptr);
+	if (ret == 0)
 		return (TRUE);
+	else if (ret == -1)
+		return (FALSE);
 	while(data && data->next)
 	{
-		if (check_for_free_page(data, data->next, data->next->block, ptr) == TRUE)
+		ret = check_for_free_page(NULL, data, data->block, ptr);
+		if (ret == 0)
 			return (TRUE);
+		else if (ret == -1)
+			return (FALSE);
 		data = data->next;
 	}
 	return (FALSE);
@@ -92,33 +101,3 @@ void *malloc(size_t size)
 	t_block *block = init_data(type, size);
 	return ((void *)block + BLOCK_SIZE); // CARE arithmétique ptr again
 }
-
-
-// char *check = (char *)ptr;
-// for (size_t i = 0; i< size; i++)
-// 	check[i] = 'k';
-// check[size] = '\0';
-
-// printf("prev next = %p currnet = %p, save %p, save->next = %p\n", prev->next, current, save, save->next);
-
-// e_bool try_free(void *ptr)
-// {
-// 	t_data *data = g_data;
-
-	
-// 	while(data)
-// 	{
-// 		t_block *tmp = data->block;
-// 		while (tmp)
-// 		{
-// 			if (ptr == (void *)((void *)tmp + BLOCK_SIZE))
-// 			{
-// 				free_meta_block(tmp, data);
-// 				return (TRUE);
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 		data = data->next;
-// 	}
-// 	return (FALSE);
-// }

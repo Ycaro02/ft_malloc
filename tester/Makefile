@@ -10,41 +10,29 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC		= gcc
+# CC		= gcc
 
-CFLAGS	= -Wall -Wextra -Werror -g
+# CFLAGS	= -Wall -Wextra -Werror -g
 
-SRCS	=	test.c\
-			test1.c\
-			test1_4.c\
+# SRCS	=	test.c\
+# 			test1.c\
+# 			test1_4.c\
 
-OBJS = $(SRCS:.c=.o)
+# OBJS = $(SRCS:.c=.o)
 
-RM	= rm -f
+# RM	= rm -f
 
-HOSTTYPE ?= $(shell uname -m)_$(shell uname -s)
+# HOSTTYPE ?= $(shell uname -m)_$(shell uname -s)
 
-NAME	= test
+# NAME	= test
 
-all:		${NAME}
-	echo $(HOSTTYPE)
-%.o : %.c
-	@$(CC) ${CFLAGS} -c $< -o $@
+all:
 
-${NAME}:	$(OBJS)
-			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
-			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS)
-			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m\n"
-			ln -sf ${NAME} libft_malloc.so
+test0:
+		./test.sh test0 test0
 
-clean:
-			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"
-			@${RM} ${OBJS}
-			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
+test1:
+		./test.sh test1 test1
 
-fclean:		clean
-			@${RM} ${NAME} libft_malloc.so
-
-re:			fclean all
-
-.PHONY:		all clean fclean re bonus
+test2:
+		./test.sh test2 test2

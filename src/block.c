@@ -1,6 +1,6 @@
 #include "../include/malloc.h"
 
-t_block* refill_block(t_block* block, int pos, int size)
+static t_block* refill_block(t_block* block, int pos, int size)
 {
     int i = 0;
 	t_block *tmp = block;
@@ -17,7 +17,7 @@ t_block* refill_block(t_block* block, int pos, int size)
     return (tmp);
 }
 
-int check_for_free_node(t_block* block)
+static int check_for_free_node(t_block* block)
 {
     int pos = 0;
     while(block)
@@ -30,7 +30,7 @@ int check_for_free_node(t_block* block)
     return (-1);
 }
 
-t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **block)
+static t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **block)
 {
 	size_t align = get_align_by_type(data->type);
 	if (data->size_free >= BLOCK_SIZE + align)
@@ -39,6 +39,7 @@ t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **b
 		if (pos != -1)
 		{
 			new = refill_block(data->block, pos, size);
+			data->size_free -= (align + BLOCK_SIZE);
 			return (new);
 		}
 		pos = get_lst_block_len(data->block);
@@ -96,6 +97,23 @@ t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *d
 	block->size = block_size;
 	block->next = NULL;
 	return (block);
+}
+
+void    block_add_back(t_block **lst, t_block *new)
+{
+	t_block  *current;
+
+	if (new == NULL)
+			return ;
+	if (*lst == NULL)
+	{
+			*lst = new;
+			return ;
+	}
+	current = *lst;
+	while (current->next != NULL)
+			current = current->next;
+	current->next = new;
 }
 
 /* ptr arithmétique

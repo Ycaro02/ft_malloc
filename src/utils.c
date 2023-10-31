@@ -51,40 +51,6 @@ void free_block()
 	}
 }
 
-void    data_add_back(t_data **lst, t_data *new)
-{
-	t_data  *current;
-
-	if (new == NULL)
-			return ;
-	if (*lst == NULL)
-	{
-			*lst = new;
-			return ;
-	}
-	current = *lst;
-	while (current->next != NULL)
-			current = current->next;
-	current->next = new;
-}
-
-void    block_add_back(t_block **lst, t_block *new)
-{
-	t_block  *current;
-
-	if (new == NULL)
-			return ;
-	if (*lst == NULL)
-	{
-			*lst = new;
-			return ;
-	}
-	current = *lst;
-	while (current->next != NULL)
-			current = current->next;
-	current->next = new;
-}
-
 void print_define(void)
 {
     ft_printf_fd(1, "TINY = %U\n", TINY_BLOCK_PER_PAGE);

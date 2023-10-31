@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_printf.h"
+#include "../include/ft_printf.h"
 
 void	ft_put_size_t_nbr(size_t nbr, int *count, int fd)
 {
