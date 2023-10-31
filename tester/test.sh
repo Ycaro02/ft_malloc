@@ -3,8 +3,8 @@
 REAL="real/"
 ME="me/"
 
-if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
-then
+# if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
+# then
     make -s -C .. re > /dev/null
     mkdir -p .tmp
     echo HEYEHEYEYEYEYEY
@@ -22,9 +22,9 @@ then
     echo "page for my malloc :"
     cat .tmp/out_me${2} | grep Minor
     rm -rf .tmp ${1}_real ${2}_me
-else
-    echo File ${REAL}$1.c or ${ME}$2.c not found
-fi
+# else
+    # echo File ${REAL}$1.c or ${ME}$2.c not found
+# fi
 
 
 # echo at begin hosttype = $HOSTTYPE
