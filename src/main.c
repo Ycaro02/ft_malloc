@@ -42,8 +42,32 @@ void free_test()
 
 }
 
+void realloc_test()
+{
+	char *b = malloc(3000);
+	b[0] = 2;
+	char *a = malloc(2);
+	a[0] = 'a';
+	int len = 100;
+	char *test = NULL;
+	test = realloc(test, len);
+	for (int i = 0; i < len; i++)
+		test[i] = 'k';
+	len = 900;
+	show_alloc_mem();
+	test = realloc(test, len);
+	for (int i = 0; i < len; i++)
+		test[i] = 'l';
+	len = 3000;
+	show_alloc_mem();
+	test = realloc(test, len);
+	for (int i = 0; i < len; i++)
+		test[i] = 'z';
+	show_alloc_mem();
+}
+
 int main(void)
 {
-	free_test();
+	realloc_test();
 	return (0);
 }
