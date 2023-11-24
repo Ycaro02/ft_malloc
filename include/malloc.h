@@ -90,12 +90,14 @@ void    show_alloc_mem();
 
 // malloc.c
 void    *malloc(size_t size);
+
+// free.c
 void    free(void* ptr);
 void    free_meta_block(t_block* block, t_data *data);
-void    free_meta_data();
 e_bool  page_empty(t_data *block);
 void    free_page(t_data *data);
-
+//
+void    free_meta_data();
 
 //realloc.c
 void    *realloc(void *ptr, size_t size);

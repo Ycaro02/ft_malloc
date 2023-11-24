@@ -20,6 +20,7 @@ SRCS	=	src/malloc.c 						\
 			src/show_alloc_mem.c 				\
 			src/utils.c 						\
 			src/realloc.c						\
+			src/free.c
 
 MAIN	= 	src/main.c
 

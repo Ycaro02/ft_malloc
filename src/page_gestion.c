@@ -35,7 +35,7 @@ static t_data *init_data_by_type(e_type type, size_t size)
 	if (!data)
 		return (NULL);
 	data->type = type;
-	data->size = page_size - DATA_SIZE;
+	data->size = page_size;
 	data->block = init_block(data->block, size, type, 0, data);
 	data->size_free = page_size - (data->block->size + DATA_SIZE);
 	data->next = NULL;
@@ -60,12 +60,12 @@ void    data_add_back(t_data **lst, t_data *new)
 {
 	t_data  *current;
 
-	if (new == NULL)
-			return ;
-	if (*lst == NULL)
+	if (!new)
+		return ;
+	if (!(*lst))
 	{
-			*lst = new;
-			return ;
+		*lst = new;
+		return ;
 	}
 	current = *lst;
 	while (current->next != NULL)
