@@ -45,8 +45,7 @@ static int check_for_free_page(t_data *prev, t_data *current, t_block *block, vo
 			if (block->size == 0)
 				return (-1);
 			free_meta_block(block, current);
-			(void)prev;
-			if (page_empty(current)== TRUE && get_lst_block_len(block) != 1)
+			if (page_empty(current)== TRUE)
 			{
 				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 				free_page(current);
@@ -70,7 +69,7 @@ static e_bool try_free(void *ptr)
 		return (FALSE);
 	while(data && data->next)
 	{
-		ret = check_for_free_page(NULL, data, data->block, ptr);
+		ret = check_for_free_page(data, data->next, data->next->block, ptr);
 		if (ret == 0)
 			return (TRUE);
 		else if (ret == -1)
