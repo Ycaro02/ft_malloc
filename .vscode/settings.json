@@ -1,18 +1,100 @@
 {
+    "git.openRepositoryInParentFolders": "never",
+    "zenMode.hideLineNumbers": false,
+    "remote.SSH.remotePlatform": {
+        "192.168.1.17": "linux"
+    },
+    "editor.minimap.enabled": false,
+    "workbench.colorTheme": "GitHub Dark Default",
+
+    "editor.tokenColorCustomizations": {
+        "[GitHub Dark Default]": {
+            "textMateRules": [
+                {
+                    "scope": [
+                        "variable",
+                        "variable.other.local",
+                        "variable.other.local.c",
+                        "variable.other.member",
+                        "variable.other.member.c",
+                        "variable.other",
+                        "variable.parameter",
+                        "variable.parameter.function",
+                        "variable.other.readwrite.local",
+                        "variable.other.readwrite"
+                    ],
+                    "settings": {
+                        "foreground": "#1cc4ad"  // Couleur de votre choix
+                    }
+                }
+            ]
+        }
+    },
+
     "files.associations": {
-        "*.tcc": "c",
+        "*.def": "source.def",
+        "editor_struct.h": "c",
+        "texture_struct.h": "c",
+        "linked_list.h": "c",
+        "menu.h": "c",
         "array": "c",
-        "compare": "c",
-        "functional": "c",
-        "tuple": "c",
-        "type_traits": "c",
-        "utility": "c",
-        "string": "c",
         "string_view": "c",
-        "random": "c",
-        "malloc.h": "c",
-        "numeric": "c",
-        "limits": "c",
-        "algorithm": "c"
+        "initializer_list": "c",
+        "utility": "c",
+        "numbers": "c",
+        "game.h": "c",
+        "memory_resource": "c",
+        "update_event.h": "c",
+        "define_typedef.h": "c",
+        "basic_define.h": "c",
+        "type_traits": "c",
+        "random": "cpp",
+        "typeinfo": "c",
+        "ft_ls.h": "c",
+        "stat.h": "c",
+        "types.h": "c",
+        "define_enum.h": "c",
+        "ioctl.h": "c",
+        "sysmacros.h": "c",
+        "xattr.h": "c",
+        "stdarg.h": "c",
+        "stdlib.h": "c",
+        "stddef.h": "c",
+        "cstddef": "c",
+        "acl.h": "c",
+        "features.h": "c",
+        "struct_stat.h": "c",
+        "features-time64.h": "c",
+        "timesize.h": "c",
+        "wordsize.h": "c"
+    },
+
+    "highlight.regexes": {
+    "(//.*)": {
+        "color": "#007f00",
+        "filterFileRegex": "\\.c$|\\.h$",
+        },
+    "(\\/\\*[\\s\\S]*?\\*\\/)": {
+        "color": "#007f00",
+        "filterFileRegex": "\\.c$|\\.h$",
+        },
+
+        "(#.*)": {
+            "color": "#d13437",
+            "filterFileRegex": "\\.def$",
+          },
+          "([0-9])": {
+            "color": "#00a0c8",
+            "filterFileRegex": "\\.def$"
+          },
+          "(name.*)": {
+            "color": "#00ffff",
+            "filterFileRegex": "\\.def$"
+          },
+   
+          "(id|width|height|max_hp|max|anim_id|total_len|frame_max|anim_step|anim_width|anim_height|img_max|step_number|monster_max|nb_dir)": {
+            "color": "#d1b337",
+            "filterFileRegex": "\\.def$"
+          },
     }
 }

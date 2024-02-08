@@ -6,16 +6,20 @@
 #include "ft_printf.h"
 #include <sys/mman.h> //mmap
 
-// 4096 / 256 = 16
-// AKA PAGE_SIZE / TINY_SIZE
-// 16 * 8 > 100;
-// 
-// AKA (PAGE_SIZE / TINY_SIZE) * x > 100
-// 4096 / 1024 = 4
-// 4 * 32 > 100
 
-// 4096 / 128 = 32
-// 32 * 4 > 100
+/*
+    4096 / 256 = 16
+    AKA PAGE_SIZE / TINY_SIZE
+    16 * 8 > 100;
+
+    AKA (PAGE_SIZE / TINY_SIZE) * x > 100
+    4096 / 1024 = 4
+    4 * 32 > 100
+
+    4096 / 128 = 32
+    32 * 4 > 100
+*/
+
 
 
 #define TINY_MULT 4
@@ -27,12 +31,13 @@
 # define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 4)
 # define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * 32)
 
-//
 # define TINY_BLOCK_PER_PAGE    (PAGE_SIZE / TINY_SIZE * TINY_MULT) ///128
 # define SMALL_BLOCK_PER_PAGE   (PAGE_SIZE / SMALL_SIZE * SMALL_MULT)
 
-// see print_define in utils
-// 100 * (TINY_BLOCK_SIZE + DATA_SIZE) / TINY_SIZE = 6, 1 for small 
+/*
+    see print_define in utils
+    100 * (TINY_BLOCK_SIZE + DATA_SIZE) / TINY_SIZE = 6, 1 for small
+*/
 
 # define BLOCK_SIZE          sizeof(t_block)
 # define DATA_SIZE           sizeof(t_data)
@@ -56,20 +61,26 @@ enum e__event {
     PARTIAL_FREE,
 };
 
-// block->size :ALIGNED(size of block require by user + sizeof(t_block))
-// block->next : pointer to next block struct
-// when free block dont't remove node, just block->size = -1 and check it for refill
 
+
+/*
+    block->size :ALIGNED(size of block require by user + sizeof(t_block))
+    block->next : pointer to next block struct
+    when free block dont't remove node, just block->size = -1 and check it for refill
+*/
 typedef struct s_block {
     size_t          size;
     struct s_block *next;
 }   t_block;
 
-// data->type : type of page allocate TINY, SMALL, LARGE
-// data->size : ALIGNED(size of total page)
-// data->size_free : size of data free in bytes
-// data->block : pointer of linked list block of same type 
-// data->next : pointer to next data struct
+
+/*
+    data->type : type of page allocate TINY, SMALL, LARGE
+    data->size : ALIGNED(size of total page)
+    data->size_free : size of data free in bytes
+    data->block : pointer of linked list block of same type 
+    data->next : pointer to next data struct
+*/
 
 typedef struct s_data {
     char            type;
