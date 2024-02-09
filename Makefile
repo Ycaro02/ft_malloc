@@ -59,20 +59,20 @@ ${NAME}:	$(OBJS)
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m\n"
 			@ln -sf ${NAME} libft_malloc.so
 
-test :		all
+test :		${NAME}
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
 			@./${TEST}
 
-test0 :		all
+test0 :		${NAME}
 			make -C tester test0
 
-test1 :		all
+test1 :		${NAME}
 			make -C tester test1
 
-test2 :		all
+test2 :		${NAME}
 			make -C tester test2
-testv :
-			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${PRINTF}
+testv :		${NAME}
+			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
 			@valgrind --soname-synonyms=somalloc=libft_malloc.so ./${TEST}
 
 clean:
