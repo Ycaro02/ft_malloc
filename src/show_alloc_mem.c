@@ -1,5 +1,8 @@
 #include "../include/malloc.h"
 
+/** @brief	Display page function, iter on each block and display his information
+ * 	@param	t_data *data, pointer on page to display
+*/
 static size_t print_bloc(t_data *data)
 {
 	int total = 0;
@@ -13,7 +16,7 @@ static size_t print_bloc(t_data *data)
 	t_block *block = data->block;
 	while (block)
 	{
-		void *ptr = (void *)block + BLOCK_SIZE;
+		void *ptr = (void *)data->block + BLOCK_SIZE;
 		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
 		ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
 		total += ptr + block->size - ptr;
@@ -22,13 +25,14 @@ static size_t print_bloc(t_data *data)
 	return (total);
 }
 
+/** @brief Mandatory function show allocated memory blocks/pages */
 void show_alloc_mem()
 {
 	t_data *tmp = g_data;
 	size_t total = 0;
+
 	display_line(NULL, '-');
-	while (tmp)
-	{
+	while (tmp) {
 		total += print_bloc(tmp);
 		tmp = tmp->next;
 	}
