@@ -46,18 +46,14 @@
 /* Aligne value for large block to check */
 # define ALIGN_VALUE        64
 
-
+/** e_type enum to represent different block with power of 2 */
 enum e__type {
     TINY=1,
     SMALL=2,
     LARGE=4,
 };
 
-// enum e__bool {
-//     FALSE,
-//     TRUE,
-// };
-
+/** e_event enum used in free function to know what to do ? */
 enum e__event {
     NONE,
     FREE_ALL,
