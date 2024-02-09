@@ -1,13 +1,18 @@
 #include "../include/malloc.h"
 
-static t_block* refill_block(t_block* block, int pos, int size)
+/** @brief refill block with the accordate size
+ * 	@param t_block *lst, pointer on blocks lst
+ * 	@param int pos, position of target block in lst
+ *  @param size_t size, size of block in bytes
+ * 	@return pointer on refilled blocks
+*/
+static t_block* refill_block(t_block* lst, int pos, size_t size)
 {
     int i = 0;
-	t_block *tmp = block;
-    while(tmp)
-    {
-        if (i == pos)
-		{
+	t_block *tmp = lst;
+
+    while(tmp) {
+        if (i == pos) {
             tmp->size = size;
 			break ;
 		}
@@ -100,6 +105,7 @@ t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *d
 	return (block);
 }
 
+/* Basic function block lst add back see page add back */
 void    block_add_back(t_block **lst, t_block *new)
 {
 	t_block  *current;

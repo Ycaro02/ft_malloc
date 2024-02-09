@@ -8,41 +8,43 @@
 #include "../libft/list/linked_list.h"
 
 
-/*
-    4096 / 256 = 16
-    AKA PAGE_SIZE / TINY_SIZE
-    16 * 8 > 100;
 
-    AKA (PAGE_SIZE / TINY_SIZE) * x > 100
-    4096 / 1024 = 4
-    4 * 32 > 100
-
-    4096 / 128 = 32
-    32 * 4 > 100
-*/
-
-
-
-#define TINY_MULT 4
-#define SMALL_MULT 32
-
+/* Return of getpagesize function casted in size_t */
 # define PAGE_SIZE              (size_t)getpagesize()
+/* TINY block size */
 # define TINY_SIZE              (size_t)128
+/* SMALL block size */
 # define SMALL_SIZE             (size_t)1024
+
+/*
+    TINY:
+    4096 / 128 = 32 -> 32 block in one PAGE_SIZE
+    32 * 4 = 128 > 100
+*/
+# define TINY_MULT 4
+# define TINY_BLOCK_PER_PAGE    (PAGE_SIZE / TINY_SIZE * TINY_MULT) ///128
+/*
+    SMALL:
+    4096 / 1024 = 4 -> 4 blocks in on PAGE_SIZE
+    4 * 32 = 128 > 100
+*/
+# define SMALL_MULT 32
+# define SMALL_BLOCK_PER_PAGE   (PAGE_SIZE / SMALL_SIZE * SMALL_MULT)
+/*  TINY_PAGE_SIZE  = 4096 * 4 = 16324 bytes */
 # define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 4)
+/* SMALL_PAGE_SIZE  = 4096 * 32 = 131072 bytes */
 # define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * 32)
 
-# define TINY_BLOCK_PER_PAGE    (PAGE_SIZE / TINY_SIZE * TINY_MULT) ///128
-# define SMALL_BLOCK_PER_PAGE   (PAGE_SIZE / SMALL_SIZE * SMALL_MULT)
-
 /*
-    see print_define in utils
+    See print_define in utils
     100 * (TINY_BLOCK_SIZE + DATA_SIZE) / TINY_SIZE = 6, 1 for small
+    We can use ~128 - (6 * 0.28) block in TINY page, 128 - 9 = 119;
+    126 block in SMALL, just keep 2 for metadata
 */
-
-# define BLOCK_SIZE          sizeof(t_block)
-# define DATA_SIZE           sizeof(t_data)
-# define ALIGN_VALUE            64
+# define BLOCK_SIZE         sizeof(t_block)
+# define DATA_SIZE          sizeof(t_data)
+/* Aligne value for large block to check */
+# define ALIGN_VALUE        64
 
 
 enum e__type {
@@ -95,6 +97,7 @@ typedef enum e__type    e_type;
 typedef enum e__bool    e_bool;
 typedef enum e__event   e_event;
 
+/* Global pointer on linked list of page*/
 extern t_data *g_data;
 
 //show_alloc_mem.c

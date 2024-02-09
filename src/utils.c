@@ -1,5 +1,7 @@
 #include "../include/malloc.h"
 
+
+/** @brief display char 15 time before str and 35 - strlen(str) after */
 void display_line(char *str, char to_display)
 {
 	int nb = 35 - ft_strlen(str);
@@ -12,6 +14,9 @@ void display_line(char *str, char to_display)
 	write(1, "\n", 1);
 }
 
+/** @brief
+ * 
+*/
 size_t get_align_by_type(e_type type)
 {
     int align = ALIGN_VALUE;
