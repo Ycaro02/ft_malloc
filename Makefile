@@ -6,7 +6,7 @@
 #    By: nfour <nfour@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2023/09/16 10:24:18 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/09 11:51:00 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,16 @@ OBJS = $(SRCS:.c=.o)
 
 RM	= rm -f
 
-HOSTTYPE ?= $(shell uname -m)_$(shell uname -s)
+# Mandatory rule set hostype if it is empty or non-existant
+# HOSTTYPE ?= $(shell uname -m)_$(shell uname -s)
+ifeq ($(HOSTTYPE),)
+HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
 
 NAME	= libft_malloc_$(HOSTTYPE).so
 
 LIBFT	= libft/libft.a
+
 
 all:		${NAME}
 

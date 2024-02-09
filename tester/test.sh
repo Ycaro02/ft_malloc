@@ -33,7 +33,8 @@ then
     cat .tmp/out_me${2} | grep Minor
     rm -rf .tmp ${1}_real ${2}_me
 else
-    echo "${RED}File ${REAL}$1.c or ${ME}$2.c not found ${RESET}"
+    echo -e "${YELLOW}Invalid argument usage ./test.sh {real_malloc_test}, {my_malloc_test}"
+    echo -e "${RED}File ${REAL}$1.c or ${ME}$2.c not found ${RESET}"
 fi
 
 
