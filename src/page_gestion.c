@@ -81,8 +81,8 @@ t_block *init_data(e_type type, size_t size)
 }
 
 
-/**
- * Simple data add back why don't use lst add back ?????
+/** Simple data add, similar to lst_addback
+ * 
 */
 void    data_add_back(t_data **lst, t_data *new)
 {
@@ -90,8 +90,7 @@ void    data_add_back(t_data **lst, t_data *new)
 
 	if (!new)
 		return ;
-	if (!(*lst))
-	{
+	if (!(*lst)) {
 		*lst = new;
 		return ;
 	}

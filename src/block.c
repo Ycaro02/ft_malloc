@@ -86,15 +86,16 @@ t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *d
 {
 	size_t skip = 0;
 	size_t align = get_align_by_type(data->type);
-    skip = align * pos;
-	block = (t_block *)((void *)data + DATA_SIZE + skip);
+    
+	skip = align * pos;
+	block = (t_block *)(((void *) data) + DATA_SIZE + skip);
 	
-	size_t block_size = size;
+	// size_t block_size = size;
 	(void)type;
 	// if (type & LARGE)
 		// block_size = data->size - DATA_SIZE - BLOCK_SIZE;
 		// block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
-	block->size = block_size;
+	block->size = size;
 	block->next = NULL;
 	return (block);
 }
@@ -105,8 +106,7 @@ void    block_add_back(t_block **lst, t_block *new)
 
 	if (new == NULL)
 			return ;
-	if (*lst == NULL)
-	{
+	if (*lst == NULL) {
 			*lst = new;
 			return ;
 	}
