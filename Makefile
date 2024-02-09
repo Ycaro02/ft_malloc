@@ -30,6 +30,7 @@ LIB_LIST =	libft/list/linked_list.a
 
 TEST	=	main_test
 
+
 OBJS = $(SRCS:.c=.o)
 
 RM	= rm -f
@@ -42,7 +43,12 @@ endif
 
 NAME	= libft_malloc_$(HOSTTYPE).so
 
+LINK_NAME = libft_malloc.so
+
 LIBFT	= libft/libft.a
+
+# Replace malloc lib for valgrind read check
+REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NANE}"
 
 all:		${NAME}
 
@@ -57,23 +63,23 @@ ${NAME}:	$(OBJS)
 			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
 			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${LIBFT} $(LIB_LIST)
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m\n"
-			@ln -sf ${NAME} libft_malloc.so
+			@ln -sf ${NAME} ${LINK_NAME}
 
 test :		${NAME}
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
 			@./${TEST}
 
 test0 :		${NAME}
-			make -C tester test0
+			@make -s -C tester test0
 
 test1 :		${NAME}
-			make -C tester test1
+			@make -s -C tester test1
 
 test2 :		${NAME}
-			make -C tester test2
+			@make -s -C tester test2
 testv :		${NAME}
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
-			@valgrind --soname-synonyms=somalloc=libft_malloc.so ./${TEST}
+			@valgrind ${REPLACE_MALLOC_LIB} ./${TEST}
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"
@@ -86,8 +92,7 @@ clean:
 fclean:		clean
 			@make -s -C libft fclean
 			@make -s -C libft/list fclean
-
-			@${RM} ${NAME} libft_malloc.so
+			@${RM} ${NAME} ${LINK_NAME}
 			@${RM} ${TEST}
 
 re:			fclean all

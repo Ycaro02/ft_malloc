@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Color definition
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
@@ -7,10 +8,20 @@ BLUE="\e[34m"
 CYAN="\e[36m"
 RESET="\e[0m"
 
-REAL="real/"
-ME="me/"
-NULL="/dev/null"
+
+
+# Set the appropriate value to the time command
 TIME="/usr/bin/time"
+
+if [ ! -f /usr/bin/time ]
+then
+TIME="/bin/time"
+fi
+
+REAL="./real/"
+ME="./me/"
+NULL="/dev/null"
+
 
 if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
 then
@@ -22,8 +33,8 @@ then
     
     gcc -o ${2}_me ${ME}${2}.c ../libft_malloc.so
     echo -e "${CYAN}Compile ${ME}${2}.c to  ${2}_me ${RESET}"
-    ${TIME} -v ./${1}_real 2> .tmp/out_real${1}
-    ${TIME} -v ./${2}_me 2> .tmp/out_me${2}
+    "${TIME}" -v ./${1}_real 2> .tmp/out_real${1}
+    "${TIME}" -v ./${2}_me 2> .tmp/out_me${2}
     echo -e "${RED}Diff ${RESET}"
     diff .tmp/out_real${1} .tmp/out_me${2} 2> .tmp/diff_out
     cat .tmp/diff_out
