@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_intfunction.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfour <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: nfour <nfour@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:51:54 by nfour             #+#    #+#             */
-/*   Updated: 2022/10/05 15:19:15 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/09 16:59:27 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_put_i_nbr(int nbr, int fd)
 	return (count);
 }
 
-int ft_putchar_fd(char c, int fd)
-{
-	return (write(fd, &c, 1));
-}
+// int ft_putchar_fd(char c, int fd)
+// {
+// 	return (write(fd, &c, 1));
+// }

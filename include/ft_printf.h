@@ -13,7 +13,7 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include <unistd.h>
+#include  "../libft/libft.h"
 # include <stdarg.h>
 
 void	ft_put_lu_nbr(unsigned int nbr, int *count, int fd);
@@ -30,5 +30,5 @@ void	ft_put_bigx_nbr(unsigned int nbr, int *count, int fd);
 void	ft_put_p_nbr(unsigned long nbr, int *count, int fd);
 void	ft_check_p(unsigned long nbr, int *count, int fd);
 void	ft_put_size_t_nbr(size_t nbr, int *count, int fd);
-int     ft_putchar_fd(char c, int fd);
+// int     ft_putchar_fd(char c, int fd);
 #endif

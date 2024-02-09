@@ -3,8 +3,9 @@
 
 #include <unistd.h>
 #include <stddef.h> 
-#include "ft_printf.h"
 #include <sys/mman.h> //mmap
+#include "../libft/libft.h"
+#include "../libft/list/linked_list.h"
 
 
 /*
@@ -50,10 +51,10 @@ enum e__type {
     LARGE=4,
 };
 
-enum e__bool {
-    FALSE,
-    TRUE,
-};
+// enum e__bool {
+//     FALSE,
+//     TRUE,
+// };
 
 enum e__event {
     NONE,
@@ -105,7 +106,7 @@ void    *malloc(size_t size);
 // free.c
 void    free(void* ptr);
 void    free_meta_block(t_block* block, t_data *data);
-e_bool  page_empty(t_data *block);
+int8_t  page_empty(t_data *block);
 void    free_page(t_data *data);
 //
 void    free_meta_data();
@@ -120,7 +121,6 @@ size_t  get_page_size(e_type type, size_t size);
 void    data_add_back(t_data **lst, t_data *data);
 
 //utils.c
-size_t  ft_strlen(char *str);
 void    display_line(char *str, char to_display);
 size_t  get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
@@ -134,7 +134,7 @@ t_block *try_add_block(char type, size_t size);
 void    block_add_back(t_block **lst, t_block *block);
 
 // ft_printf.c
-int	ft_printf_fd(int fd, const char *s, ...);
+// int	ft_printf_fd(int fd, const char *s, ...);
 
 
 /* show mem format

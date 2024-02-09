@@ -1,13 +1,5 @@
 #include "../include/malloc.h"
 
-size_t ft_strlen(char *str)
-{
-	int i = 0;
-	while (str && str[i])
-		i++;
-	return (i);
-}
-
 void display_line(char *str, char to_display)
 {
 	int nb = 35 - ft_strlen(str);

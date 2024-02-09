@@ -13,7 +13,7 @@ void free_meta_data()
 
 void free_page(t_data *data) { munmap(data, data->size); }
 
-e_bool page_empty(t_data *data)
+int8_t page_empty(t_data *data)
 {
 	t_block *block = data->block;
 	while (block)
@@ -57,7 +57,7 @@ static int check_for_free_page(t_data *prev, t_data *current, t_block *block, vo
 	return(1);
 }
 
-static e_bool try_free(void *ptr)
+static int try_free(void *ptr)
 {
 	t_data *data = g_data;
 	int ret = 1;

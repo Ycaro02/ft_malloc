@@ -18,7 +18,7 @@ static void *exec_realloc(t_block *block, size_t size)
 	return ((void *)new_ptr);
 }
 
-static e_bool need_realloc(t_data *data, t_block *block, size_t size)
+static int need_realloc(t_data *data, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
