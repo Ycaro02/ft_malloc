@@ -22,7 +22,7 @@ SRCS	=	src/malloc.c 						\
 			src/realloc.c						\
 			src/free.c
 
-MAIN	= 	src/main.c
+MAIN	= 	tester/main_test.c
 
 LIBFT	= 	libft/libft.a
 

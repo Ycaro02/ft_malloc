@@ -22,7 +22,7 @@ REAL="./real/"
 ME="./me/"
 NULL="/dev/null"
 
-
+# check given source file
 if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
 then
     make -s -C .. re > ${NULL}
