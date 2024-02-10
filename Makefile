@@ -79,12 +79,14 @@ clean:
 			@${RM} ${OBJS}
 			@make -s -C libft clean
 			@make -s -C libft/list clean
+			@make -s -C tester clean
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
 
 fclean:		clean
 			@make -s -C libft fclean
 			@make -s -C libft/list fclean
+			@make -s -C tester fclean
 			@${RM} ${NAME} ${LINK_NAME}
 			@${RM} ${TEST}
 

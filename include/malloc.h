@@ -64,8 +64,6 @@ enum e__event {
     PARTIAL_FREE,
 };
 
-
-
 /*
     block->size :ALIGNED(size of block require by user + sizeof(t_block))
     block->next : pointer to next block struct

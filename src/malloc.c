@@ -5,6 +5,10 @@
 */
 t_data *g_data = NULL;
 
+/**	@brief Check for pre allocated page for TINY and SMALL block
+ *  @param e_type type: type of searched page
+ *	@return TRUE if any pre allocate page of this type exist otherwise FALSE
+*/
 static int8_t check_preallocate_page(e_type type)
 {
 	t_data *data = g_data;
@@ -17,6 +21,10 @@ static int8_t check_preallocate_page(e_type type)
 	return (FALSE);
 }
 
+/** @brief Init pre allocate space for TINY or SMALL block
+ *  @param e_type type: type of searched page
+ * 	@return FALSE for mmap error otherwise TRUE
+*/
 static int8_t first_page_allocation(e_type type)
 {
 	t_data *page;
