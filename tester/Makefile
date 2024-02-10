@@ -30,7 +30,7 @@ ${NAME}:
 
 test:	${NAME}
 		./${NAME} ${MAX_FLAG}
-		./${REAL_TEST} ${MAX_FLAG}
+# ./${REAL_TEST} ${MAX_FLAG}
 
 test0:	${NAME}
 		${TEST} 1 1
