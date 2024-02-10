@@ -23,7 +23,7 @@ static t_block* refill_block(t_block* lst, int pos, size_t size)
 }
 
 
-/** @brief check for find a freed block in block lst
+/** @brief check for find empty block in lst_block
  * 	@param t_block *lst_block, pointer on blocks lst
  * 	@return int position of empty block, -1 for nothing found
 */
@@ -40,46 +40,63 @@ static int check_for_free_node(t_block* lst_block)
     return (-1);
 }
 
-static t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **block)
+/** @brief add_block, try to add block to existent lst_block in data page, first check for space in data page,
+ * 	second check for freed block otherwise add a new block to list
+ * 	@param t_data *data:
+ * 	@param int pos, position of target block in lst
+ *  @param size_t size, size of block in bytes
+ *  @param t_block *new: pointer on new block to give adress and return
+ *  @param t_block **lst_block: head of lst_block in page
+ * 	@return pointer on new find block, NULL if not enough space in page
+*/
+static t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **lst_block)
 {
-	size_t align = get_align_by_type(data->type);
-	if (data->size_free >= BLOCK_SIZE + align)
+	size_t align = get_align_by_type(data->type); 	/* get aligned size for allocation */
+	
+	if (data->size_free >= (align + BLOCK_SIZE)) 		/* if space free in page >= block size metadata + aligned_size || if this size <= space free in page */
 	{
-		pos = check_for_free_node(data->block);
-		if (pos != -1)
-		{
-			new = refill_block(data->block, pos, size);
+		pos = check_for_free_node(data->block);		/*  check for freed block and return his index */
+		if (pos != -1) {
+			new = refill_block(data->block, pos, size); 	/* mark the block to busy and return his adress */
 			data->size_free -= (align + BLOCK_SIZE);
 			return (new);
 		}
+		/* else if no freed block found */
 		pos = get_lst_block_len(data->block);
-		new = init_block(new, size, data->type, pos, data);
-		block_add_back(block, new);
+		new = init_block(new, size, data->type, pos, data); /* need to create new block,  compute his address */
+		block_add_back(lst_block, new);							/* add him to block lst */
 		data->size_free -= (align + BLOCK_SIZE);
 		return (new);
 	}
 	return (NULL);
 }
 
+/** @brief loop on g_data page to find existent page of given type
+ *  @param size_t size, size of block in bytes
+ *  @param e_type type: type of searched page
+ * 	@return pointer on new find block, NULL if g_data not set
+*/
 t_block *try_add_block(char type, size_t size)
 {
 	t_data *head = g_data;
-	t_block *new = NULL;
+	t_block *block = NULL;
     int pos = 0;
+	
 	if (!g_data)
 		return (NULL);
 	while (g_data) {
 		if (g_data->type & type) {
-			new = add_block(g_data, pos, size, new, &g_data->block);
-			if (new)
+			block = add_block(g_data, pos, size, block, &g_data->block);
+			if (block)
 				break ;
 		}
 		g_data = g_data->next;
 	}
 	g_data = head;
-	return (new);
+	return (block);
 }
 
+/** @brief get aligned size */
 size_t align_mem_block(size_t m_size, size_t size)
 {
 	if (m_size < size)
@@ -89,13 +106,14 @@ size_t align_mem_block(size_t m_size, size_t size)
 		m_size += size - mod;
 	return (m_size);
 }
-
+/* @brief init block structure, compute his addr and set size and next value */
 t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data)
 {
 	size_t skip = 0;
 	size_t align = get_align_by_type(data->type);
     
-	skip = align * pos;
+	skip = align * pos; /* (block size + size of block struct) * block position ) */
+	/* compute block address, data: adress return by mmap for the page, + size of data struct + skip*/
 	block = (t_block *)(((void *) data) + DATA_SIZE + skip);
 	
 	// size_t block_size = size;
