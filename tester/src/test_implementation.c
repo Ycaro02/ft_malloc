@@ -24,7 +24,13 @@ enum test_flag {
 
 void print(char *s) { write(1, s, strlen(s)); }
 
-void prints(char *s1, char *s2, char *s3, char*s4) { write(1, s1, strlen(s1)); write(1, s2, strlen(s2)); write(1, s3, strlen(s3)); write(1, s4, strlen(s4)); write(1, "\n", 1); }
+void prints(char *s1, char *s2, char *s3, char*s4) { 
+    write(1, s1, strlen(s1));
+    write(1, s2, strlen(s2));
+    write(1, s3, strlen(s3));
+    write(1, s4, strlen(s4));
+    write(1, "\n", 1);
+}
 
 int test0(char *version)
 {
