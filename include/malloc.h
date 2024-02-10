@@ -26,20 +26,23 @@
 /*
     SMALL:
     4096 / 1024 = 4 -> 4 blocks in on PAGE_SIZE
-    4 * 32 = 128 > 100
+    4 * 26 = 104;
+    OLD : 4 * 32 = 128 > 100
 */
-# define SMALL_MULT 32
+// # define SMALL_MULT 32
+# define SMALL_MULT 26
 # define SMALL_BLOCK_PER_PAGE   (PAGE_SIZE / SMALL_SIZE * SMALL_MULT)
 /*  TINY_PAGE_SIZE  = 4096 * 4 = 16324 bytes */
-# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * 4)
+# define TINY_PAGE_SIZE         (size_t)(PAGE_SIZE * TINY_MULT)
 /* SMALL_PAGE_SIZE  = 4096 * 32 = 131072 bytes */
-# define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * 32)
+# define SMALL_PAGE_SIZE        (size_t)(PAGE_SIZE * SMALL_MULT)
 
 /*
     See print_define in utils
     100 * (TINY_BLOCK_SIZE + DATA_SIZE) / TINY_SIZE = 6, 1 for small
     We can use ~128 - (6 * 0.28) block in TINY page, 128 - 9 = 119;
-    126 block in SMALL, just keep 2 for metadata
+    102 block in SMALL, keep 2 for metadata
+    OLD 126 block in SMALL, just keep 2 for metadata
 */
 # define BLOCK_SIZE         sizeof(t_block)
 # define DATA_SIZE          sizeof(t_data)
@@ -51,6 +54,7 @@ enum e__type {
     TINY=1,
     SMALL=2,
     LARGE=4,
+    PRE_ALLOCATE=8,
 };
 
 /** e_event enum used in free function to know what to do ? */
@@ -117,6 +121,7 @@ void    *realloc(void *ptr, size_t size);
 t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
+t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size);
 void    data_add_back(t_data **lst, t_data *data);
 
 //utils.c

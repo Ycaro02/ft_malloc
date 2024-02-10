@@ -63,10 +63,8 @@ t_block *try_add_block(char type, size_t size)
     int pos = 0;
 	if (!g_data)
 		return (NULL);
-	while (g_data)
-	{
-		if (g_data->type == type)
-		{
+	while (g_data) {
+		if (g_data->type & type) {
 			new = add_block(g_data, pos, size, new, &g_data->block);
 			if (new)
 				break ;

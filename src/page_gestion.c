@@ -60,6 +60,29 @@ static t_data *init_data_by_type(e_type type, size_t size)
 	return (data);
 }
 
+/** @brief	Init first pre allocate page with mmmap call 
+ *	@param	e_type enum represent the type of desired block
+ *	@param	size_t size: size of desired page allocation in bytes
+ *	@return pointer on allocated t_data struct, the first address return by mmap 
+*/
+t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size)
+{
+	t_data *data = NULL;
+
+	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (data == MAP_FAILED) {
+		ft_printf_fd(2, "mmap call failed check erno for details\n");
+		return (NULL);
+	}
+	data->type = (type | PRE_ALLOCATE);
+	data->size = page_size;
+	(void)block_size; /* no mandatory just need to give 0 to init block call */
+	data->block = init_block(data->block, 0, type, 0, data);
+	data->size_free = page_size - (data->block->size + DATA_SIZE);
+	data->next = NULL;
+	return (data);
+}
+
 /** @brief	Init data function called in malloc after detect_type
  * 	if block is't LARGE block, try to add him to pre allocated page
  *	else create new page and add it to g_data linked list 
@@ -81,23 +104,21 @@ t_block *init_data(e_type type, size_t size)
 }
 
 
-/** Simple data add, similar to lst_addback
- * 
-*/
-void    data_add_back(t_data **lst, t_data *new)
+/** Simple data add, similar to lst_addback*/
+void    data_add_back(t_data **lst, t_data *data)
 {
 	t_data  *current;
 
-	if (!new)
+	if (!data)
 		return ;
 	if (!(*lst)) {
-		*lst = new;
+		*lst = data;
 		return ;
 	}
 	current = *lst;
 	while (current->next != NULL)
 			current = current->next;
-	current->next = new;
+	current->next = data;
 }
 
 /* Map addresses starting near ADDR and extending for LEN bytes.  from

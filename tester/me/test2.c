@@ -6,19 +6,16 @@ int i;
 char *addr;
 
 i = 0;
-char *coucou = malloc(1024);
-while (i < 64)
+while (i < 1024)
 {
-    addr = (char*)malloc(1024);
-    addr[0] = 42;
-    free(coucou);
-    display_line("before", '-');
-    show_alloc_mem();
-    free(addr);
-    display_line("after", '-');
-    show_alloc_mem();
-    i++;
+addr = (char*)malloc(1024);
+addr[0] = 42;
+// ft_printf_fd(1, "%sJust affter Malloc call nb %d , Before free%s\n", GREEN, i,  RESET);
+// show_alloc_mem();
+free(addr);
+// ft_printf_fd(1, "%sAfter free%s\n", RED, RESET);
+// show_alloc_mem();
+i++;
 }
-show_alloc_mem();
 return (0);
 }
