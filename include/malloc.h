@@ -1,5 +1,5 @@
-#ifndef malloc_H
-# define malloc_H
+#ifndef FT_MALLOC_H
+# define FT_MALLOC_H
 
 #include <unistd.h>
 #include <stddef.h> 
@@ -107,7 +107,7 @@ void    show_alloc_mem();
 void    *malloc(size_t size);
 
 // free.c
-void    free(void* ptr);
+void    free(void *ptr);
 void    free_meta_block(t_block* block, t_data *data);
 int8_t  page_empty(t_data *block);
 void    free_page(t_data *data);
@@ -153,4 +153,4 @@ void    block_add_back(t_block **lst, t_block *block);
 */  
 
 
-# endif /* malloc_H */
+# endif /* FT_MALLOC_H */

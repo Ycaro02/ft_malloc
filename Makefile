@@ -62,21 +62,14 @@ ${NAME}:	$(OBJS)
 			@echo "\033[7;32m -----  Compiling lib done  ----- \033[0m\n"
 			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
 			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${LIBFT} $(LIB_LIST)
-			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m\n"
+			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m"
 			@ln -sf ${NAME} ${LINK_NAME}
 
 test :		${NAME}
-			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
-			@./${TEST}
+			@make -s -C tester test
+# @${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
+# @./${TEST}
 
-test0 :		${NAME}
-			@make -s -C tester test0
-
-test1 :		${NAME}
-			@make -s -C tester test1
-
-test2 :		${NAME}
-			@make -s -C tester test2
 testv :		${NAME}
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
 			@valgrind ${REPLACE_MALLOC_LIB} ./${TEST}

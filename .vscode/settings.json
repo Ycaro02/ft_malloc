@@ -67,7 +67,8 @@
         "features-time64.h": "c",
         "timesize.h": "c",
         "wordsize.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "string.h": "c"
     },
 
     "highlight.regexes": {

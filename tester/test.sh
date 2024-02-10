@@ -20,33 +20,51 @@ fi
 
 REAL="./real/"
 ME="./me/"
+
+LIBFT_TEST="libft_malloc_test"
+
+REAL_TEST="malloc_test"
+
 NULL="/dev/null"
 
 # check given source file
-if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
-then
-    make -s -C .. re > ${NULL}
+# if [ -f ${REAL}${1}.c ] && [ -f ${ME}${2}.c ];
+# then
+    make -s -C .. > ${NULL}
     mkdir -p .tmp
+
+    echo -e "${GREEN}${REAL_TEST} ${1} ${RESET}"
+    "${TIME}" -v ./${REAL_TEST} ${1} 2> .tmp/out_real${1}
     
-    gcc -o ${1}_real ${REAL}${1}.c
-    echo -e "${GREEN}Compile ${REAL}${1}.c to  ${1}_real ${RESET}"
+    echo -e "${CYAN}${LIBFT_TEST} ${2} ${RESET}"
+    "${TIME}" -v ./${LIBFT_TEST} ${2} 2> .tmp/out_libft${2}
+
+
+    # echo -e "${GREEN}Compile ${REAL}${1}.c to ${1}_real ${RESET}"
+    # gcc -o ${1}_real ${REAL}${1}.c
     
-    gcc -o ${2}_me ${ME}${2}.c ../libft_malloc.so
-    echo -e "${CYAN}Compile ${ME}${2}.c to  ${2}_me ${RESET}"
-    "${TIME}" -v ./${1}_real 2> .tmp/out_real${1}
-    "${TIME}" -v ./${2}_me 2> .tmp/out_me${2}
+    # echo -e "${CYAN}Compile ${ME}${2}.c   to ${2}_libft ${RESET}"
+    # echo -e "${CYAN}Compile ${ME}${2}.c   to ${2}_libft ${RESET}"
+    # gcc -o ${2}_libft ${ME}${2}.c ../libft_malloc.so
+
+    # "${TIME}" -v ./${1}_real 2> .tmp/out_real${1}
+    # "${TIME}" -v ./${2}_libft 2> .tmp/out_libft${2}
+    
     echo -e "${RED}Diff ${RESET}"
-    diff .tmp/out_real${1} .tmp/out_me${2} 2> .tmp/diff_out
+    diff .tmp/out_real${1} .tmp/out_libft${2} 2> .tmp/diff_out
     cat .tmp/diff_out
-    echo -e "${GREEN}Page for real malloc ${RESET}"
+
+    echo -e "${GREEN}Page for real malloc  :${RESET}"
     cat .tmp/out_real${1} | grep Minor
-    echo -e "${CYAN}Page for my malloc ${RESET}"
-    cat .tmp/out_me${2} | grep Minor
-    rm -rf .tmp ${1}_real ${2}_me
-else
-    echo -e "${YELLOW}Invalid argument usage ./test.sh {real_malloc_test}, {my_malloc_test}"
-    echo -e "${RED}File ${REAL}$1.c or ${ME}$2.c not found ${RESET}"
-fi
+    echo -e "${CYAN}Page for libft malloc :${RESET}"
+    cat .tmp/out_libft${2} | grep Minor
+    
+    rm -rf .tmp
+    # rm -rf .tmp ${1}_real ${2}_libft
+# else
+#     echo -e "${YELLOW}Invalid argument usage ./test.sh {real_malloc_test}, {libft_malloc_test}${RESET}"
+#     echo -e "${RED}File $1 function or $2 function not found ${RESET}"
+# fi
 
 
 # echo at begin hosttype = $HOSTTYPE

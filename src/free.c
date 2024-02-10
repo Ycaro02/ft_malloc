@@ -89,14 +89,16 @@ static int try_free(void *ptr)
 	return (FALSE);
 }
 
-void free(void* ptr)
+void free(void *ptr)
 {
-	// ft_printf_fd(1, "my free called\n");
-	if (!ptr)
+	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
+	if (!ptr) {
+		ft_printf_fd(1, "%sTry to free NULL%s\n", RED, RESET);
 		return ;
-	// try_free(ptr);
-	if (try_free(ptr) == FALSE) {
-		ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
-		ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
+	}
+	else if (try_free(ptr) == FALSE) {
+		ft_printf_fd(1, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
+		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
+		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
 	}
 }

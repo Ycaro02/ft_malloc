@@ -8,7 +8,7 @@ static void *exec_realloc(t_block *block, size_t size)
 		return (NULL);
 	size_t i = 0;
 	char *content = (char *)((void *)block + BLOCK_SIZE);
-	ft_printf_fd(1, "block sizze = %U\n", block->size);
+	// ft_printf_fd(1, "block sizze = %U\n", block->size);
 	// ft_printf_fd(1, "block data = %s\n", (char *)block + BLOCK_SIZE);
 	while (i < block_size)
 	{
@@ -84,14 +84,15 @@ void *realloc(void *ptr, size_t size)
 	// ft_printf_fd(1, "my realloc called\n");
 	if (!ptr)
 		return (malloc(size));
-	if (size == 0)
-	{
+	if (size == 0) {
 		free(ptr);
 		return (NULL);
 	}
 	void *new_ptr = get_block_addr(ptr, size);
-	if (!new_ptr)
+	if (!new_ptr) {
 		ft_printf_fd(2, "get block addr return NULL\n");
+		return (NULL);
+	}
 	return (new_ptr);
 }
 
