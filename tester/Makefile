@@ -55,7 +55,6 @@ test5:	${NAME}
 
 clean:
 		@rm -rf ${NAME} ${REAL_TEST} ${LAST_TEST}
-		@echo "\033[7;33m -----  Cleaning done  ----- \033[0m"
 
 fclean:	clean
 		@rm -rf ${NAME} ${REAL_TEST} ${LAST_TEST}
