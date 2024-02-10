@@ -154,11 +154,13 @@ int main(int argc, char **argv)
     if (test_flag & TEST3_BIS)
         test3_bis(TEST_VERSION_NAME);
 
-    # ifdef USE_LIBFT_MALLOC /* define at compilation time */
-        free_meta_data();    
-    #endif
 
-    if (test_flag & TEST4)
+
+    if (test_flag & TEST4) {
+        # ifdef USE_LIBFT_MALLOC /* define at compilation time */
+            free_meta_data();   /* just free all page before call test 4*/
+        #endif
         test4(TEST_VERSION_NAME);
+    }
     // prints(Define USE_LIBFT_MALLOC :|%d| %d%s\n", USE_LIBFT_MALLOC);
 }
