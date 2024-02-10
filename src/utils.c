@@ -14,9 +14,7 @@ void display_line(char *str, char to_display)
 	write(1, "\n", 1);
 }
 
-/** @brief
- * 
-*/
+/** @brief get aligned size accordate to block type*/
 size_t get_align_by_type(e_type type)
 {
     int align = ALIGN_VALUE;
@@ -25,6 +23,7 @@ size_t get_align_by_type(e_type type)
     return (align);
 }
 
+/** @brief get number of block in lst */
 int get_lst_block_len(t_block *lst)
 {
 	int len = 0;
@@ -36,18 +35,7 @@ int get_lst_block_len(t_block *lst)
 	return (len);
 }
 
-void free_block()
-{
-	t_data  *data = g_data;
-	t_data  *data_tmp;
-	while (data)
-	{
-		data_tmp = data->next;
-		free(data);
-		data = data_tmp;
-	}
-}
-
+/* @brief display main malloc project define */
 void print_define(void)
 {
     ft_printf_fd(1, "TINY = %U\n", TINY_BLOCK_PER_PAGE);
@@ -57,3 +45,16 @@ void print_define(void)
     ft_printf_fd(1, "size block * 100 + data size: %u = %U TINY BLOCK\n", block_size, block_size / TINY_SIZE);
     ft_printf_fd(1, "size block * 100 + data size: %u = %U SMALL BLOCK\n", block_size, block_size / SMALL_SIZE);
 }
+
+/** @brief free block data ???  unused  */
+// void free_block()
+// {
+// 	t_data  *data = g_data;
+// 	t_data  *data_tmp;
+// 	while (data)
+// 	{
+// 		data_tmp = data->next;
+// 		free(data);
+// 		data = data_tmp;
+// 	}
+// }

@@ -126,7 +126,7 @@ void    data_add_back(t_data **lst, t_data *data);
 void    display_line(char *str, char to_display);
 size_t  get_align_by_type(e_type type);
 int     get_lst_block_len(t_block *lst);
-void    free_block();
+// void    free_block();
 void    print_define(void);
 
 //block.c
