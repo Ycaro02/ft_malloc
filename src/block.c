@@ -22,15 +22,20 @@ static t_block* refill_block(t_block* lst, int pos, size_t size)
     return (tmp);
 }
 
-static int check_for_free_node(t_block* block)
+
+/** @brief check for find a freed block in block lst
+ * 	@param t_block *lst_block, pointer on blocks lst
+ * 	@return int position of empty block, -1 for nothing found
+*/
+static int check_for_free_node(t_block* lst_block)
 {
     int pos = 0;
-    while(block)
+    while(lst_block)
     {
-        if (block->size == 0)
+        if (lst_block->size == 0)
             return (pos);
 		pos++;
-        block = block->next;
+        lst_block = lst_block->next;
     }
     return (-1);
 }
