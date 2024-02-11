@@ -7,6 +7,9 @@
     "editor.minimap.enabled": false,
     "workbench.colorTheme": "GitHub Dark Default",
 
+    "42header.username": "nfour",
+    "42header.email": "<marvin@42.fr>",
+
     "editor.tokenColorCustomizations": {
         "[GitHub Dark Default]": {
             "textMateRules": [
