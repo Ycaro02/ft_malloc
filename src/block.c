@@ -30,8 +30,7 @@ static t_block* refill_block(t_block* lst, int pos, size_t size)
 static int check_for_free_node(t_block* lst_block)
 {
     int pos = 0;
-    while(lst_block)
-    {
+    while(lst_block) {
         if (lst_block->size == 0)
             return (pos);
 		pos++;
@@ -52,9 +51,8 @@ static int check_for_free_node(t_block* lst_block)
 static t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_block **lst_block)
 {
 	size_t align = get_align_by_type(data->type); 	/* get aligned size for allocation */
-	
-	if (data->size_free >= (align + BLOCK_SIZE)) 		/* if space free in page >= block size metadata + aligned_size || if this size <= space free in page */
-	{
+	/* if space free in page >= block size metadata + aligned_size || if this size <= space free in page */
+	if (data->size_free >= (align + BLOCK_SIZE)) {
 		pos = check_for_free_node(data->block);		/*  check for freed block and return his index */
 		if (pos != -1) {
 			new = refill_block(data->block, pos, size); 	/* mark the block to busy and return his adress */
