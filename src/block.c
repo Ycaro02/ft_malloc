@@ -61,7 +61,7 @@ static t_block *add_block(t_data *data, int pos, size_t size, t_block *new, t_bl
 		}
 		/* else if no freed block found */
 		pos = get_lst_block_len(data->block);
-		new = init_block(new, size, data->type, pos, data); /* need to create new block,  compute his address */
+		new = init_block(new, size, pos, data); /* need to create new block,  compute his address */
 		block_add_back(lst_block, new);							/* add him to block lst */
 		data->size_free -= (align + BLOCK_SIZE);
 		return (new);
@@ -94,7 +94,7 @@ t_block *try_add_block(char type, size_t size)
 	return (block);
 }
 
-/** @brief get aligned size */
+/** @brief get aligned size for LARGE block */
 size_t align_mem_block(size_t m_size, size_t size)
 {
 	if (m_size < size)
@@ -105,7 +105,7 @@ size_t align_mem_block(size_t m_size, size_t size)
 	return (m_size);
 }
 /* @brief init block structure, compute his addr and set size and next value */
-t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data)
+t_block	*init_block(t_block *block, size_t size, int pos, t_data *data)
 {
 	size_t skip = 0;
 	size_t align = get_align_by_type(data->type);
@@ -113,12 +113,7 @@ t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *d
 	skip = align * pos; /* (block size + size of block struct) * block position ) */
 	/* compute block address, data: adress return by mmap for the page, + size of data struct + skip*/
 	block = (t_block *)(((void *) data) + DATA_SIZE + skip);
-	
-	// size_t block_size = size;
-	(void)type;
-	// if (type & LARGE)
-		// block_size = data->size - DATA_SIZE - BLOCK_SIZE;
-		// block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
+
 	block->size = size;
 	block->next = NULL;
 	return (block);
@@ -148,4 +143,9 @@ void    block_add_back(t_block **lst, t_block *new)
 	block = (t_block *)ptr;
 	or:
 	block = (t_block *)((void *)data + DATA_SIZE + skip);
+
+	old compute block addr for large 
+	// if (type & LARGE) LARGE gestion in page
+	// block_size = data->size - DATA_SIZE - BLOCK_SIZE;
+	// block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
 */

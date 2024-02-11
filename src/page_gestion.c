@@ -54,7 +54,7 @@ static t_data *init_data_by_type(e_type type, size_t size)
 	}
 	data->type = type;
 	data->size = page_size;
-	data->block = init_block(data->block, size, type, 0, data);
+	data->block = init_block(data->block, size, 0, data);
 	data->size_free = page_size - (data->block->size + DATA_SIZE);
 	data->next = NULL;
 	return (data);
@@ -77,7 +77,7 @@ t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size)
 	data->type = (type | PRE_ALLOCATE);
 	data->size = page_size;
 	(void)block_size; /* no mandatory just need to give 0 to init block call */
-	data->block = init_block(data->block, 0, type, 0, data);
+	data->block = init_block(data->block, 0, 0, data);
 	data->size_free = page_size - (data->block->size + DATA_SIZE);
 	data->next = NULL;
 	return (data);

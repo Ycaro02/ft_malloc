@@ -130,7 +130,7 @@ int     get_lst_block_len(t_block *lst);
 void    print_define(void);
 
 //block.c
-t_block	*init_block(t_block *block, size_t size, e_type type, int pos, t_data *data);
+t_block	*init_block(t_block *block, size_t size, int pos, t_data *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(char type, size_t size);
 void    block_add_back(t_block **lst, t_block *block);

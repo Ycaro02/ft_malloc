@@ -2,7 +2,7 @@
 
 int main()
 {
-    prints(YELLOW, "Test 5 \n", RESET);
+    ft_printf_fd(1, YELLOW"Test 5 \n"RESET);
     malloc(128);
     malloc(1024);
     malloc(1024 * 32);
