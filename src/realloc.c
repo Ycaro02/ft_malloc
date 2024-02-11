@@ -8,6 +8,7 @@ static void *exec_realloc(t_block *block, size_t size)
 	
 	pthread_mutex_unlock(&g_libft_malloc_mutex); /* unlock before malloc call */
 	new_ptr = malloc(block->size + size);
+	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock after malloc call cause unlock at the end of realloc, maybe can optimise that */
 	
 	if (!new_ptr) {
 		return (NULL);

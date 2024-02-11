@@ -1,5 +1,4 @@
 #include "../../include/malloc.h"
-#include <stdio.h>
 #define MAX 10000
 
 // t_page *g_data = NULL;
@@ -44,32 +43,35 @@
 
 void realloc_test()
 {
-	char *b = malloc(3000);
-	b[0] = 2;
+	// char *b = malloc(3000);
+	// b[0] = 2;
 	char *a = malloc(2);
+	ft_printf_fd(1, "After 2 first malloc\n");
 	a[0] = 'a';
+	show_alloc_mem();
 	int len = 100;
 	char *test = NULL;
 	test = realloc(test, len);
 	if (!test) {
-		printf("Realloc1 return NULL\n");
+		ft_printf_fd(1, "Realloc1 return NULL\n");
 		show_alloc_mem();
 		free_meta_data();
 		return ;
 	}
 	for (int i = 0; i < len; i++)
 		test[i] = 'k';
+	ft_printf_fd(1, "After first realloc\n");
 	show_alloc_mem();
 	len = 900;
 	test = realloc(test, len);
 	if (!test) {
-		printf("Realloc2 return NULL\n");
+		ft_printf_fd(1, "Realloc2 return NULL\n");
 		// show_alloc_mem();
 		free_meta_data();
 		show_alloc_mem();
 		return ;
 	}
-	printf("Realloc ok\n");
+	ft_printf_fd(1, "Realloc ok\n");
 	// for (int i = 0; i < len; i++)
 	// 	test[i] = 'l';
 	// len = 3000;
