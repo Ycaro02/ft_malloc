@@ -31,11 +31,11 @@ int8_t page_empty(t_page *data)
 }
 
 /* @brief free block, don't call munmap just set block to freed and substract his size to page */
-void free_meta_block(t_block* block, t_page *data)
+void free_meta_block(t_block* block, t_page *page)
 {
-	if (!(data->type & LARGE)) {
-		size_t align = get_align_by_type(data->type);
-		data->size_free += align + BLOCK_SIZE;
+	if (!(page->type & LARGE)) {
+		size_t align = get_align_by_type(page->type);
+		page->size_free += align + BLOCK_SIZE;
 	}
 	block->size = 0;
 }
@@ -44,8 +44,8 @@ void free_meta_block(t_block* block, t_page *data)
  *	@param t_page *prev: pointer on previous page	
  *	@param t_page *current: pointer on current page	
  *	@param t_block *block: list of block in current page
-	@param void *ptr: pointer given by user, wanted to free him
-	@return: -1 for already freed block, 0 for OK block free, 1 for block not found
+ *	@param void *ptr: pointer given by user, wanted to free him
+ *	@return: -1 for already freed block, 0 for OK block free, 1 for block not found
 */
 static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 {

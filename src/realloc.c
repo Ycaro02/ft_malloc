@@ -17,26 +17,33 @@ static void *exec_realloc(t_block *block, size_t size)
 }
 
 /** @brief Check data type and empty space in page to know if realloc is needed **/
-static int need_realloc(t_page *data, t_block *block, size_t size)
+static int8_t need_realloc(t_page *page, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
-	if (!(data->type & LARGE))
-	{
-		align = get_align_by_type(data->type);
+	if (!(page->type & LARGE)) {
+		align = get_align_by_type(page->type);
 		if (new_size <= align)
 			return (FALSE);
 	}
 	return (TRUE);
 }
 
-// ft_printf_fd(1, "MATCH for size = %U block = %p\n", size, block);
-
+/**	@brief loop on lst_block to find given ptr and check for realloc needed
+ *	@param t_page *prev: pointer on previous page	
+ *	@param t_page *current: pointer on current page	
+ *	@param t_block *block: list of block in current page
+ *	@param void *ptr: pointer given by user, wanted to free him
+ *	@param size_t size: size of desired new allocation (add to ptr_len_block)
+ *	@return: pointer to block data, NULL for invalid pointer
+*/
 static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *block, void *ptr, size_t size)
 {
+	int8_t realloc_needed = FALSE;
 	while (block) {
 		if (ptr == (void *)block + BLOCK_SIZE) {
-			if (need_realloc(current, block, size) == TRUE) {
+			realloc_needed = need_realloc(current, block, size);
+			if (realloc_needed == TRUE) {
 				ptr = exec_realloc(block, size);
 				free_meta_block(block, current);
 				if (page_empty(current)== TRUE) { /* if page empty */
@@ -47,19 +54,24 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 			else {
 				block->size += size;
 			}
-			break;
+			return (ptr);
 		}
 		block = block->next;
 	}
-	return (ptr);
+	return (NULL);
 }
 
+/** @brief Try to find given ptr in g_data page list
+ * 	@param void *ptr: ptr given by user
+ * 	@param size_t size: size to add at ptr block len
+ * 	@return: pointer to new allocation or last ptr if no allocation needed
+*/
 static void *get_block_addr(void *ptr, size_t size)
 {
 	t_page *data = g_data;
 
-	if (!ptr)
-		return (NULL);
+	// if (!ptr) /* already checked in realloc */
+		// return (NULL);
 	t_page *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
 	if (test != ptr)
 		return (test);
