@@ -8,8 +8,8 @@
 */
 static t_block* refill_block(t_block* lst, int pos, size_t size)
 {
-    int i = 0;
 	t_block *tmp = lst;
+    int 	i = 0;
 
     while(tmp) {
         if (i == pos) {
@@ -72,13 +72,13 @@ static t_block *add_block(t_page *data, int pos, size_t size, t_block *new, t_bl
 /** @brief loop on g_data page to find existent page of given type
  *  @param size_t size, size of block in bytes
  *  @param e_type type: type of searched page
- * 	@return pointer on new find block, NULL if g_data not set
+ * 	@return pointer on new find block, NULL if g_data not set or can't add block
 */
 t_block *try_add_block(char type, size_t size)
 {
-	t_page *head = g_data;
+	t_page	*head = g_data;
 	t_block *block = NULL;
-    int pos = 0;
+    int 	pos = 0;
 	
 	if (!g_data)
 		return (NULL);

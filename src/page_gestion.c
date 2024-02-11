@@ -12,8 +12,6 @@ e_type detect_type(size_t size)
 		type = TINY;
 	else if (size <= SMALL_SIZE)
 		type = SMALL;
-	// else
-		// type = LARGE;
 	return (type);
 }
 
@@ -26,9 +24,6 @@ size_t get_page_size(e_type type, size_t size)
 {
 	size_t m_size = TINY_PAGE_SIZE;
 
-	// if (type & TINY)
-		// m_size = TINY_PAGE_SIZE;
-	// else if (type & SMALL)
 	if (type & SMALL)
 		m_size = SMALL_PAGE_SIZE;
 	else
