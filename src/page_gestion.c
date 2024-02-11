@@ -6,13 +6,14 @@
 */
 e_type detect_type(size_t size)
 {
-	e_type type;
+	e_type type = LARGE;
+
 	if (size <= TINY_SIZE)
 		type = TINY;
 	else if (size <= SMALL_SIZE)
 		type = SMALL;
-	else
-		type = LARGE;
+	// else
+		// type = LARGE;
 	return (type);
 }
 
@@ -23,11 +24,12 @@ e_type detect_type(size_t size)
 */
 size_t get_page_size(e_type type, size_t size)
 {
-	size_t m_size = 0;
+	size_t m_size = TINY_PAGE_SIZE;
 
-	if (type & TINY)
-		m_size = TINY_PAGE_SIZE;
-	else if (type & SMALL)
+	// if (type & TINY)
+		// m_size = TINY_PAGE_SIZE;
+	// else if (type & SMALL)
+	if (type & SMALL)
 		m_size = SMALL_PAGE_SIZE;
 	else
 		m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
@@ -42,8 +44,8 @@ size_t get_page_size(e_type type, size_t size)
 */
 t_page *init_page(e_type type, size_t size, e_type pre_aloc)
 {
-	t_page *data = NULL;
-	size_t page_size = 0;
+	t_page *data;
+	size_t page_size;
 
 	page_size = get_page_size(type, size);
 	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);

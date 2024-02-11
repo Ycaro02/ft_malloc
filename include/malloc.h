@@ -120,9 +120,9 @@ void    free_meta_data();
 
 //page_gestion.c
 t_block *init_data(e_type type, size_t size);
+t_page  *init_page(e_type type, size_t size, e_type pre_aloc);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
-t_page *init_page(e_type type, size_t size, e_type pre_aloc);
 void    page_add_back(t_page **lst, t_page *data);
 
 //utils.c
