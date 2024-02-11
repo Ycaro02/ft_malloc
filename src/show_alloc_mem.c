@@ -28,9 +28,11 @@ static size_t print_bloc(t_page *data)
 /** @brief Mandatory function show allocated memory blocks/pages */
 void show_alloc_mem()
 {
-	t_page *tmp = g_data;
+	t_page *tmp;
 	size_t total = 0;
-
+	
+	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
+	tmp = g_data;
 	display_line(NULL, '-');
 	while (tmp) {
 		total += print_bloc(tmp);
@@ -38,4 +40,5 @@ void show_alloc_mem()
 	}
 	ft_printf_fd(1, "Total: %U bytes\n", total);
 	display_line(NULL, '-');
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
 }

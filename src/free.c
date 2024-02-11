@@ -106,7 +106,7 @@ void free(void *ptr)
 		return ;
 	}
 	else if (call_free(ptr) == FALSE) {
-		ft_printf_fd(2, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
+		ft_printf_fd(2, RED"Free: Invalid pointer %p \n"RESET, ptr);
 	}
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);

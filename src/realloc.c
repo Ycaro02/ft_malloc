@@ -101,7 +101,7 @@ void *realloc(void *ptr, size_t size)
 	if (!ptr) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (malloc(size));
-	}
+	} 
 	else if (size == 0) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		free(ptr);
@@ -109,11 +109,8 @@ void *realloc(void *ptr, size_t size)
 	}
 	else {
 		new_ptr = get_block_addr(ptr, size);
-		// ft_printf_fd(1, "ptr null\n");
 		if (!new_ptr) {
-			ft_printf_fd(2, "get block addr return NULL\n");
-			// pthread_mutex_unlock(&g_libft_malloc_mutex);
-			// return (NULL);
+			ft_printf_fd(2, RED"Realloc invalid pointer %p\n"RESET,ptr);
 		}
 	}
 
