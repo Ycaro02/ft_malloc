@@ -48,7 +48,7 @@ REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NANE}"
 
 TEST	=	main_test
 
-MAIN	= 	tester/main_test.c
+MAIN	= 	tester/src/main_test.c
 
 CALL_TESTER="make -s -C tester"
 
