@@ -100,7 +100,7 @@ void free(void *ptr)
 {
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
 	if (!ptr) {
-		ft_printf_fd(1, "%sTry to free NULL%s\n", RED, RESET);
+		ft_printf_fd(1, "%sCall free NULL%s\n", RED, RESET);
 		return ;
 	}
 	else if (call_free(ptr) == FALSE) {

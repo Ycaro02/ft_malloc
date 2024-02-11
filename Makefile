@@ -12,6 +12,8 @@
 
 CC		= gcc
 
+THREAD  =	-lpthread
+
 CFLAGS	= -Wall -Wextra -Werror -g3
 
 SRCS	=	src/malloc.c 						\
@@ -63,7 +65,7 @@ ${NAME}:	$(OBJS)
 			@make -s -C libft/list
 			@echo "\033[7;32m -----  Compiling lib done  ----- \033[0m\n"
 			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
-			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${LIBFT} $(LIB_LIST)
+			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m"
 			@ln -sf ${NAME} ${LINK_NAME}
 
@@ -78,7 +80,7 @@ test :		${NAME}
 			@"${CALL_TESTER}" fclean
 
 testv :		${NAME}
-			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
+			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
 			@valgrind ${REPLACE_MALLOC_LIB} ./${TEST}
 
 clean:

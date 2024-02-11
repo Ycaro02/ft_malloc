@@ -3,7 +3,9 @@
 /**
  * Declare globale t_page pointer, the head of pages linked-list
 */
-t_page *g_data = NULL;
+t_page			*g_data = NULL;
+pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 
 /**	@brief Check for pre allocated page for TINY and SMALL block
  *  @param e_type type: type of searched page
@@ -57,12 +59,20 @@ void *malloc(size_t size)
 	e_type type;
 	t_block *block;
 
+
 	if (size <= 0) {  /* maybe to change malloc 1 for 0 input ? */
 		return (NULL);
 	}
+	/* lock mutex */
+	pthread_mutex_lock(&g_libft_malloc_mutex);
+
 	type = detect_type(size);
-	if (first_page_allocation(type) == FALSE)
+	if (first_page_allocation(type) == FALSE) {
+		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
+	}
+	
 	block = init_data(type, size);
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	return (((void *) block) + BLOCK_SIZE);
 }
