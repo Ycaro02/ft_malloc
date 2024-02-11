@@ -69,10 +69,8 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 static void *get_block_addr(void *ptr, size_t size)
 {
 	t_page *data = g_data;
-
-	// if (!ptr) /* already checked in realloc */
-		// return (NULL);
 	t_page *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
+
 	if (test != ptr)
 		return (test);
 	while(data && data->next)
@@ -85,8 +83,10 @@ static void *get_block_addr(void *ptr, size_t size)
 	return (ptr);
 }
 
-// If ptr is NULL, then the call is equivalent to malloc(size)
-// If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr)
+/**
+ * 	@brief -If ptr is NULL, then the call is equivalent to malloc(size)
+ *	-If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr) 
+*/
 void *realloc(void *ptr, size_t size)
 {
 	// ft_printf_fd(1, "my realloc called\n");
