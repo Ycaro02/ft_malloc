@@ -9,7 +9,7 @@ t_page *g_data = NULL;
  *  @param e_type type: type of searched page
  *	@return TRUE if any pre allocate page of this type exist otherwise FALSE
 */
-static int8_t check_preallocate_page(e_type type)
+static int8_t check_preallocated_page(e_type type)
 {
 	t_page *data = g_data;
 	while (data)
@@ -29,14 +29,14 @@ static int8_t first_page_allocation(e_type type)
 {
 	t_page *page;
 
-	if (type == TINY && check_preallocate_page(type) == FALSE) {
+	if (type == TINY && check_preallocated_page(type) == FALSE) {
 		page = alloc_first_page(TINY, TINY_SIZE, TINY_PAGE_SIZE);
 		if (!page) {
 			return (FALSE);
 		}
 		// ft_printf_fd(1, "\n%sINIT First Tiny page%s\n", RED, RESET);
 		page_add_back(&g_data, page);
-	} else if (type == SMALL && check_preallocate_page(type) == FALSE) {
+	} else if (type == SMALL && check_preallocated_page(type) == FALSE) {
 		page = alloc_first_page(SMALL, SMALL_SIZE, SMALL_PAGE_SIZE);
 		if (!page) {
 			return (FALSE);

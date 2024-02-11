@@ -5,6 +5,7 @@
 void display_line(char *str, char to_display)
 {
 	int nb = 35 - ft_strlen(str);
+	
 	for (int i = 0; i < 15; i++)
 			write(1, &to_display, 1);
 	if (str)
@@ -18,6 +19,7 @@ void display_line(char *str, char to_display)
 size_t get_align_by_type(e_type type)
 {
     int align = ALIGN_VALUE;
+
     if (!(type & LARGE)) 
         type & TINY ? (align = TINY_SIZE) : (align = SMALL_SIZE);
     return (align);
@@ -27,8 +29,8 @@ size_t get_align_by_type(e_type type)
 int get_lst_block_len(t_block *lst)
 {
 	int len = 0;
-	while (lst)
-	{
+
+	while (lst) {
 		lst = lst->next;
 		len++;
 	}

@@ -3,17 +3,17 @@
 /** @brief Exec realloc function, alloc new space with malloc call and copy old data **/
 static void *exec_realloc(t_block *block, size_t size)
 {
-	size_t i = 0, block_size = block->size;;
-	char *content = (char *)((void *)block + BLOCK_SIZE);
-	char *new_ptr = malloc(block->size + size);
+	size_t	i = 0, block_size = block->size;;
+	char 	*content = (char *)((void *)block + BLOCK_SIZE), *new_ptr = malloc(block->size + size);
 	
-	if (!new_ptr)
+	if (!new_ptr) {
 		return (NULL);
+	}
 	while (i < block_size) {
 		new_ptr[i] = content[i];
 		i++;
 	}
-	return ((void *)new_ptr);
+	return ((void *) new_ptr);
 }
 
 /** @brief Check data type and empty space in page to know if realloc is needed **/
@@ -39,7 +39,7 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 			if (need_realloc(current, block, size) == TRUE) {
 				ptr = exec_realloc(block, size);
 				free_meta_block(block, current);
-				if (page_empty(current)== TRUE) {
+				if (page_empty(current)== TRUE) { /* if page empty */
 					prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 					free_page(current);
 				}

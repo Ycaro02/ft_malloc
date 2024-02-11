@@ -72,7 +72,7 @@ static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 
 /** @brief Try to free given ptr, call try free on all page
  * 	@return FALSE if ptr is invalid TRUE for sucess free*/
-static int start_free(void *ptr)
+static int call_free(void *ptr)
 {
 	int 	ret = 1;
 	t_page	*data = g_data;
@@ -103,7 +103,7 @@ void free(void *ptr)
 		ft_printf_fd(1, "%sTry to free NULL%s\n", RED, RESET);
 		return ;
 	}
-	else if (start_free(ptr) == FALSE) {
+	else if (call_free(ptr) == FALSE) {
 		ft_printf_fd(1, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
 		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
