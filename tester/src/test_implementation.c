@@ -127,7 +127,7 @@ int test4(char *version)
 
     char *str = NULL;
     free(str);
-    // free((void *)addr + 5);
+    free((void *)addr + 5);
     if (realloc((void *)addr + 5, 10) == NULL) {
         print("Bonjours\n");
     }

@@ -84,6 +84,7 @@ test :		${NAME}
 testv :		${NAME}
 			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
 			@valgrind ${REPLACE_MALLOC_LIB} ${HELGRIND} ./${TEST}
+			@valgrind ${HELGRIND} ./${TEST}
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"
