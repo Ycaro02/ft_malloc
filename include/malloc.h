@@ -51,19 +51,14 @@
 /* Aligne value for large block to check */
 # define ALIGN_VALUE        64
 
-/** e_type enum to represent different block with power of 2 */
+/** e_type enum to represent different block with power of 2, store status of env var or special page too  */
 enum e__type {
     TINY=1,
     SMALL=2,
     LARGE=4,
-    PRE_ALLOCATE=8,
-};
-
-/** e_event enum used in free function to know what to do ? */
-enum e__event {
-    NONE,
-    FREE_ALL,
-    PARTIAL_FREE,
+    PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
+    SAVE_MALLOC_CALL=16,    /*  Save malloc call if env variable is enable */
+    DEBUG_ALLOC_FLAG=32,    /*  Create output file with alloc data: size, trace leaks, unitialised data  ... */
 };
 
 enum e_free_status {
@@ -72,34 +67,33 @@ enum e_free_status {
     BLOCK_NOT_FOUND,
 };
 
+typedef enum e__type    e_type;
+
 /*
     block->size :ALIGNED(size of block require by user + sizeof(t_block))
     block->next : pointer to next block struct
     when free block dont't remove node, just block->size = -1 and check it for refill
 */
 typedef struct s_block {
-    size_t          size;
-    struct s_block *next;
+    size_t          size;   /* size of desired/wanted data by user */
+    struct s_block *next;   /* pointer on next block */
 }   t_block;
 
 /*
-    page->type : type of page allocate TINY, SMALL, LARGE
-    page->size : ALIGNED(size of total page)
+    
+    page->size :
     page->size_free : size of page free in bytes
     page->block : pointer of linked list block of same type 
     page->next : pointer to next page struct
 */
 
 typedef struct s_page {
-    char            type;
-    size_t          size;
-    size_t          size_free;
-    struct s_block  *block;
-    struct s_page   *next;
+    e_type          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
+    size_t          size;       /* size of total page, multiple of get_page_size */
+    size_t          size_free;  /* size free in bytes*/
+    struct s_block  *block;     /* t_block linked list */
+    struct s_page   *next;      /* pointer on next page */
 }   t_page;
-
-typedef enum e__type    e_type;
-typedef enum e__event   e_event;
 
 /* Global pointer on linked list of page*/
 extern t_page *g_data;

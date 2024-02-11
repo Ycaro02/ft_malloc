@@ -49,6 +49,49 @@ static int8_t first_page_allocation(e_type type)
 	return (TRUE);
 }
 
+/* @brief check env variable to know is we need to build debug data */
+/*
+	- We need to check env variable and set type in consequences
+		
+		* 	just do a get flag function who check g_data->type, 
+			for this we need to create pre allocated page with debug flag in first ;
+	
+	- Page size are easy to compute, but we need to save all page allocation ( mmap call )in init_page,
+	for example large page is very versatile, store munmap call too.
+	
+		- create file with expected name, just need to store the fd
+		- each important call format and write data in fd
+	Malloc:
+		- block type
+		- nb bytes expected
+		- nb bytes reserved (aligned or tiny/small size)
+		- page pointer
+			- page status (already allocated or new allocation)
+		- block pointer
+		- data pointer
+		- allocation status
+	Realloc:
+		- valid pointer
+			- old block/data pointer
+			- old size
+		- new bytes expected
+		- new total bytes expected
+		- new total bytes reserved 
+		- page pointer
+			- page status (already allocated or new allocation)
+		- block pointer
+		- data pointer
+		- allocation status
+	Free:
+		- valid pointer
+			- old block/data pointer
+			- old size
+
+void start_call_malloc()
+{
+	char *test = getenv("");
+}
+*/
 /** @brief The malloc() function allocates “size” bytes of memory and returns a pointer to the
  *	allocated memory
  * 	@param size_t size: size of desired allocation in bytes
