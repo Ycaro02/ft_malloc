@@ -79,13 +79,12 @@ typedef struct s_block {
     struct s_block *next;
 }   t_block;
 
-
 /*
-    data->type : type of page allocate TINY, SMALL, LARGE
-    data->size : ALIGNED(size of total page)
-    data->size_free : size of data free in bytes
-    data->block : pointer of linked list block of same type 
-    data->next : pointer to next data struct
+    page->type : type of page allocate TINY, SMALL, LARGE
+    page->size : ALIGNED(size of total page)
+    page->size_free : size of page free in bytes
+    page->block : pointer of linked list block of same type 
+    page->next : pointer to next page struct
 */
 
 typedef struct s_page {
@@ -97,7 +96,6 @@ typedef struct s_page {
 }   t_page;
 
 typedef enum e__type    e_type;
-typedef enum e__bool    e_bool;
 typedef enum e__event   e_event;
 
 /* Global pointer on linked list of page*/

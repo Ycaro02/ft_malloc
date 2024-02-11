@@ -4,11 +4,15 @@
 static void *exec_realloc(t_block *block, size_t size)
 {
 	size_t	i = 0, block_size = block->size;;
-	char 	*content = (char *)((void *)block + BLOCK_SIZE), *new_ptr = malloc(block->size + size);
+	char 	*content = (char *)((void *)block + BLOCK_SIZE), *new_ptr = NULL;
+	
+	pthread_mutex_unlock(&g_libft_malloc_mutex); /* unlock before malloc call */
+	new_ptr = malloc(block->size + size);
 	
 	if (!new_ptr) {
 		return (NULL);
 	}
+	/* memcpy instead ?? */
 	while (i < block_size) {
 		new_ptr[i] = content[i];
 		i++;
@@ -90,17 +94,29 @@ static void *get_block_addr(void *ptr, size_t size)
 void *realloc(void *ptr, size_t size)
 {
 	// ft_printf_fd(1, "my realloc called\n");
-	if (!ptr)
+	void *new_ptr = NULL;
+	pthread_mutex_lock(&g_libft_malloc_mutex);
+
+	if (!ptr) {
+		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (malloc(size));
-	if (size == 0) {
+	}
+	else if (size == 0) {
+		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		free(ptr);
 		return (NULL);
 	}
-	void *new_ptr = get_block_addr(ptr, size);
-	if (!new_ptr) {
-		ft_printf_fd(2, "get block addr return NULL\n");
-		return (NULL);
+	else {
+		new_ptr = get_block_addr(ptr, size);
+		// ft_printf_fd(1, "ptr null\n");
+		if (!new_ptr) {
+			ft_printf_fd(2, "get block addr return NULL\n");
+			// pthread_mutex_unlock(&g_libft_malloc_mutex);
+			// return (NULL);
+		}
 	}
+
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	return (new_ptr);
 }
 

@@ -99,13 +99,16 @@ static int call_free(void *ptr)
 void free(void *ptr)
 {
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
+	pthread_mutex_lock(&g_libft_malloc_mutex);
 	if (!ptr) {
 		ft_printf_fd(2, "%sCall free NULL%s\n", RED, RESET);
+		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return ;
 	}
 	else if (call_free(ptr) == FALSE) {
 		ft_printf_fd(2, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
+	}
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
 		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
-	}
 }

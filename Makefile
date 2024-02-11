@@ -48,6 +48,8 @@ LIBFT	= libft/libft.a
 # Replace malloc lib for valgrind read check
 REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NAME}"
 
+HELGRIND = "--tool=helgrind"
+
 TEST	=	main_test
 
 MAIN	= 	tester/src/main_test.c
@@ -81,7 +83,7 @@ test :		${NAME}
 
 testv :		${NAME}
 			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
-			@valgrind ${REPLACE_MALLOC_LIB} ./${TEST}
+			@valgrind ${REPLACE_MALLOC_LIB} ${HELGRIND} ./${TEST}
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"

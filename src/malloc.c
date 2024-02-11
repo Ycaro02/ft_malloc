@@ -5,6 +5,7 @@
 */
 t_page			*g_data = NULL;
 pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+// pthread_mutex_t	g_libft_malloc_mutex;
 
 
 /**	@brief Check for pre allocated page for TINY and SMALL block
@@ -14,8 +15,7 @@ pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
 static int8_t check_preallocated_page(e_type type)
 {
 	t_page *data = g_data;
-	while (data)
-	{
+	while (data) {
 		if (data->type & type && data->type & PRE_ALLOCATE)
 			return (TRUE);
 		data = data->next;
