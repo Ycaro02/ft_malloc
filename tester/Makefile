@@ -21,7 +21,9 @@ LAST_TEST=test5
 
 TEST=./test.sh
 
-COMPILE_LIB=./check_lib.sh 
+COMPILE_LIB=./check_lib.sh
+
+TEST5=test5
 
 all:	${NAME}
 
@@ -35,6 +37,14 @@ test:	${NAME}
 		./${NAME} ${MAX_FLAG}
 # ./${REAL_TEST} ${MAX_FLAG}
 
+# flag for test:
+# test0 	--> 1
+# test1 	--> 2
+# test2 	--> 4
+# test3		--> 8
+# test3_bis --> 16
+# test4 	--> 32
+
 test0:	${NAME}
 		${TEST} 1 1
 
@@ -45,16 +55,18 @@ test2:	${NAME}
 		${TEST} 4 4
 
 test3:	${NAME}
-		${TEST} 8 8
+		./${NAME} 8
+# ${TEST} 8 8
 
 test3b:	${NAME}
-		${TEST} 16 16
+		./${NAME} 16
+# ${TEST} 16 16
 
 test4:	${NAME}
 		${TEST} 32 32
 
-test5:	${NAME}
-		@gcc src/test5.c ../libft_malloc.so -o test5 2> /dev/null && echo test5: && ./${LAST_TEST}
+${TEST5}:	${NAME}
+		@gcc src/${TEST5}.c ../libft_malloc.so -o ${TEST5} 2> /dev/null && echo ${TEST5}: && ./${LAST_TEST}
 
 clean:
 		@rm -rf ${NAME} ${REAL_TEST} ${LAST_TEST}

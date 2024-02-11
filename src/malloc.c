@@ -34,14 +34,14 @@ static int8_t first_page_allocation(e_type type)
 		if (!page) {
 			return (FALSE);
 		}
-		ft_printf_fd(1, "\n%sINIT First Tiny page%s\n", RED, RESET);
+		// ft_printf_fd(1, "\n%sINIT First Tiny page%s\n", RED, RESET);
 		data_add_back(&g_data, page);
 	} else if (type == SMALL && check_preallocate_page(type) == FALSE) {
 		page = alloc_first_page(SMALL, SMALL_SIZE, SMALL_PAGE_SIZE);
 		if (!page) {
 			return (FALSE);
 		}		
-		ft_printf_fd(1, "\n%sINIT First Small page%s\n", RED, RESET);
+		// ft_printf_fd(1, "\n%sINIT First Small page%s\n", RED, RESET);
 		data_add_back(&g_data, page);
 	}
 	return (TRUE);

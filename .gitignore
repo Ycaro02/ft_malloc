@@ -3,3 +3,4 @@
 *.so
 tester/libft_malloc_test
 tester/malloc_test
+tester/test5

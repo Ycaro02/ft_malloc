@@ -22,14 +22,10 @@ SRCS	=	src/malloc.c 						\
 			src/realloc.c						\
 			src/free.c
 
-MAIN	= 	tester/main_test.c
 
 LIBFT	= 	libft/libft.a
 
 LIB_LIST =	libft/list/linked_list.a
-
-TEST	=	main_test
-
 
 OBJS = $(SRCS:.c=.o)
 
@@ -50,6 +46,15 @@ LIBFT	= libft/libft.a
 # Replace malloc lib for valgrind read check
 REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NANE}"
 
+TEST	=	main_test
+
+MAIN	= 	tester/main_test.c
+
+CALL_TESTER="make -s -C tester"
+
+
+
+
 all:		${NAME}
 
 %.o : %.c
@@ -66,9 +71,14 @@ ${NAME}:	$(OBJS)
 			@ln -sf ${NAME} ${LINK_NAME}
 
 test :		${NAME}
-			@make -s -C tester test
-# @${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
-# @./${TEST}
+			@"${CALL_TESTER}" test0
+			@"${CALL_TESTER}" test1
+			@"${CALL_TESTER}" test2
+			@"${CALL_TESTER}" test3
+			@"${CALL_TESTER}" test3b
+			@"${CALL_TESTER}" test4
+			@"${CALL_TESTER}" test5
+			@"${CALL_TESTER}" fclean
 
 testv :		${NAME}
 			@${CC} ${CFLAGS} -o ${TEST} ${SRCS} ${MAIN} ${LIBFT} ${LIB_LIST}
@@ -79,14 +89,14 @@ clean:
 			@${RM} ${OBJS}
 			@make -s -C libft clean
 			@make -s -C libft/list clean
-			@make -s -C tester clean
+			@"${CALL_TESTER}" clean
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
 
 fclean:		clean
 			@make -s -C libft fclean
 			@make -s -C libft/list fclean
-			@make -s -C tester fclean
+			@"${CALL_TESTER}" fclean
 			@${RM} ${NAME} ${LINK_NAME}
 			@${RM} ${TEST}
 

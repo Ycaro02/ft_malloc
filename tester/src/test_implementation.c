@@ -123,7 +123,7 @@ int test4(char *version)
     prints(YELLOW, "Test 4 for : ", version, RESET);
     addr = malloc(16);
     // free(NULL);
-    prints(RED"Try to give NULL ptr to free for", version, "\n", RESET);
+    // prints(RED"Try to give NULL ptr to free for", version, "\n", RESET);
 
     char *str = NULL;
     free(str);

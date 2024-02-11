@@ -9,7 +9,6 @@ CYAN="\e[36m"
 RESET="\e[0m"
 
 
-
 # Set the appropriate value to the time command
 TIME="/usr/bin/time"
 
@@ -30,20 +29,19 @@ NULL="/dev/null"
 make -s -C .. > ${NULL}
 mkdir -p .tmp
 
-echo -e "${GREEN}${REAL_TEST} ${1} ${RESET}"
 "${TIME}" -v ./${REAL_TEST} ${1} 2> .tmp/out_real${1}
-
-echo -e "${CYAN}${LIBFT_TEST} ${2} ${RESET}"
 "${TIME}" -v ./${LIBFT_TEST} ${2} 2> .tmp/out_libft${2}
 
-
-echo -e "${RED}Diff ${RESET}"
-diff .tmp/out_real${1} .tmp/out_libft${2} 2> .tmp/diff_out
-cat .tmp/diff_out
+# echo -e "${RED}Diff ${RESET}"
+# diff .tmp/out_real${1} .tmp/out_libft${2} 2> .tmp/diff_out
+# cat .tmp/diff_out
 
 echo -e "${GREEN}Page for real malloc  :${RESET}"
-cat .tmp/out_real${1} | grep Minor
-echo -e "${CYAN}Page for libft malloc :${RESET}"
-cat .tmp/out_libft${2} | grep Minor
+REAL_MALLOC_PAGE=$(cat .tmp/out_real${1} | grep Minor | rev | cut -d ' ' -f 1  | rev)
+echo -e "${REAL_MALLOC_PAGE}"
 
-rm -rf .tmp
+echo -e "${CYAN}Page for libft malloc :${RESET}"
+LIB_MALLOC_PAGE=$(cat .tmp/out_libft${2} | grep Minor | rev | cut -d ' ' -f 1  | rev)
+echo -e "${LIB_MALLOC_PAGE}"
+
+rm -rf .tmp 
