@@ -16,7 +16,7 @@ static size_t print_bloc(t_page *data)
 	t_block *block = data->block;
 	while (block)
 	{
-		void *ptr = (void *)data->block + BLOCK_SIZE;
+		void *ptr = (void *)block + BLOCK_SIZE;
 		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
 		ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
 		total += ptr + block->size - ptr;

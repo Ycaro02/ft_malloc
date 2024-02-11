@@ -1,42 +1,21 @@
 #include "../include/malloc.h"
 
-/** @brief refill block with the accordate size
- * 	@param t_block *lst, pointer on blocks lst
- * 	@param int pos, position of target block in lst
- *  @param size_t size, size of block in bytes
- * 	@return pointer on refilled blocks
-*/
-static t_block* refill_block(t_block* lst, int pos, size_t size)
-{
-	t_block *tmp = lst;
-    int 	i = 0;
-
-    while(tmp) {
-        if (i == pos) {
-            tmp->size = size;
-			break ;
-		}
-        i++;
-        tmp = tmp->next;
-    }
-    return (tmp);
-}
-
-
 /** @brief check for find empty block in lst_block
  * 	@param t_block *lst_block, pointer on blocks lst
  * 	@return int position of empty block, -1 for nothing found
 */
-static int check_for_free_node(t_block* lst_block)
+static t_block *mark_empty_block(t_block* lst_block, size_t size)
 {
     int pos = 0;
     while(lst_block) {
-        if (lst_block->size == 0)
-            return (pos);
+        if (lst_block->size == 0) {
+			lst_block->size = size;
+            return (lst_block);
+		}
 		pos++;
         lst_block = lst_block->next;
     }
-    return (-1);
+    return (NULL);
 }
 
 /** @brief add_block, try to add block to existent lst_block in data page, first check for space in data page,
@@ -53,9 +32,8 @@ static t_block *add_block(t_page *data, int pos, size_t size, t_block *new, t_bl
 	size_t align = get_align_by_type(data->type); 	/* get aligned size for allocation */
 	/* if space free in page >= block size metadata + aligned_size || if this size <= space free in page */
 	if (data->size_free >= (align + BLOCK_SIZE)) {
-		pos = check_for_free_node(data->block);		/*  check for freed block and return his index */
-		if (pos != -1) {
-			new = refill_block(data->block, pos, size); 	/* mark the block to busy and return his adress */
+		new = mark_empty_block(data->block, size);
+		if (new) {
 			data->size_free -= (align + BLOCK_SIZE);
 			return (new);
 		}

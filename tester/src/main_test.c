@@ -14,32 +14,79 @@
 // 	}
 // }
 
-// void free_test()
-// {
-// 	char *test[10];
-// 	char *large = malloc(4000);
-// 	for (int j = 0; j < 4000; j++)
-// 		large[j] = 'b';
-// 	for (int i = 0; i < 6; i++)
-// 	{
-// 		test[i] = malloc(50 * i + 50);
-// 		for (int j = 0; j < 100; j++)
-// 			test[i][j] = 'o';
-// 	}
-// 	display_line(NULL, '-');
-// 	display_line("before free", '-');
-// 	show_alloc_mem();
-// 	free(test[0]);
-// 	free(test[1]);
-// 	display_line("after free test[0/1] ", '-');
-// 	show_alloc_mem();
-// 	for (int i = 2; i < 6; i++)
-// 		free(test[i]);
-// 	free(large);
-// 	display_line("after free all", '-');
-// 	show_alloc_mem();
+void free_test()
+{
+	char *test[10];
+	char *large = malloc(4000);
+	for (int j = 0; j < 4000; j++)
+		large[j] = 'b';
+	for (int i = 0; i < 6; i++)
+	{
+		test[i] = malloc(50 * i + 50);
+		for (int j = 0; j < 100; j++)
+			test[i][j] = 'o';
+	}
+	display_line(NULL, '-');
+	display_line("before free", '-');
+	show_alloc_mem();
+	free(test[0]);
+	free(test[1]);
+	display_line("after free test[0/1] ", '-');
+	show_alloc_mem();
+	for (int i = 2; i < 6; i++)
+		free(test[i]);
+	free(large);
+	display_line("after free all", '-');
+	show_alloc_mem();
 
-// }
+}
+
+
+void basic_alloc_free_test()
+{
+	char *test[10];
+	char *large = malloc(4000);
+	for (int j = 0; j < 4000; j++)
+		large[j] = 'b';
+	for (int i = 0; i < 6; i++)
+	{
+		test[i] = malloc(50 * i + 50);
+		for (int j = 0; j < 100; j++)
+			test[i][j] = 'o';
+	}
+	display_line(NULL, '-');
+	display_line("initial data", '-');
+	show_alloc_mem();
+	display_line("Free first tiny", '-');
+	free(test[0]);
+	show_alloc_mem();
+	display_line("Realloc it", '-');
+	char *a = malloc(12);
+	a[0] = 'c';
+	show_alloc_mem();
+}
+
+void alloc_free_test()
+{
+	basic_alloc_free_test();
+	char **tiny = malloc(10);
+	for (int i = 0; i < 10; ++i) {
+		tiny[i] = malloc(3);
+		tiny[i][0] = 'k';
+	}
+	display_line("New data", '-');
+	show_alloc_mem();
+	display_line("Free 3 elem", '-');
+	free(tiny[1]);
+	free(tiny[5]);
+	free(tiny[8]);
+	show_alloc_mem();
+	display_line("Realloc it with 42 size", '-');
+	tiny[1] = malloc(42);
+	tiny[5] = malloc(42);
+	tiny[8] = malloc(42);
+	show_alloc_mem();
+}
 
 void realloc_test()
 {
@@ -84,6 +131,11 @@ void realloc_test()
 
 int main(void)
 {
-	realloc_test();
+	// realloc_test();
+	// free_test();
+	alloc_free_test();
+	free_meta_data();
+	display_line("Free all", '-');
+	show_alloc_mem();
 	return (0);
 }
