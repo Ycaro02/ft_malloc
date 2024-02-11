@@ -36,10 +36,11 @@ size_t get_page_size(e_type type, size_t size)
 
 /** @brief	Init page with mmmap call 
  *	@param	e_type enum represent the type of desired block
- *	@param	size_t size: size of desired page allocation in bytes
+ *	@param	size_t size: size of desired block allocation in bytes
+ *	@param	e_type pre_aloc: PRE_ACLLOCATE flag for pre allocated page else 0
  *	@return pointer on allocated t_page struct, the first address return by mmap 
 */
-static t_page *init_page(e_type type, size_t size)
+t_page *init_page(e_type type, size_t size, e_type pre_aloc)
 {
 	t_page *data = NULL;
 	size_t page_size = 0;
@@ -50,32 +51,9 @@ static t_page *init_page(e_type type, size_t size)
 		ft_printf_fd(2, "mmap call failed check erno for details\n");
 		return (NULL);
 	}
-	data->type = type;
+	data->type = (type | pre_aloc);
 	data->size = page_size;
 	data->block = init_block(data->block, size, 0, data);
-	data->size_free = page_size - (data->block->size + DATA_SIZE);
-	data->next = NULL;
-	return (data);
-}
-
-/** @brief	Init first pre allocate page with mmmap call 
- *	@param	e_type enum represent the type of desired block
- *	@param	size_t size: size of desired page allocation in bytes
- *	@return pointer on allocated t_page struct, the first address return by mmap 
-*/
-t_page *alloc_first_page(e_type type, size_t block_size, size_t page_size)
-{
-	t_page *data;
-
-	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (data == MAP_FAILED) {
-		ft_printf_fd(2, "mmap call failed check erno for details\n");
-		return (NULL);
-	}
-	data->type = (type | PRE_ALLOCATE);
-	data->size = page_size;
-	(void)block_size; /* no mandatory just need to give 0 to init block call */
-	data->block = init_block(data->block, 0, 0, data);
 	data->size_free = page_size - (data->block->size + DATA_SIZE);
 	data->next = NULL;
 	return (data);
@@ -98,7 +76,7 @@ t_block *init_data(e_type type, size_t size)
 		if (block)
 			return (block);
 	}
-	data = init_page(type, size);
+	data = init_page(type, size, 0);
 	page_add_back(&g_data, data);
 	return (data->block);
 }

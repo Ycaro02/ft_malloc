@@ -76,7 +76,9 @@
         "new": "c",
         "ostream": "c",
         "streambuf": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "mcheck.h": "c",
+        "stubs.h": "c"
     },
 
     "highlight.regexes": {
