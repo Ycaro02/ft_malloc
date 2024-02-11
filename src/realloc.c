@@ -98,16 +98,11 @@ static void *get_block_addr(void *ptr, size_t size)
 */
 void *realloc(void *ptr, size_t size)
 {
-	// ft_printf_fd(1, "my realloc called\n");
 	void *new_ptr = NULL;
-	// pthread_mutex_lock(&g_libft_malloc_mutex);
-
 	if (!ptr) {
-		// pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (malloc(size)); /* thread safe in malloc */
 	} 
 	else if (size == 0) {
-		// pthread_mutex_unlock(&g_libft_malloc_mutex);
 		free(ptr); /* thread safe in free */
 		return (NULL);
 	}
