@@ -1,1 +1,5 @@
 *.o
+*.a
+*.so
+tester/libft_malloc_test
+tester/malloc_test
