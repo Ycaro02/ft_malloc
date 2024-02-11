@@ -1,11 +1,12 @@
 #ifndef FT_MALLOC_H
 # define FT_MALLOC_H
 
-#include <unistd.h>
-#include <stddef.h> 
-#include <sys/mman.h> //mmap
-#include "../libft/libft.h"
-#include "../libft/list/linked_list.h"
+# include <unistd.h>    /* write */
+# include <stddef.h>    /* NULL */
+# include <sys/mman.h>  /* mmap */
+# include <pthread.h>   /* mutex */
+# include "../libft/libft.h"
+# include "../libft/list/linked_list.h" /* maybe not mandatory, to check */
 
 /* Return of getpagesize function casted in size_t */
 # define PAGE_SIZE              (size_t)getpagesize()
@@ -78,13 +79,12 @@ typedef struct s_block {
     struct s_block *next;
 }   t_block;
 
-
 /*
-    data->type : type of page allocate TINY, SMALL, LARGE
-    data->size : ALIGNED(size of total page)
-    data->size_free : size of data free in bytes
-    data->block : pointer of linked list block of same type 
-    data->next : pointer to next data struct
+    page->type : type of page allocate TINY, SMALL, LARGE
+    page->size : ALIGNED(size of total page)
+    page->size_free : size of page free in bytes
+    page->block : pointer of linked list block of same type 
+    page->next : pointer to next page struct
 */
 
 typedef struct s_page {
@@ -96,11 +96,12 @@ typedef struct s_page {
 }   t_page;
 
 typedef enum e__type    e_type;
-typedef enum e__bool    e_bool;
 typedef enum e__event   e_event;
 
 /* Global pointer on linked list of page*/
 extern t_page *g_data;
+
+extern pthread_mutex_t g_libft_malloc_mutex;
 
 //show_alloc_mem.c
 void    show_alloc_mem();

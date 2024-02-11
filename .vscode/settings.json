@@ -75,7 +75,8 @@
         "iosfwd": "c",
         "new": "c",
         "ostream": "c",
-        "streambuf": "c"
+        "streambuf": "c",
+        "pthread.h": "c"
     },
 
     "highlight.regexes": {
