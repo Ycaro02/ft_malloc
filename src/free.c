@@ -95,7 +95,9 @@ static int call_free(void *ptr)
 	return (FALSE);
 }
 
-/* @brief mandatory free implementation need to paste def here */
+/* @brief The free() function deallocates the memory allocation pointed to by “ptr”. If “ptr”is
+ *	a NULL pointer, no operation is performed.
+ */
 void free(void *ptr)
 {
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);

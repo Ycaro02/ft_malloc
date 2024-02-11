@@ -49,7 +49,8 @@ static int8_t first_page_allocation(e_type type)
 	return (TRUE);
 }
 
-/** @brief Malloc main function first call init pages for TINY and SMALL blocks
+/** @brief The malloc() function allocates “size” bytes of memory and returns a pointer to the
+ *	allocated memory
  * 	@param size_t size: size of desired allocation in bytes
  *	@return Pointer to allocate block, NULL for invalid size ( <= 0) 
 */

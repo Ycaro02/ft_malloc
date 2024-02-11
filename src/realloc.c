@@ -89,31 +89,33 @@ static void *get_block_addr(void *ptr, size_t size)
 }
 
 /**
- * 	@brief -If ptr is NULL, then the call is equivalent to malloc(size)
+ * 	The realloc() function tries to change the size of the allocation pointed to by “ptr”
+ *	to “size”, and returns “ptr”. If there is not enough room to enlarge the memory
+ *	allocation pointed to by ptr, realloc() creates a new allocation, copies as much of
+ *	the old data pointed to by “ptr” as will fit to the new allocation, frees the old
+ *	allocation, and returns a pointer to the allocated memory.
  *	-If size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr) 
 */
 void *realloc(void *ptr, size_t size)
 {
 	// ft_printf_fd(1, "my realloc called\n");
 	void *new_ptr = NULL;
-	pthread_mutex_lock(&g_libft_malloc_mutex);
+	// pthread_mutex_lock(&g_libft_malloc_mutex);
 
 	if (!ptr) {
-		pthread_mutex_unlock(&g_libft_malloc_mutex);
-		return (malloc(size));
+		// pthread_mutex_unlock(&g_libft_malloc_mutex);
+		return (malloc(size)); /* thread safe in malloc */
 	} 
 	else if (size == 0) {
-		pthread_mutex_unlock(&g_libft_malloc_mutex);
-		free(ptr);
+		// pthread_mutex_unlock(&g_libft_malloc_mutex);
+		free(ptr); /* thread safe in free */
 		return (NULL);
 	}
-	else {
-		new_ptr = get_block_addr(ptr, size);
-		if (!new_ptr) {
-			ft_printf_fd(2, RED"Realloc invalid pointer %p\n"RESET,ptr);
-		}
+	pthread_mutex_lock(&g_libft_malloc_mutex);
+	new_ptr = get_block_addr(ptr, size);
+	if (!new_ptr) {
+		ft_printf_fd(2, RED"Realloc invalid pointer %p\n"RESET,ptr);
 	}
-
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	return (new_ptr);
 }

@@ -100,25 +100,20 @@ typedef enum e__event   e_event;
 
 /* Global pointer on linked list of page*/
 extern t_page *g_data;
-
+/* Global mutex to be thread safe */
 extern pthread_mutex_t g_libft_malloc_mutex;
 
-//show_alloc_mem.c
+/* Library function */
 void    show_alloc_mem();
-
-// malloc.c
 void    *malloc(size_t size);
-
-// free.c
+void    *realloc(void *ptr, size_t size);
 void    free(void *ptr);
+
+//free.c
 void    free_meta_block(t_block* block, t_page *data);
 int8_t  page_empty(t_page *block);
 void    free_page(t_page *data);
-//
 void    free_meta_data();
-
-//realloc.c
-void    *realloc(void *ptr, size_t size);
 
 //page_gestion.c
 t_block *init_data(e_type type, size_t size);
@@ -154,6 +149,34 @@ void    block_add_back(t_block **lst, t_block *block);
     0xB0020 - 0xBBEEF : 48847 bytes
     Total : 52698 bytes
 */  
+
+/*
+Debugging
+Exemple de bonus:
+- Lors d'un free, le projet "défragmente" la mémoire libre en regroupant les blocs libres concomitants en un seul
+- Malloc possède des variables d'environnement de debug
+- Une fonction permet de faire un dump hexa des zones allouées
+The debug malloc library also uses these environment variables:
+
+ *  MALLOC_INITVERBOSE
+    	Enable some initial verbose output regarding other variables that are enabled.
+ *  MALLOC_BTDEPTH
+        The depth of the backtrace for allocations (i.e. where the allocation occurred) 
+        on CPUs that support deeper backtrace levels. Currently the builtin-return-address feature of gcc 
+        is used to implement deeper backtraces for the debug malloc library. The default value is 0.
+ *  MALLOC_TRACEBT
+        Set the depth of the backtrace for errors and warnings on CPUs that support deeper backtrace levels.
+        Currently the builtin-return-address feature of gcc is used to 
+        implement deeper backtraces for the debug malloc library. The default value is 0.
+ *  MALLOC_DUMP_LEAKS
+        Trigger leak detection on exit of the program.
+        The output of the leak detection is sent to the file named by this variable.
+ *  MALLOC_TRACE
+        Enable tracing of all calls to malloc(), free(), calloc(), realloc(), etc.
+        A trace of the various calls is store in the file named by this variable.
+ *  MALLOC_CKACCESS_LEVEL
+        Specify the level of checking performed by the MALLOC_CKACCESS option to mallopt().
+*/
 
 
 # endif /* FT_MALLOC_H */
