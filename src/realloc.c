@@ -17,7 +17,7 @@ static void *exec_realloc(t_block *block, size_t size)
 }
 
 /** @brief Check data type and empty space in page to know if realloc is needed **/
-static int need_realloc(t_data *data, t_block *block, size_t size)
+static int need_realloc(t_page *data, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
@@ -32,7 +32,7 @@ static int need_realloc(t_data *data, t_block *block, size_t size)
 
 // ft_printf_fd(1, "MATCH for size = %U block = %p\n", size, block);
 
-static void *check_for_realloc_block(t_data *prev, t_data *current, t_block *block, void *ptr, size_t size)
+static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *block, void *ptr, size_t size)
 {
 	while (block) {
 		if (ptr == (void *)block + BLOCK_SIZE) {
@@ -56,11 +56,11 @@ static void *check_for_realloc_block(t_data *prev, t_data *current, t_block *blo
 
 static void *get_block_addr(void *ptr, size_t size)
 {
-	t_data *data = g_data;
+	t_page *data = g_data;
 
 	if (!ptr)
 		return (NULL);
-	t_data *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
+	t_page *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
 	if (test != ptr)
 		return (test);
 	while(data && data->next)

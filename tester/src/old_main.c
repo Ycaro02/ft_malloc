@@ -2,7 +2,7 @@
 #include <stdio.h>
 #define MAX 10000
 
-// t_data *g_data = NULL;
+// t_page *g_data = NULL;
 
 void basic_test(int max, int len)
 {

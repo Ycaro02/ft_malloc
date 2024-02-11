@@ -49,8 +49,8 @@ void print_define(void)
 /** @brief free block data ???  unused  */
 // void free_block()
 // {
-// 	t_data  *data = g_data;
-// 	t_data  *data_tmp;
+// 	t_page  *data = g_data;
+// 	t_page  *data_tmp;
 // 	while (data)
 // 	{
 // 		data_tmp = data->next;

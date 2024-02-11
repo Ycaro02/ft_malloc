@@ -1,9 +1,9 @@
 #include "../include/malloc.h"
 
 /** @brief	Display page function, iter on each block and display his information
- * 	@param	t_data *data, pointer on page to display
+ * 	@param	t_page *data, pointer on page to display
 */
-static size_t print_bloc(t_data *data)
+static size_t print_bloc(t_page *data)
 {
 	int total = 0;
 	if (data->type & TINY)
@@ -28,7 +28,7 @@ static size_t print_bloc(t_data *data)
 /** @brief Mandatory function show allocated memory blocks/pages */
 void show_alloc_mem()
 {
-	t_data *tmp = g_data;
+	t_page *tmp = g_data;
 	size_t total = 0;
 
 	display_line(NULL, '-');
