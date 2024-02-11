@@ -14,7 +14,7 @@ void free_meta_data()
 /* @brief munmap call */
 void free_page(t_data *data) { munmap(data, data->size); }
 
-/* @brief check for empty page (all block size == 0) */
+/* @brief check for empty page (all block size == 0) and not pre allocated page */
 int8_t page_empty(t_data *data)
 {
 	t_block *block;
@@ -30,6 +30,7 @@ int8_t page_empty(t_data *data)
 	return(TRUE);
 }
 
+/* @brief free block, don' t call munmap just set block to freed and substrack his size to page */
 void free_meta_block(t_block* block, t_data *data)
 {
 	if (!(data->type & LARGE)) {
@@ -39,10 +40,12 @@ void free_meta_block(t_block* block, t_data *data)
 	block->size = 0;
 }
 
+/* @brief loop on lst_block to find given ptr and call free_meta_block */
 static int check_for_free_page(t_data *prev, t_data *current, t_block *block, void *ptr)
 {
 	while (block)
 	{
+		/* if (ptr - BLOCK_SIZE == (void *)block) is the same */
 		if (ptr == (void *)block + BLOCK_SIZE)
 		{
 			if (block->size == 0)
@@ -61,24 +64,21 @@ static int check_for_free_page(t_data *prev, t_data *current, t_block *block, vo
 	return(1);
 }
 
-// ft_printf_fd(2, "Size before , %u\n", block->size);
-// ft_printf_fd(2, "Size after , %u\n", block->size);
-// ft_printf_fd(2, "Free, %u\n", block->size);
-
+/** @brief try to free given ptr
+ * 	@return FALSE if ptr is invalid TRUE for sucess free*/
 static int try_free(void *ptr)
 {
-	t_data *data = g_data;
+	int 	ret = 1;
+	t_data	*data = g_data;
+
 	if (!data)
 		return (FALSE);
-	int ret = 1;
-
 	ret = check_for_free_page(NULL, data, data->block, ptr);
 	if (ret == 0)
 		return (TRUE);
 	else if (ret == -1)
 		return (FALSE);
-	while(data && data->next)
-	{
+	while(data && data->next) {
 		ret = check_for_free_page(data, data->next, data->next->block, ptr);
 		if (ret == 0)
 			return (TRUE);
@@ -89,6 +89,7 @@ static int try_free(void *ptr)
 	return (FALSE);
 }
 
+/* @brief mandatory free implementation need to paste def here */
 void free(void *ptr)
 {
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);

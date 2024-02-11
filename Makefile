@@ -52,9 +52,6 @@ MAIN	= 	tester/src/main_test.c
 
 CALL_TESTER="make -s -C tester"
 
-
-
-
 all:		${NAME}
 
 %.o : %.c
