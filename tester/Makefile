@@ -21,9 +21,12 @@ LAST_TEST=test5
 
 TEST=./test.sh
 
+COMPILE_LIB=./check_lib.sh 
+
 all:	${NAME}
 
 ${NAME}:
+		@${COMPILE_LIB}
 		@echo " \033[5;36m ----- Compiling malloc tester...  ----- \033[0m"
 		@gcc -D USE_LIBFT_MALLOC src/test_implementation.c ../libft_malloc.so -o ${NAME} 2> /dev/null
 		@gcc src/test_implementation.c -o ${REAL_TEST} 2> /dev/null

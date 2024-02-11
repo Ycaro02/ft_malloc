@@ -17,15 +17,15 @@ void free_page(t_data *data) { munmap(data, data->size); }
 /* @brief check for empty page (all block size == 0) */
 int8_t page_empty(t_data *data)
 {
-	t_block *block = data->block;
+	t_block *block;
+	if (data->type & PRE_ALLOCATE)
+		return (FALSE);
+
+	block = data->block;
 	while (block) {
 		if (block->size != 0)
 			return (FALSE);
 		block = block->next;
-		// if (block->size == 0)
-		// 	block = block->next;
-		// else 
-		// 	return (FALSE);
 	}
 	return(TRUE);
 }
@@ -49,7 +49,7 @@ static int check_for_free_page(t_data *prev, t_data *current, t_block *block, vo
 				return (-1);
 			free_meta_block(block, current);
 			/* if not pre allocate page and page is empty we can munmap */
-			if (!(current->type & PRE_ALLOCATE) && page_empty(current) == TRUE) {
+			if (page_empty(current) == TRUE) {
 				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 				free_page(current); /* munmap call */
 				// ft_printf_fd(2, "MUNMAP CALLED\n");
