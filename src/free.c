@@ -30,7 +30,7 @@ int8_t page_empty(t_data *data)
 	return(TRUE);
 }
 
-/* @brief free block, don' t call munmap just set block to freed and substrack his size to page */
+/* @brief free block, don't call munmap just set block to freed and substract his size to page */
 void free_meta_block(t_block* block, t_data *data)
 {
 	if (!(data->type & LARGE)) {
@@ -40,16 +40,22 @@ void free_meta_block(t_block* block, t_data *data)
 	block->size = 0;
 }
 
-/* @brief loop on lst_block to find given ptr and call free_meta_block */
-static int check_for_free_page(t_data *prev, t_data *current, t_block *block, void *ptr)
+/**	@brief loop on lst_block to find given ptr and call free_meta_block 
+ *	@param t_data *prev: pointer on previous page	
+ *	@param t_data *current: pointer on current page	
+ *	@param t_block *block: list of block in current page
+	@param void *ptr: pointer given by user, wanted to free him
+	@return: -1 for already freed block, 0 for OK block free, 1 for block not found
+*/
+static int try_free(t_data *prev, t_data *current, t_block *block, void *ptr)
 {
 	while (block)
 	{
-		/* if (ptr - BLOCK_SIZE == (void *)block) is the same */
+		/* if (ptr - BLOCK_SIZE == (void *)block) is the same, but prefer don't do operation on user input  */
 		if (ptr == (void *)block + BLOCK_SIZE)
 		{
 			if (block->size == 0)
-				return (-1);
+				return (BLOCK_ALREADY_FREE);
 			free_meta_block(block, current);
 			/* if not pre allocate page and page is empty we can munmap */
 			if (page_empty(current) == TRUE) {
@@ -57,32 +63,32 @@ static int check_for_free_page(t_data *prev, t_data *current, t_block *block, vo
 				free_page(current); /* munmap call */
 				// ft_printf_fd(2, "MUNMAP CALLED\n");
 			}
-			return (0);
+			return (BLOCK_FREE_SUCCESS);
 		}
 		block = block->next;
 	}
-	return(1);
+	return(BLOCK_NOT_FOUND);
 }
 
-/** @brief try to free given ptr
+/** @brief Try to free given ptr, call try free on all page
  * 	@return FALSE if ptr is invalid TRUE for sucess free*/
-static int try_free(void *ptr)
+static int start_free(void *ptr)
 {
 	int 	ret = 1;
 	t_data	*data = g_data;
 
 	if (!data)
 		return (FALSE);
-	ret = check_for_free_page(NULL, data, data->block, ptr);
-	if (ret == 0)
+	ret = try_free(NULL, data, data->block, ptr);
+	if (ret == BLOCK_FREE_SUCCESS)
 		return (TRUE);
-	else if (ret == -1)
+	else if (ret == BLOCK_ALREADY_FREE)
 		return (FALSE);
 	while(data && data->next) {
-		ret = check_for_free_page(data, data->next, data->next->block, ptr);
-		if (ret == 0)
+		ret = try_free(data, data->next, data->next->block, ptr);
+		if (ret == BLOCK_FREE_SUCCESS)
 			return (TRUE);
-		else if (ret == -1)
+		else if (ret == BLOCK_ALREADY_FREE)
 			return (FALSE);
 		data = data->next;
 	}
@@ -97,7 +103,7 @@ void free(void *ptr)
 		ft_printf_fd(1, "%sTry to free NULL%s\n", RED, RESET);
 		return ;
 	}
-	else if (try_free(ptr) == FALSE) {
+	else if (start_free(ptr) == FALSE) {
 		ft_printf_fd(1, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
 		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
