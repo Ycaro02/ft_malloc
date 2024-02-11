@@ -12,6 +12,7 @@
 
 NAME=libft_malloc_test
 
+# LD_LIBRARY_PATH=.
 # max test is TEST4 == 32 all combined dlaf = 64 - 1
 MAX_FLAG=63
 
