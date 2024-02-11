@@ -1,10 +1,13 @@
 #ifndef FT_MALLOC_H
 # define FT_MALLOC_H
 
+# include <pthread.h>   /* mutex Need to be include first ? */
+
+# include <mcheck.h>
+
 # include <unistd.h>    /* write */
 # include <stddef.h>    /* NULL */
 # include <sys/mman.h>  /* mmap */
-# include <pthread.h>   /* mutex */
 # include "../libft/libft.h"
 # include "../libft/list/linked_list.h" /* maybe not mandatory, to check */
 
@@ -119,7 +122,7 @@ void    free_meta_data();
 t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
-t_page *alloc_first_page(e_type type, size_t block_size, size_t page_size);
+t_page *init_page(e_type type, size_t size, e_type pre_aloc);
 void    page_add_back(t_page **lst, t_page *data);
 
 //utils.c
@@ -178,5 +181,17 @@ The debug malloc library also uses these environment variables:
         Specify the level of checking performed by the MALLOC_CKACCESS option to mallopt().
 */
 
+
+/*
+    RSC:
+
+    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_3.html
+    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_13.html#SEC246
+    'MAP_ANON:
+This flag tells the system to create an anonymous mapping, not connected to a file. filedes and off are ignored, and the region is initialized with zeros.
+Anonymous maps are used as the basic primitive to extend the heap on some systems. They are also useful to share data between multiple tasks without creating a file.
+On some systems using private anonymous mmaps is more efficient than using malloc for large blocks.
+This is not an issue with the GNU C library, as the included malloc automatically uses mmap where appropriate.'
+*/
 
 # endif /* FT_MALLOC_H */

@@ -32,14 +32,14 @@ static int8_t first_page_allocation(e_type type)
 	t_page *page;
 
 	if (type == TINY && check_preallocated_page(type) == FALSE) {
-		page = alloc_first_page(TINY, TINY_SIZE, TINY_PAGE_SIZE);
+		page = init_page(TINY, 0, PRE_ALLOCATE);
 		if (!page) {
 			return (FALSE);
 		}
 		// ft_printf_fd(1, "\n%sINIT First Tiny page%s\n", RED, RESET);
 		page_add_back(&g_data, page);
 	} else if (type == SMALL && check_preallocated_page(type) == FALSE) {
-		page = alloc_first_page(SMALL, SMALL_SIZE, SMALL_PAGE_SIZE);
+		page = init_page(SMALL, 0, PRE_ALLOCATE);
 		if (!page) {
 			return (FALSE);
 		}		
