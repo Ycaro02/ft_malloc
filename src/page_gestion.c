@@ -1,6 +1,5 @@
 #include "../include/malloc.h"
 
-
 /** @brief Detect block type to alloc
  * 	@param size_t size: size of desired allocation in bytes
  *	@return e_type enum represent the type of desired block 
@@ -16,7 +15,6 @@ e_type detect_type(size_t size)
 		type = LARGE;
 	return (type);
 }
-
 
 /** @brief Get page size for desired type, or size for LARGE block
  *	@param	e_type enum represent the type of desired block

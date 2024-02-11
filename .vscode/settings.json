@@ -68,7 +68,14 @@
         "timesize.h": "c",
         "wordsize.h": "c",
         "stdbool.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "*.tcc": "c",
+        "malloc.h": "c",
+        "exception": "c",
+        "iosfwd": "c",
+        "new": "c",
+        "ostream": "c",
+        "streambuf": "c"
     },
 
     "highlight.regexes": {

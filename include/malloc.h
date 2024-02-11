@@ -7,8 +7,6 @@
 #include "../libft/libft.h"
 #include "../libft/list/linked_list.h"
 
-
-
 /* Return of getpagesize function casted in size_t */
 # define PAGE_SIZE              (size_t)getpagesize()
 /* TINY block size */

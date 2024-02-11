@@ -44,7 +44,7 @@ LINK_NAME = libft_malloc.so
 LIBFT	= libft/libft.a
 
 # Replace malloc lib for valgrind read check
-REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NANE}"
+REPLACE_MALLOC_LIB	=	"--soname-synonyms=somalloc=${NAME}"
 
 TEST	=	main_test
 
