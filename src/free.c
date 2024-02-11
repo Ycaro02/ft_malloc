@@ -3,7 +3,7 @@
 /* @brief call free_page(munmap call) on all g_data list */
 void free_meta_data()
 {
-	t_data *ptr = g_data;
+	t_page *ptr = g_data;
 	while (g_data) {
 		ptr = ptr->next;
 		free_page(g_data);
@@ -12,10 +12,10 @@ void free_meta_data()
 }
 
 /* @brief munmap call */
-void free_page(t_data *data) { munmap(data, data->size); }
+void free_page(t_page *data) { munmap(data, data->size); }
 
 /* @brief check for empty page (all block size == 0) and not pre allocated page */
-int8_t page_empty(t_data *data)
+int8_t page_empty(t_page *data)
 {
 	t_block *block;
 	if (data->type & PRE_ALLOCATE)
@@ -31,23 +31,23 @@ int8_t page_empty(t_data *data)
 }
 
 /* @brief free block, don't call munmap just set block to freed and substract his size to page */
-void free_meta_block(t_block* block, t_data *data)
+void free_meta_block(t_block* block, t_page *page)
 {
-	if (!(data->type & LARGE)) {
-		size_t align = get_align_by_type(data->type);
-		data->size_free += align + BLOCK_SIZE;
+	if (!(page->type & LARGE)) {
+		size_t align = get_align_by_type(page->type);
+		page->size_free += align + BLOCK_SIZE;
 	}
 	block->size = 0;
 }
 
 /**	@brief loop on lst_block to find given ptr and call free_meta_block 
- *	@param t_data *prev: pointer on previous page	
- *	@param t_data *current: pointer on current page	
+ *	@param t_page *prev: pointer on previous page	
+ *	@param t_page *current: pointer on current page	
  *	@param t_block *block: list of block in current page
-	@param void *ptr: pointer given by user, wanted to free him
-	@return: -1 for already freed block, 0 for OK block free, 1 for block not found
+ *	@param void *ptr: pointer given by user, wanted to free him
+ *	@return: -1 for already freed block, 0 for OK block free, 1 for block not found
 */
-static int try_free(t_data *prev, t_data *current, t_block *block, void *ptr)
+static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 {
 	while (block)
 	{
@@ -72,10 +72,10 @@ static int try_free(t_data *prev, t_data *current, t_block *block, void *ptr)
 
 /** @brief Try to free given ptr, call try free on all page
  * 	@return FALSE if ptr is invalid TRUE for sucess free*/
-static int start_free(void *ptr)
+static int call_free(void *ptr)
 {
 	int 	ret = 1;
-	t_data	*data = g_data;
+	t_page	*data = g_data;
 
 	if (!data)
 		return (FALSE);
@@ -103,7 +103,7 @@ void free(void *ptr)
 		ft_printf_fd(1, "%sTry to free NULL%s\n", RED, RESET);
 		return ;
 	}
-	else if (start_free(ptr) == FALSE) {
+	else if (call_free(ptr) == FALSE) {
 		ft_printf_fd(1, "%sFree: Invalid pointer %p %s\n", RED, ptr, RESET);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
 		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);

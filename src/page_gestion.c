@@ -37,11 +37,11 @@ size_t get_page_size(e_type type, size_t size)
 /** @brief	Init page with mmmap call 
  *	@param	e_type enum represent the type of desired block
  *	@param	size_t size: size of desired page allocation in bytes
- *	@return pointer on allocated t_data struct, the first address return by mmap 
+ *	@return pointer on allocated t_page struct, the first address return by mmap 
 */
-static t_data *init_data_by_type(e_type type, size_t size)
+static t_page *init_page(e_type type, size_t size)
 {
-	t_data *data = NULL;
+	t_page *data = NULL;
 	size_t page_size = 0;
 
 	page_size = get_page_size(type, size);
@@ -61,11 +61,11 @@ static t_data *init_data_by_type(e_type type, size_t size)
 /** @brief	Init first pre allocate page with mmmap call 
  *	@param	e_type enum represent the type of desired block
  *	@param	size_t size: size of desired page allocation in bytes
- *	@return pointer on allocated t_data struct, the first address return by mmap 
+ *	@return pointer on allocated t_page struct, the first address return by mmap 
 */
-t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size)
+t_page *alloc_first_page(e_type type, size_t block_size, size_t page_size)
 {
-	t_data *data = NULL;
+	t_page *data;
 
 	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	if (data == MAP_FAILED) {
@@ -90,22 +90,24 @@ t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size)
 */
 t_block *init_data(e_type type, size_t size)
 {
-	t_data *data;
+	t_page	*data;
+	t_block *block;
+
 	if (!(type & LARGE)) {
-		t_block *block = try_add_block(type, size);
+		block = try_add_block(type, size);
 		if (block)
 			return (block);
 	}
-	data = init_data_by_type(type, size);
-	data_add_back(&g_data, data);
+	data = init_page(type, size);
+	page_add_back(&g_data, data);
 	return (data->block);
 }
 
 
 /** Simple data add, similar to lst_addback*/
-void    data_add_back(t_data **lst, t_data *data)
+void    page_add_back(t_page **lst, t_page *data)
 {
-	t_data  *current;
+	t_page  *current;
 
 	if (!data)
 		return ;

@@ -43,7 +43,7 @@
     OLD 126 block in SMALL, just keep 2 for metadata
 */
 # define BLOCK_SIZE         sizeof(t_block)
-# define DATA_SIZE          sizeof(t_data)
+# define DATA_SIZE          sizeof(t_page)
 /* Aligne value for large block to check */
 # define ALIGN_VALUE        64
 
@@ -87,20 +87,20 @@ typedef struct s_block {
     data->next : pointer to next data struct
 */
 
-typedef struct s_data {
+typedef struct s_page {
     char            type;
     size_t          size;
     size_t          size_free;
     struct s_block  *block;
-    struct s_data   *next;
-}   t_data;
+    struct s_page   *next;
+}   t_page;
 
 typedef enum e__type    e_type;
 typedef enum e__bool    e_bool;
 typedef enum e__event   e_event;
 
 /* Global pointer on linked list of page*/
-extern t_data *g_data;
+extern t_page *g_data;
 
 //show_alloc_mem.c
 void    show_alloc_mem();
@@ -110,9 +110,9 @@ void    *malloc(size_t size);
 
 // free.c
 void    free(void *ptr);
-void    free_meta_block(t_block* block, t_data *data);
-int8_t  page_empty(t_data *block);
-void    free_page(t_data *data);
+void    free_meta_block(t_block* block, t_page *data);
+int8_t  page_empty(t_page *block);
+void    free_page(t_page *data);
 //
 void    free_meta_data();
 
@@ -123,8 +123,8 @@ void    *realloc(void *ptr, size_t size);
 t_block *init_data(e_type type, size_t size);
 e_type  detect_type(size_t size);
 size_t  get_page_size(e_type type, size_t size);
-t_data *alloc_first_page(e_type type, size_t block_size, size_t page_size);
-void    data_add_back(t_data **lst, t_data *data);
+t_page *alloc_first_page(e_type type, size_t block_size, size_t page_size);
+void    page_add_back(t_page **lst, t_page *data);
 
 //utils.c
 void    display_line(char *str, char to_display);
@@ -134,7 +134,7 @@ int     get_lst_block_len(t_block *lst);
 void    print_define(void);
 
 //block.c
-t_block	*init_block(t_block *block, size_t size, int pos, t_data *data);
+t_block	*init_block(t_block *block, size_t size, int pos, t_page *data);
 size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(char type, size_t size);
 void    block_add_back(t_block **lst, t_block *block);
