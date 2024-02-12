@@ -69,6 +69,7 @@ void basic_alloc_free_test()
 void alloc_free_test()
 {
 	basic_alloc_free_test();
+	char *large = malloc(4000);
 	char **tiny = malloc(10);
 	for (int i = 0; i < 10; ++i) {
 		tiny[i] = malloc(3);
@@ -85,6 +86,8 @@ void alloc_free_test()
 	tiny[1] = malloc(42);
 	tiny[5] = malloc(42);
 	tiny[8] = malloc(42);
+	show_alloc_mem();
+	free(large);
 	show_alloc_mem();
 }
 

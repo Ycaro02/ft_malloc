@@ -48,7 +48,7 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 	while (block) {
 		if (ptr == (void *)block + BLOCK_SIZE) {
 			
-			write_block_info(block, size, REALLOC_CALL, 2);
+			write_block_info(block, size, REALLOC_CALL, 2); /* Only for call history */
 
 			realloc_needed = need_realloc(current, block, size);
 			if (realloc_needed == TRUE) {
@@ -102,6 +102,7 @@ static void *get_block_addr(void *ptr, size_t size)
 void *realloc(void *ptr, size_t size)
 {
 	void *new_ptr = NULL;
+	write_function_name(REALLOC_CALL, 2); /* Only for call history */
 	if (!ptr) {
 		return (malloc(size)); /* thread safe in malloc */
 	} 
