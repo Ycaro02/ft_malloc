@@ -6,13 +6,10 @@
 */
 inline e_type detect_type(size_t size)
 {
-	e_type type = LARGE;
-
-	if (size <= TINY_SIZE)
-		type = TINY;
-	else if (size <= SMALL_SIZE)
-		type = SMALL;
-	return (type);
+	e_type type_array[3] = {TINY, SMALL, LARGE};
+	// int ret = (type_array[(size <= TINY_SIZE) + (size <= SMALL_SIZE) + (size > SMALL_SIZE)]) << 1;
+	// ft_printf_fd(2, BLUE"New : %d\n", ret);
+	return ((type_array[(size <= TINY_SIZE) + (size <= SMALL_SIZE) + (size > SMALL_SIZE)]) << 1)
 }
 
 /** @brief Get page size for desired type, or size for LARGE block
@@ -26,15 +23,6 @@ inline size_t get_page_size(e_type type, size_t size)
 	/* (TINY >> 1)=0, (SMALL >> 1)=1, (LARGE >> 1)=2 */
 	// ft_printf_fd(2, BLUE"\nNEW For %d page = %U\n"RESET, (int)type, page_size[type >> 1]);
 	return (page_size[type >> 1]);
-
-	// size_t m_size = TINY_PAGE_SIZE;
-
-	// if (type & SMALL)
-	// 	m_size = SMALL_PAGE_SIZE;
-	// else if (type & LARGE)
-	// 	m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
-	// ft_printf_fd(2, RED"\nOLD For %d page = %U\n"RESET, (int)type, m_size);
-	// return (m_size);
 }
 
 /** @brief	Init page with mmmap call 
