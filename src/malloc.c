@@ -55,8 +55,6 @@ void *malloc(size_t size)
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
 	}
-	
-	
 	write_function_name(MALLOC_CALL, 2); /* Only for call history */
 	type = detect_type(size);
 

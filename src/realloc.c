@@ -62,11 +62,11 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 			else {
 				block->size += size;
 			}
-			return (ptr);
+			return (ptr);	/* first return don't change ptr, second receive exec_realloc */
 		}
 		block = block->next;
 	}
-	return (NULL);
+	return (NULL);			/* default return NULL, need to continue search  */
 }
 
 /** @brief Try to find given ptr in g_data page list
