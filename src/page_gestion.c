@@ -26,7 +26,7 @@ size_t get_page_size(e_type type, size_t size)
 
 	if (type & SMALL)
 		m_size = SMALL_PAGE_SIZE;
-	else
+	else if (type & LARGE)
 		m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
 	return (m_size);
 }

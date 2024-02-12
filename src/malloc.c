@@ -128,17 +128,14 @@ void start_call_malloc()
 
 void write_function_call(int8_t call, int fd)
 {
-	char buff[200];
-
-	ft_bzero(buff, 200);
 	if (call == MALLOC_CALL) {
-		ft_strcpy(buff, "Malloc call\n", ft_strlen("Malloc alloc \n"));
+		ft_printf_fd(fd , GREEN"Malloc  call: "RESET);
 	} else if (call == REALLOC_CALL ) {
-		ft_strcpy(buff, "Realloc call\n", ft_strlen("Realloc try to extend \n"));
+		ft_printf_fd(fd , PURPLE"Realloc call: "RESET);
 	} else {
-		ft_strcpy(buff, "Free call\n", ft_strlen("Free \n"));
+		ft_printf_fd(fd , RED"Free    call: "RESET);
 	}
-	ft_printf_fd(fd,RED"%s"RESET, buff);
+	
 }
 
 // static int str_count_cpy(char *dest, char *src)
@@ -149,51 +146,45 @@ void write_function_call(int8_t call, int fd)
 // 	return (len + 1);
 // }
 
-static size_t maximum_size_by_type(int8_t type)
-{
-	return (type & TINY ? TINY_SIZE : SMALL_SIZE);
-}
+// static size_t maximum_size_by_type(int8_t type)
+// {
+// 	return (type & TINY ? TINY_SIZE : SMALL_SIZE);
+// }
 
 void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 {
-	// char buff[2000];
-	// int last = 0;
-
-	// ft_bzero(buff, 2000);
-	write_function_call(call, fd);
-
 	int8_t type = detect_type(block->size);
+
+	ft_printf_fd(fd, YELLOW"-----------------------------------------------\n"RESET);
+	write_function_call(call, fd);
 	if (type & TINY) {
-		ft_printf_fd(fd, YELLOW"block: tiny "RESET);
+		ft_printf_fd(fd, YELLOW"tiny  block "RESET);
 	} else if (type & SMALL) {
-		ft_printf_fd(fd, YELLOW"block: small "RESET);
+		ft_printf_fd(fd, YELLOW"small block "RESET);
 	} else {
-		ft_printf_fd(fd, YELLOW"block: large "RESET);
+		ft_printf_fd(fd, YELLOW"large block "RESET);
 	}	
-	ft_printf_fd(fd, "of size: ");
-	// write_reset_buff
+	ft_printf_fd(fd, "of size: "GREEN);
+	put_size_t_fd(size, fd);
+	ft_printf_fd(fd, RESET);
 	if (call == REALLOC_CALL) {
-		put_size_t_fd(block->size, fd);
 		ft_printf_fd(fd, " allocated, try to add: ");
-		// write_reset_buff
 		put_size_t_fd(size, fd);
-		ft_printf_fd(fd, " additional bytes\nNew expected size: ");
-		// write_reset_buff
+		ft_printf_fd(fd, " additional bytes.\nNew expected size: "GREEN);
 		put_size_t_fd(size + block->size, fd);
-		if (!(type & LARGE) && size + block-> size <= maximum_size_by_type(type)) {
+		ft_printf_fd(fd, RESET);
+
+		if (!(type & LARGE) && size + block->size <= get_page_size(type, size)) {
 			ft_printf_fd(fd, " Extend block success no need to move data\n");
 		} else {
-			ft_printf_fd(fd, " No enought space to extend block need to call malloc\n");
+			ft_printf_fd(fd, " No enought space to extend block need to call malloc");
 		}
-		// write_reset_buff
-	} else {
-		put_size_t_fd(size, fd);
 	}
-	ft_printf_fd(fd, "\nBlock adress: \n");
-	ft_printf_fd(fd, CYAN"%p\n"RESET, block);
-	ft_printf_fd(fd, "Data pointer adress: \n");
-	ft_printf_fd(fd, CYAN"%p\n"RESET, block + BLOCK_SIZE);
-
+	ft_printf_fd(fd, "\nBlock : ");
+	ft_printf_fd(fd, CYAN"%p "RESET, block);
+	ft_printf_fd(fd, " Data : ");
+	ft_printf_fd(fd, CYAN"%p\n"RESET, (void *)block + BLOCK_SIZE);
+	// ft_printf_fd(fd, YELLOW"-------------------------------------------\n"RESET);
 }
 
 /** @brief The malloc() function allocates “size” bytes of memory and returns a pointer to the
@@ -221,7 +212,7 @@ void *malloc(size_t size)
 	}
 	
 	block = init_data(type, size);
-	write_block_info(block, size, MALLOC_CALL, 1);
+	write_block_info(block, size, MALLOC_CALL, 2);
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	return (((void *) block) + BLOCK_SIZE);
 }

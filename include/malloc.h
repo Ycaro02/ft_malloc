@@ -140,6 +140,8 @@ size_t align_mem_block(size_t m_size, size_t size);
 t_block *try_add_block(char type, size_t size);
 void    block_add_back(t_block **lst, t_block *block);
 
+
+void write_block_info(t_block *block, size_t size, int8_t call, int fd);
 // ft_printf.c
 // int	ft_printf_fd(int fd, const char *s, ...);
 

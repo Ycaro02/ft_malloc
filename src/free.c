@@ -56,6 +56,7 @@ static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 		{
 			if (block->size == 0)
 				return (BLOCK_ALREADY_FREE);
+			write_block_info(block, block->size, FREE_CALL, 2);
 			free_meta_block(block, current);
 			/* if not pre allocate page and page is empty we can munmap */
 			if (page_empty(current) == TRUE) {

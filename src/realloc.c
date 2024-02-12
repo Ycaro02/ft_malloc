@@ -47,6 +47,9 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 	int8_t realloc_needed = FALSE;
 	while (block) {
 		if (ptr == (void *)block + BLOCK_SIZE) {
+			
+			write_block_info(block, size, REALLOC_CALL, 2);
+
 			realloc_needed = need_realloc(current, block, size);
 			if (realloc_needed == TRUE) {
 				ptr = exec_realloc(block, size);
