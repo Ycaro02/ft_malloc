@@ -52,16 +52,18 @@
 # define ALIGN_VALUE        64
 
 /** e_type enum to represent different block with power of 2, store status of env var or special page too  */
-enum e__type {
+enum type_block_e {
     TINY=1,
     SMALL=2,
     LARGE=4,
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
     ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
     DETECT_LEAK=32,         /*  Detect leak and store issue in file named by this var or default file/stderr */
-    VERY_VERBOSE=64,        /*  Create output file with alloc data: size, trace leaks, unitialised data  ... */
+    VERY_VERBOSE=64,        /*  Create output file with alloc data: size, trace leaks, active the ALLOCATION TRACE option */
     /* FREE_PRE_ALLOCATE=128 maybe find solution to free page, maybe call from main at the end of the program */
 };
+
+/* + dump hexa + dump data stored ?*/
 
 enum e_free_status {
     BLOCK_ALREADY_FREE=-1,
@@ -75,25 +77,12 @@ enum e_function_call {
     FREE_CALL,
 };
 
-typedef enum e__type    e_type;
+typedef enum type_block_e   e_type;
 
-/*
-    block->size :ALIGNED(size of block require by user + sizeof(t_block))
-    block->next : pointer to next block struct
-    when free block dont't remove node, just block->size = -1 and check it for refill
-*/
 typedef struct s_block {
     size_t          size;   /* size of desired/wanted data by user */
     struct s_block *next;   /* pointer on next block */
 }   t_block;
-
-/*
-    
-    page->size :
-    page->size_free : size of page free in bytes
-    page->block : pointer of linked list block of same type 
-    page->next : pointer to next page struct
-*/
 
 typedef struct s_page {
     e_type          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */

@@ -73,7 +73,7 @@ t_block *try_add_block(char type, size_t size)
 }
 
 /** @brief get aligned size for LARGE block */
-size_t align_mem_block(size_t m_size, size_t size)
+inline size_t align_mem_block(size_t m_size, size_t size)
 {
 	if (m_size < size)
 		m_size = size;

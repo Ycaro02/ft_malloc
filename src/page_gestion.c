@@ -4,7 +4,7 @@
  * 	@param size_t size: size of desired allocation in bytes
  *	@return e_type enum represent the type of desired block 
 */
-e_type detect_type(size_t size)
+inline e_type detect_type(size_t size)
 {
 	e_type type = LARGE;
 
@@ -20,15 +20,21 @@ e_type detect_type(size_t size)
  *	@param	size_t size: size of desired allocation in bytes
  *	@return size_t page size, default value for TINY and SMALL, aligned memory block for LARGE 
 */
-size_t get_page_size(e_type type, size_t size)
+inline size_t get_page_size(e_type type, size_t size)
 {
-	size_t m_size = TINY_PAGE_SIZE;
+	size_t const page_size[3] = {TINY_PAGE_SIZE, SMALL_PAGE_SIZE, align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE)};
+	/* (TINY >> 1)=0, (SMALL >> 1)=1, (LARGE >> 1)=2 */
+	// ft_printf_fd(2, BLUE"\nNEW For %d page = %U\n"RESET, (int)type, page_size[type >> 1]);
+	return (page_size[type >> 1]);
 
-	if (type & SMALL)
-		m_size = SMALL_PAGE_SIZE;
-	else if (type & LARGE)
-		m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
-	return (m_size);
+	// size_t m_size = TINY_PAGE_SIZE;
+
+	// if (type & SMALL)
+	// 	m_size = SMALL_PAGE_SIZE;
+	// else if (type & LARGE)
+	// 	m_size = align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE);
+	// ft_printf_fd(2, RED"\nOLD For %d page = %U\n"RESET, (int)type, m_size);
+	// return (m_size);
 }
 
 /** @brief	Init page with mmmap call 
