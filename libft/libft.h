@@ -6,7 +6,7 @@
 /*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:40:12 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/11 18:30:47 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/12 17:44:55 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 int 	ft_strcpy(char* dst, char *src, int len);	
 
 
-void 		ft_free_tab(char **tab);
-char        *ft_strjoin_free(char *s1, char *s2, char option);
-int 		ft_lower_strcmp(char *s1, char *s2);
-int 		ft_strcmp(char *s1, char *s2);
+void 	ft_free_tab(char **tab);
+char    *ft_strjoin_free(char *s1, char *s2, char option);
+int 	ft_lower_strcmp(char *s1, char *s2);
+int 	ft_strcmp(char *s1, char *s2);
+void 	free_incomplete_array(void **array, int max);
 
-void 		free_incomplete_array(void **array, int max);
-
-
-int	ft_printf_fd(int fd, const char *s, ...);
+/* printf fd */
+int	    ft_printf_fd(int fd, const char *s, ...);
 
 #endif

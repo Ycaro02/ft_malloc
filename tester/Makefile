@@ -3,33 +3,38 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nfour <nfour@student.42.fr>                +#+  +:+       +#+         #
+#    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/08 17:26:36 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/12 17:52:39 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=libft_malloc_test
+NAME		=	libft_malloc_test
 
 # LD_LIBRARY_PATH=.
 # max test is TEST4 == 32 all combined dlaf = 64 - 1
-MAX_FLAG=63
+MAX_FLAG	=	63
 
-REAL_TEST=malloc_test
+REAL_TEST	=	malloc_test
 
-LAST_TEST=test5
+LAST_TEST	=	test5
 
-TEST=./test.sh
+TEST		=	./test.sh
 
-COMPILE_LIB=./check_lib.sh
+CHECK_LIB	=	./check_lib.sh
+
+MY_LIB		=	../libft/libft.a ../libft_malloc.so
+
+RM			=	rm -rf
+
 
 all:	${NAME}
 
 ${NAME}:
-		@${COMPILE_LIB}
+		@${CHECK_LIB}
 		@echo " \033[5;36m ----- Compiling malloc tester...  ----- \033[0m"
-		@gcc -D USE_LIBFT_MALLOC src/test_implementation.c ../libft_malloc.so -o ${NAME} 2> /dev/null
+		@gcc -D USE_LIBFT_MALLOC src/test_implementation.c ${MY_LIB} -o ${NAME} 2> /dev/null
 		@gcc src/test_implementation.c -o ${REAL_TEST} 2> /dev/null
 
 test:	${NAME}
@@ -68,10 +73,10 @@ test5:	${NAME}
 		@gcc src/test5.c ../libft_malloc.so -o ${LAST_TEST} 2> /dev/null && ./${LAST_TEST}
 
 clean:
-		@rm -rf ${NAME} ${REAL_TEST} ${LAST_TEST}
+		@${RM} ${NAME} ${REAL_TEST} ${LAST_TEST}
 
 fclean:	clean
-		@rm -rf ${NAME} ${REAL_TEST} ${LAST_TEST}
+		@${RM} ${NAME} ${REAL_TEST} ${LAST_TEST}
 
 re:		fclean all
 

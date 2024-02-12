@@ -9,8 +9,8 @@
 # include <stddef.h>    /* NULL */
 # include <sys/mman.h>  /* mmap */
 # include <fcntl.h>     /* open */
+# include "basic_define.h"
 # include "../libft/libft.h"
-# include "../libft/list/linked_list.h" /* maybe not mandatory, to check */
 
 /* Return of getpagesize function casted in size_t */
 # define PAGE_SIZE              (size_t)getpagesize()

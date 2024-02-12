@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nfour <nfour@student.42.fr>                +#+  +:+       +#+         #
+#    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/09 16:38:29 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/12 17:46:33 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,6 @@ SRCS	=	src/malloc.c 						\
 
 
 LIBFT	= 	libft/libft.a
-
-LIB_LIST =	libft/list/linked_list.a
 
 OBJS = $(SRCS:.c=.o)
 
@@ -65,10 +63,9 @@ all:		${NAME}
 ${NAME}:	$(OBJS)
 			@echo " \033[5;36m ----- Compiling lib...  ----- \033[0m\n"
 			@make -s -C libft
-			@make -s -C libft/list
 			@echo "\033[7;32m -----  Compiling lib done  ----- \033[0m\n"
 			@echo " \033[5;36m ----- Compiling malloc project...  ----- \033[0m\n"
-			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
+			@$(CC) ${CFLAGS} -fPIC -shared -o $(NAME) $(OBJS) ${THREAD} ${LIBFT}
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m"
 			@ln -sf ${NAME} ${LINK_NAME}
 
@@ -83,7 +80,7 @@ test :		${NAME}
 			@"${CALL_TESTER}" fclean
 
 testv :		${NAME}
-			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} $(LIB_LIST) ${THREAD}
+			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} ${THREAD}
 			@valgrind ${REPLACE_MALLOC_LIB} ${HELGRIND} ./${TEST}
 # @valgrind ${HELGRIND} ./${TEST}
 
@@ -91,14 +88,12 @@ clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"
 			@${RM} ${OBJS}
 			@make -s -C libft clean
-			@make -s -C libft/list clean
 			@"${CALL_TESTER}" clean
 			@echo "\033[7;33m -----  Cleaning done  ----- \033[0m\n"
 
 
 fclean:		clean
 			@make -s -C libft fclean
-			@make -s -C libft/list fclean
 			@"${CALL_TESTER}" fclean
 			@${RM} ${NAME} ${LINK_NAME}
 			@${RM} ${TEST}
