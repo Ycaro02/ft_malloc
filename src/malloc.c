@@ -26,19 +26,34 @@ inline int8_t check_debug_flag(int8_t flag)
 	return ((g_data->type & flag) == flag);
 }
 
+inline int get_debug_fd()
+{
+	ft_printf_fd(2, RED"Get fd= %d\n"RESET, g_data->fd);
+	return (g_data->fd);
+}
+
 /* @brief Init first pre allocate page for tiny and small block */
 inline static int8_t init_first_page()
 {
-	char *env;
+	char 	*env;
+	int 	fd = -1;
+
 	if (!g_data) {
 		int8_t special_flag = PRE_ALLOCATE;
 		env = check_env_variable(MALLOC_TRACE_ENV);
-		if (env)
-			special_flag += ALLOCATION_TRACE;
+		if (env) {
+			fd = open(env, O_CREAT | O_APPEND | O_RDWR, 00777);
+			if (fd > 0) {
+				special_flag += ALLOCATION_TRACE;
+			} else {
+				fd = -1;
+			}
+		}
 		t_page *page = init_page(TINY, 0, special_flag);
 		if (!page) {
 			return (FALSE);
-		}		
+		}
+		page->fd = fd;
 		page_add_back(&g_data, page);
 		page = init_page(SMALL, 0, special_flag);
 		if (!page) {
@@ -71,12 +86,12 @@ void *malloc(size_t size)
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
 	}
-	if (check_debug_flag(ALLOCATION_TRACE))
-		write_function_name(MALLOC_CALL, 2); /* Only for call history/trace */
 	type = detect_type(size);
 	block = init_data(type, size);
-	if (check_debug_flag(ALLOCATION_TRACE))
-		write_block_info(block, size, MALLOC_CALL, 2); /* Only for trace */
+	if (check_debug_flag(ALLOCATION_TRACE)) {
+		write_function_name(MALLOC_CALL, get_debug_fd()); /* Only for call history/trace */
+		write_block_info(block, size, MALLOC_CALL, get_debug_fd()); /* Only for trace */
+	}
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	return (((void *) block) + BLOCK_SIZE);
 }

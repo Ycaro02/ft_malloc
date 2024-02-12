@@ -49,7 +49,7 @@ static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *blo
 		if (ptr == (void *)block + BLOCK_SIZE) {
 			
 			if (check_debug_flag(ALLOCATION_TRACE))
-				write_block_info(block, size, REALLOC_CALL, 2); /* Only for call history */
+				write_block_info(block, size, REALLOC_CALL, get_debug_fd()); /* Only for call history */
 
 			realloc_needed = need_realloc(current, block, size);
 			if (realloc_needed == TRUE) {
@@ -104,7 +104,7 @@ void *realloc(void *ptr, size_t size)
 {
 	void *new_ptr = NULL;
 	if (check_debug_flag(ALLOCATION_TRACE))
-		write_function_name(REALLOC_CALL, 2); /* Only for call history */
+		write_function_name(REALLOC_CALL, get_debug_fd()); /* Only for call history */
 	if (!ptr) {
 		return (malloc(size)); /* thread safe in malloc */
 	} 

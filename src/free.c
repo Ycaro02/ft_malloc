@@ -57,7 +57,7 @@ static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 			if (block->size == 0)
 				return (BLOCK_ALREADY_FREE);
 			if (check_debug_flag(ALLOCATION_TRACE))
-				write_block_info(block, block->size, FREE_CALL, 2); /* Only for call history */
+				write_block_info(block, block->size, FREE_CALL, get_debug_fd()); /* Only for call history */
 			free_meta_block(block, current);
 			/* if not pre allocate page and page is empty we can munmap */
 			if (page_empty(current) == TRUE) {
@@ -107,9 +107,9 @@ void free(void *ptr)
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
 	pthread_mutex_lock(&g_libft_malloc_mutex);
 	if (check_debug_flag(ALLOCATION_TRACE))
-		write_function_name(FREE_CALL, 2); /* Only for call history */
+		write_function_name(FREE_CALL, get_debug_fd()); /* Only for call history */
 	if (!ptr) {
-		ft_printf_fd(2, "%sCall free NULL need to disable this%s\n", RED, RESET);
+		ft_printf_fd(get_debug_fd(), "%sCall free NULL need to disable this%s\n", RED, RESET);
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return ;
 	}

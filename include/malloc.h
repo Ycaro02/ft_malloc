@@ -8,6 +8,7 @@
 # include <unistd.h>    /* write */
 # include <stddef.h>    /* NULL */
 # include <sys/mman.h>  /* mmap */
+# include <fcntl.h>     /* open */
 # include "../libft/libft.h"
 # include "../libft/list/linked_list.h" /* maybe not mandatory, to check */
 
@@ -88,6 +89,7 @@ typedef struct s_block {
 
 typedef struct s_page {
     int8_t          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
+    int             fd;         /* fd deb file */
     size_t          size;       /* size of total page, multiple of get_page_size */
     size_t          size_free;  /* size free in bytes*/
     struct s_block  *block;     /* t_block linked list */
@@ -103,6 +105,7 @@ extern pthread_mutex_t g_libft_malloc_mutex;
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 
 int8_t check_debug_flag(int8_t flag);
+int get_debug_fd();
 
 char *check_env_variable(char *to_check);
 
