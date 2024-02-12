@@ -6,10 +6,9 @@
 */
 inline e_type detect_type(size_t size)
 {
-	e_type type_array[3] = {TINY, SMALL, LARGE};
-	// int ret = (type_array[(size <= TINY_SIZE) + (size <= SMALL_SIZE) + (size > SMALL_SIZE)]) << 1;
-	// ft_printf_fd(2, BLUE"New : %d\n", ret);
-	return ((type_array[(size <= TINY_SIZE) + (size <= SMALL_SIZE) + (size > SMALL_SIZE)]) << 1)
+	e_type const type_array[3] = {TINY, SMALL, LARGE};
+	/* (size > SMALL_SIZE) * 2) Large bool need no be count * 2, cause he is idx 2, 1 for small perfect for bool otherwise tiny block*/
+	return ((type_array[(size > TINY_SIZE && size <= SMALL_SIZE) + ((size > SMALL_SIZE) << 1)]));
 }
 
 /** @brief Get page size for desired type, or size for LARGE block
