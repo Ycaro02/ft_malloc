@@ -28,7 +28,6 @@ inline int8_t check_debug_flag(int8_t flag)
 
 inline int get_debug_fd()
 {
-	ft_printf_fd(2, RED"Get fd= %d\n"RESET, g_data->fd);
 	return (g_data->fd);
 }
 
@@ -55,7 +54,8 @@ inline static int8_t init_first_page()
 		}
 		page->fd = fd;
 		page_add_back(&g_data, page);
-		page = init_page(SMALL, 0, special_flag);
+		/* first page->type contain all debug context no more needed */
+		page = init_page(SMALL, 0, ALLOCATION_TRACE);
 		if (!page) {
 			return (FALSE);
 		}		
