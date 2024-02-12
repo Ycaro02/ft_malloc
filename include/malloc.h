@@ -109,6 +109,8 @@ extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 int8_t  check_debug_flag(int8_t flag);
 int     get_debug_fd();
 
+void check_for_leak();
+
 /* Library function */
 void    show_alloc_mem();
 void    *malloc(size_t size);

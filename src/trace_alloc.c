@@ -8,40 +8,18 @@ static void put_size_t_fd(size_t n, int fd)
 	ft_putchar_fd(n % 10 + '0', fd);
 }
 
-
-void handle_add_color(int fd, char *color)
+static void handle_add_color(int fd, char *color)
 {
 	if (check_debug_flag(ENABLE_COLOR)) {
 		ft_printf_fd(fd, color);
 	}
 }
 
-void handle_reset_color(int fd)
+static void handle_reset_color(int fd)
 {
 	if (check_debug_flag(ENABLE_COLOR)) {
 		ft_printf_fd(fd, RESET);
 	}
-}
-
-void write_function_name(int8_t call, int fd)
-{
-	if (check_debug_flag(ENABLE_COLOR)) {
-		char *color = GREEN;
-		if (call == REALLOC_CALL)
-			color = PURPLE;
-		else if (call == FREE_CALL)
-			color = RED;
-		ft_printf_fd(fd, color);
-	}
-
-	if (call == MALLOC_CALL) {
-		ft_printf_fd(fd ,"Malloc  call: ");
-	} else if (call == REALLOC_CALL ) {
-		ft_printf_fd(fd , "Realloc call: ");
-	} else {
-		ft_printf_fd(fd , "Free    call: ");
-	}
-	handle_reset_color(fd);
 }
 
 static void display_realloc_block(t_block *block, e_type type, size_t size, int fd)
@@ -63,6 +41,27 @@ static void display_realloc_block(t_block *block, e_type type, size_t size, int 
     } else {
         ft_printf_fd(fd, " No enought space to extend block need to call malloc");
     }
+}
+
+void write_function_name(int8_t call, int fd)
+{
+	if (check_debug_flag(ENABLE_COLOR)) {
+		char *color = GREEN;
+		if (call == REALLOC_CALL)
+			color = PURPLE;
+		else if (call == FREE_CALL)
+			color = RED;
+		ft_printf_fd(fd, color);
+	}
+
+	if (call == MALLOC_CALL) {
+		ft_printf_fd(fd ,"Malloc  call: ");
+	} else if (call == REALLOC_CALL ) {
+		ft_printf_fd(fd , "Realloc call: ");
+	} else {
+		ft_printf_fd(fd , "Free    call: ");
+	}
+	handle_reset_color(fd);
 }
 
 void write_block_info(t_block *block, size_t size, int8_t call, int fd)
@@ -108,6 +107,24 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 	handle_reset_color(fd);
 }
 
+void check_for_leak()
+{
+	t_page	*current = g_data;
+	t_block *block;
+
+	while (current) {
+		block = current->block;
+		while (block) {
+			if (block->size != 0 ) {
+				ft_printf_fd(2, RED"Leak in page: %p, block %p, potential data %p of size %u not free\n"RESET\
+				, current, block, (void *)block + BLOCK_SIZE, block->size);
+			}
+			block = block->next;
+		}
+		current = current->next;;
+	}
+}
+
 /*
 	- We need to check env variable and set type in consequences
 		
@@ -119,17 +136,6 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 	
 		- create file with expected name, just need to store the fd
 		- each important call format and write data in fd
-	void write_page_info(t_page *page, size_t size)
-	{
-		char buff[2000];
-			if (page->type & TINY)
-				ft_strcpy(buff, "Page: tiny")
-			else if (page->type & SMALL)		
-				ft_strcpy(buff, "Page: small")
-			else 
-				ft_strcpy(buff, "Page: large")
-	}
-
 	Malloc:
 		- block type
 		- nb bytes expected
