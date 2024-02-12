@@ -79,12 +79,13 @@ static void *get_block_addr(void *ptr, size_t size)
 	t_page *data = g_data;
 	t_page *test = check_for_realloc_block(NULL, data, data->block, ptr, size);
 
-	if (test != ptr)
+	if (test && test != ptr)
 		return (test);
 	while(data && data->next)
 	{
+		ft_printf_fd(1, "Realloc yo\n");
 		test = check_for_realloc_block(data, data->next, data->next->block, ptr, size);
-		if (test != ptr)
+		if (test && test != ptr)
 			return (test);
 		data = data->next;
 	}

@@ -93,6 +93,9 @@ int test3(char *version)
     addr1 = (char*)malloc(16*M);
     strcpy(addr1, "Bonjours\n");
     print(addr1);
+    # ifdef USE_LIBFT_MALLOC
+        show_alloc_mem();
+    #endif
     addr3 = (char*)realloc(addr1, 128*M);
     addr3[127*M] = 42;
     print(addr3);

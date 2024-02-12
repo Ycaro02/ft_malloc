@@ -12,7 +12,7 @@ pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
  *  @param e_type type: type of searched page
  *	@return TRUE if any pre allocate page of this type exist otherwise FALSE
 */
-static int8_t check_preallocated_page(e_type type)
+int8_t check_preallocated_page(e_type type)
 {
 	t_page *data = g_data;
 	while (data) {
@@ -27,7 +27,7 @@ static int8_t check_preallocated_page(e_type type)
  *  @param e_type type: type of searched page
  * 	@return FALSE for mmap error otherwise TRUE
 */
-static int8_t first_page_allocation(e_type type)
+int8_t first_page_allocation(e_type type)
 {
 	t_page *page;
 
@@ -57,6 +57,24 @@ void start_call_malloc()
 }
 */
 
+int8_t init_first_page()
+{
+	if (!g_data) {
+		ft_printf_fd(1, RED"\n\nINIT FRIST PAGE\n\n"RESET);
+		t_page *page = init_page(TINY, 0, PRE_ALLOCATE);
+		if (!page) {
+			return (-1);
+		}		
+		page_add_back(&g_data, page);
+		t_page* page2 = init_page(SMALL, 0, PRE_ALLOCATE);
+		if (!page2) {
+			return (-1);
+		}		
+		page_add_back(&g_data, page2);
+	}
+	return (TRUE);
+}
+
 
 /** @brief The malloc() function allocates “size” bytes of memory and returns a pointer to the
  *	allocated memory
@@ -69,19 +87,25 @@ void *malloc(size_t size)
 	e_type type;
 	t_block *block;
 
-
 	if (size <= 0) {  /* maybe to change malloc 1 for 0 input ? */
 		return (NULL);
 	}
 	/* lock mutex */
 	pthread_mutex_lock(&g_libft_malloc_mutex);
-	write_function_name(MALLOC_CALL, 2); /* Only for call history */
-
-	type = detect_type(size);
-	if (first_page_allocation(type) == FALSE) {
+	
+	if(init_first_page() == -1) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
 	}
+	
+	
+	write_function_name(MALLOC_CALL, 2); /* Only for call history */
+	type = detect_type(size);
+
+	// if (first_page_allocation(type) == FALSE) {
+	// 	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	// 	return (NULL);
+	// }
 	
 	block = init_data(type, size);
 	write_block_info(block, size, MALLOC_CALL, 2); /* Only for call history */
