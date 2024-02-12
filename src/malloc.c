@@ -8,47 +8,6 @@ pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
 // pthread_mutex_t	g_libft_malloc_mutex;
 
 
-/**	@brief Check for pre allocated page for TINY and SMALL block
- *  @param e_type type: type of searched page
- *	@return TRUE if any pre allocate page of this type exist otherwise FALSE
-*/
-int8_t check_preallocated_page(e_type type)
-{
-	t_page *data = g_data;
-	while (data) {
-		if (data->type & type && data->type & PRE_ALLOCATE)
-			return (TRUE);
-		data = data->next;
-	}
-	return (FALSE);
-}
-
-/** @brief Init pre allocate space for TINY or SMALL block
- *  @param e_type type: type of searched page
- * 	@return FALSE for mmap error otherwise TRUE
-*/
-int8_t first_page_allocation(e_type type)
-{
-	t_page *page;
-
-	if (type == TINY && check_preallocated_page(type) == FALSE) {
-		page = init_page(TINY, 0, PRE_ALLOCATE);
-		if (!page) {
-			return (FALSE);
-		}
-		// ft_printf_fd(1, "\n%sINIT First Tiny page%s\n", RED, RESET);
-		page_add_back(&g_data, page);
-	} else if (type == SMALL && check_preallocated_page(type) == FALSE) {
-		page = init_page(SMALL, 0, PRE_ALLOCATE);
-		if (!page) {
-			return (FALSE);
-		}		
-		// ft_printf_fd(1, "\n%sINIT First Small page%s\n", RED, RESET);
-		page_add_back(&g_data, page);
-	}
-	return (TRUE);
-}
-
 /* @brief check env variable to know is we need to build debug data */
 /*
 void start_call_malloc()
@@ -60,7 +19,7 @@ void start_call_malloc()
 int8_t init_first_page()
 {
 	if (!g_data) {
-		ft_printf_fd(1, RED"\n\nINIT FRIST PAGE\n\n"RESET);
+		// ft_printf_fd(1, RED"\n\nINIT FIRST PAGE\n\n"RESET);
 		t_page *page = init_page(TINY, 0, PRE_ALLOCATE);
 		if (!page) {
 			return (-1);
@@ -102,11 +61,6 @@ void *malloc(size_t size)
 	write_function_name(MALLOC_CALL, 2); /* Only for call history */
 	type = detect_type(size);
 
-	// if (first_page_allocation(type) == FALSE) {
-	// 	pthread_mutex_unlock(&g_libft_malloc_mutex);
-	// 	return (NULL);
-	// }
-	
 	block = init_data(type, size);
 	write_block_info(block, size, MALLOC_CALL, 2); /* Only for call history */
 	pthread_mutex_unlock(&g_libft_malloc_mutex);

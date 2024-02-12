@@ -83,7 +83,6 @@ static void *get_block_addr(void *ptr, size_t size)
 		return (test);
 	while(data && data->next)
 	{
-		ft_printf_fd(1, "Realloc yo\n");
 		test = check_for_realloc_block(data, data->next, data->next->block, ptr, size);
 		if (test && test != ptr)
 			return (test);
