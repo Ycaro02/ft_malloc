@@ -51,6 +51,8 @@
 /* Aligne value for large block to check */
 # define ALIGN_VALUE        64
 
+# define MALLOC_TRACE_ENV   "TRACE_MALLOC"
+
 /** e_type enum to represent different block with power of 2, store status of env var or special page too  */
 enum type_block_e {
     TINY=1,
@@ -96,6 +98,10 @@ typedef struct s_page {
 extern t_page *g_data;
 /* Global mutex to be thread safe */
 extern pthread_mutex_t g_libft_malloc_mutex;
+
+
+extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
+
 
 /* Library function */
 void    show_alloc_mem();

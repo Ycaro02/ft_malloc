@@ -7,18 +7,22 @@ t_page			*g_data = NULL;
 pthread_mutex_t	g_libft_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
 // pthread_mutex_t	g_libft_malloc_mutex;
 
-
 /* @brief check env variable to know is we need to build debug data */
 /*
+*/
 void start_call_malloc()
 {
-	char *test = getenv("");
+	char *env = getenv(MALLOC_TRACE_ENV);
+	if (env) {
+		ft_printf_fd(1, "MALLOC_TRACE_ENV = %s\n", env);
+	}
 }
-*/
 
-int8_t init_first_page()
+/* @brief Init first pre allocate page for tiny and small block */
+inline static int8_t init_first_page()
 {
 	if (!g_data) {
+		start_call_malloc();
 		t_page *page = init_page(TINY, 0, PRE_ALLOCATE);
 		if (!page) {
 			return (FALSE);
@@ -48,9 +52,9 @@ void *malloc(size_t size)
 	if (size <= 0) {  /* maybe to change malloc 1 for 0 input ? */
 		return (NULL);
 	}
+	// start_call_malloc();
 	/* lock mutex */
 	pthread_mutex_lock(&g_libft_malloc_mutex);
-	
 	if(init_first_page() == FALSE) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
