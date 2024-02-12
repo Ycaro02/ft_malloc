@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfour <nfour@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:40:12 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/09 16:57:16 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/11 18:30:47 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ void 		free_incomplete_array(void **array, int max);
 
 
 int	ft_printf_fd(int fd, const char *s, ...);
+
 #endif
