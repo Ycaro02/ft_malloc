@@ -10,6 +10,15 @@ static void put_size_t_fd(size_t n, int fd)
 
 void write_function_name(int8_t call, int fd)
 {
+	/* if enable color
+		char *color = GREEN;
+		if (call == REALLOC_CALL)
+			color = PURPLE;
+		else if (call == FREE_CALL)
+			color = RED;
+		ft_printf_fd(fd, color);
+	*/
+
 	if (call == MALLOC_CALL) {
 		ft_printf_fd(fd , GREEN"Malloc  call: "RESET);
 	} else if (call == REALLOC_CALL ) {
@@ -17,17 +26,25 @@ void write_function_name(int8_t call, int fd)
 	} else {
 		ft_printf_fd(fd , RED"Free    call: "RESET);
 	}
-	
+	/* if color enable
+		ft_printf_fd(fd, RESET);
+	*/
 }
 
 static void display_realloc_block(t_block *block, e_type type, size_t size, int fd)
 {
     ft_printf_fd(fd, " allocated, try to add: ");
-    put_size_t_fd(size, fd);
-    ft_printf_fd(fd, " additional bytes.\nNew expected size: "GREEN);
+    //color
+	put_size_t_fd(size, fd);
+    //color
+	ft_printf_fd(fd, " additional bytes.\nNew expected size: "GREEN);
+	/* if color
+		ft_printf_fd(fd, GREEN);*/
+
     put_size_t_fd(size + block->size, fd);
     ft_printf_fd(fd, RESET);
-
+	/* if color
+	ft_printf_fd(fd, RESET);*/
     if (!(type & LARGE) && size + block->size <= get_page_size(type, size)) {
         ft_printf_fd(fd, " Extend block success no need to move data\n");
     } else {
@@ -38,25 +55,41 @@ static void display_realloc_block(t_block *block, e_type type, size_t size, int 
 void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 {
 	int8_t type = detect_type(block->size);
-
+	/* if color 
+		ft_printf_fd(fd, YELLOW);
+		*/
 	if (type & TINY) {
 		ft_printf_fd(fd, YELLOW"tiny  block "RESET);
 	} else if (type & SMALL) {
 		ft_printf_fd(fd, YELLOW"small block "RESET);
 	} else {
 		ft_printf_fd(fd, YELLOW"large block "RESET);
-	}	
+	}
+	/* if color
+		ft_printf_fd(fd, RESET);
+		*/
+
 	ft_printf_fd(fd, "of size: "GREEN);
+	/* if color 
+		ft_printf_fd(fd, GREEN);
+		*/
+	
 	put_size_t_fd(size, fd);
 	ft_printf_fd(fd, RESET);
+	/* if color 
+		ft_printf_fd(fd, RESET);
+		*/
 	if (call == REALLOC_CALL) {
         display_realloc_block(block, type, size, fd);
     }
 
 	ft_printf_fd(fd, "\nBlock : ");
+	/* if else color */
 	ft_printf_fd(fd, CYAN"%p "RESET, block);
 	ft_printf_fd(fd, " Data : ");
+	/* if else color */
 	ft_printf_fd(fd, CYAN"%p\n"RESET, (void *)block + BLOCK_SIZE);
+	/* if else color */
 	ft_printf_fd(fd, YELLOW"-------------------------------------------\n"RESET);
 }
 

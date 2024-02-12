@@ -49,11 +49,13 @@
 */
 # define BLOCK_SIZE         sizeof(t_block)
 # define DATA_SIZE          sizeof(t_page)
-/* Aligne value for large block to check */
+
+/* Aligne value for large block TOCHECK */
 # define ALIGN_VALUE        64
 
-# define MALLOC_TRACE_ENV   "TRACE_MALLOC"
-
+# define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
+# define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
+# define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
 /** e_type enum to represent different block with power of 2, store status of env var or special page too  */
 enum type_block_e {
     TINY=1,
@@ -61,8 +63,8 @@ enum type_block_e {
     LARGE=4,
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
     ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
-    DETECT_LEAK=32,         /*  Detect leak and store issue in file named by this var or default file/stderr */
-    VERY_VERBOSE=64,        /*  Create output file with alloc data: size, trace leaks, active the ALLOCATION TRACE option */
+    ENABLE_COLOR=32,        /*  Enable color for allocation trace option */
+    DETECT_LEAK=64,         /*  Detect leak and store issue in file named by this var or default file/stderr */
     /* FREE_PRE_ALLOCATE=128 maybe find solution to free page, maybe call from main at the end of the program */
 };
 
@@ -104,10 +106,8 @@ extern pthread_mutex_t g_libft_malloc_mutex;
 /* need to include getenv here for bonus, basicly this definition is in stdilib.h */
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 
-int8_t check_debug_flag(int8_t flag);
-int get_debug_fd();
-
-char *check_env_variable(char *to_check);
+int8_t  check_debug_flag(int8_t flag);
+int     get_debug_fd();
 
 /* Library function */
 void    show_alloc_mem();
