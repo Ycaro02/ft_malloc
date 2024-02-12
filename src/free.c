@@ -1,13 +1,25 @@
 #include "../include/malloc.h"
 
-/* @brief call free_page(munmap call) on all g_data list */
+/* @brief call free_page(munmap call) on all g_data list, if
+	you are clever you need to call it at the end of all your allocation
+	program speciali if you are using DEBUG flag */
 void free_meta_data()
 {
 	t_page *ptr = g_data;
+	int save_fd = -1;
+
+	if (g_data) {
+		if (check_debug_flag(ALLOCATION_TRACE)) {
+			save_fd = get_debug_fd();
+		}
+	}
 	while (g_data) {
 		ptr = ptr->next;
 		free_page(g_data);
 		g_data = ptr;
+	}
+	if (save_fd != -1) {
+		close(save_fd);
 	}
 }
 
