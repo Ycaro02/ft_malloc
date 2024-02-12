@@ -4,7 +4,7 @@
  * 	@param size_t size: size of desired allocation in bytes
  *	@return e_type enum represent the type of desired block 
 */
-inline e_type detect_type(size_t size)
+e_type detect_type(size_t size)
 {
 	e_type const type_array[3] = {TINY, SMALL, LARGE};
 	/* (size > SMALL_SIZE) * 2) Large bool need no be count * 2, cause he is idx 2, 1 for small perfect for bool otherwise tiny block*/

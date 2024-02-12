@@ -116,13 +116,20 @@ void check_for_leak()
 		block = current->block;
 		while (block) {
 			if (block->size != 0 ) {
-				ft_printf_fd(2, RED"Leak in page: %p, block %p, potential data %p of size %u not free\n"RESET\
-				, current, block, (void *)block + BLOCK_SIZE, block->size);
+				char *color = RED;
+				int8_t type = detect_type(block->size);
+				if (type & TINY)
+					color = YELLOW;
+				else if (type & SMALL)
+					color = PURPLE;
+				ft_printf_fd(2, "%sLeak in page: %p, block %p, potential data %p of size %u not free\n"RESET\
+				, color, current, block, (void *)block + BLOCK_SIZE, block->size);
 			}
 			block = block->next;
 		}
 		current = current->next;;
 	}
+	// free_meta_data();
 }
 
 /*

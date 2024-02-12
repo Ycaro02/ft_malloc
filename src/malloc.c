@@ -76,7 +76,7 @@ inline static int8_t init_first_page()
 		page->fd = fd;
 		page_add_back(&g_data, page);
 		/* first page->type contain all debug context no more needed */
-		page = init_page(SMALL, 0, ALLOCATION_TRACE);
+		page = init_page(SMALL, 0, PRE_ALLOCATE);
 		if (!page) {
 			return (FALSE);
 		}		

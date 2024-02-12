@@ -111,6 +111,8 @@ int     get_debug_fd();
 
 void check_for_leak();
 
+e_type detect_type(size_t size);
+
 /* Library function */
 void    show_alloc_mem();
 void    *malloc(size_t size);
