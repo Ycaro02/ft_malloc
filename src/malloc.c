@@ -24,20 +24,38 @@ inline int8_t check_debug_flag(int8_t flag) { return ((g_data->type & flag) == f
 /* @brief get debug file fd */
 inline int get_debug_fd() { return (g_data->fd); }
 
+// static int8_t get_color_variable()
+// {
+// 	char *color = getenv(MALLOC_COLOR_ENV);
+// 	/*if color == NULL --> 0 * FLAG, otherwise --> 1 *FLAG*/
+// 	return ((color != NULL) * ENABLE_COLOR)
+// }
+
+
+static int8_t bool_check_env(char *to_check, int8_t flag)
+{
+	char *env = getenv(to_check);
+	// ft_printf_fd(2, "for to check %s: return %d\n", to_check, (env != NULL) * ENABLE_COLOR);
+	/*if env == NULL --> 0 * FLAG, otherwise --> 1 *FLAG*/
+	return ((env != NULL) * flag);
+}
+
 static int handle_env_variable(int8_t *special_flag)
 {
 	int 	fd = -1;
-	char	*env = check_env_variable(MALLOC_TRACE_ENV);
+	char	*trace_file = check_env_variable(MALLOC_TRACE_ENV);
 
-	if (env) {
-		fd = open(env, O_CREAT | O_APPEND | O_RDWR, 00777);
+	if (trace_file) {
+		fd = open(trace_file, O_CREAT | O_APPEND | O_RDWR, 00777);
 		if (fd > 0) {
 			*special_flag += ALLOCATION_TRACE;
 		} else {
-			ft_printf_fd(2, "Error can't open or create file %s\n", env);
+			ft_printf_fd(2, "Error can't open or create file %s\n", trace_file);
 			fd = -1;
 		}
 	}
+	*special_flag += bool_check_env(MALLOC_COLOR_ENV, ENABLE_COLOR);
+	*special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
 	return (fd);
 }
 
