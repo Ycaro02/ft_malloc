@@ -57,14 +57,22 @@ enum e__type {
     SMALL=2,
     LARGE=4,
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
-    SAVE_MALLOC_CALL=16,    /*  Save malloc call if env variable is enable */
-    DEBUG_ALLOC_FLAG=32,    /*  Create output file with alloc data: size, trace leaks, unitialised data  ... */
+    ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
+    DETECT_LEAK=32,         /*  Detect leak and store issue in file named by this var or default file/stderr */
+    VERY_VERBOSE=64,        /*  Create output file with alloc data: size, trace leaks, unitialised data  ... */
+    /* FREE_PRE_ALLOCATE=128 maybe find solution to free page, maybe call from main at the end of the program */
 };
 
 enum e_free_status {
     BLOCK_ALREADY_FREE=-1,
     BLOCK_FREE_SUCCESS,
     BLOCK_NOT_FOUND,
+};
+
+enum e_function_call {
+    MALLOC_CALL,
+    REALLOC_CALL,
+    FREE_CALL,
 };
 
 typedef enum e__type    e_type;

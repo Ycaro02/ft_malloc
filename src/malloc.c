@@ -49,6 +49,16 @@ static int8_t first_page_allocation(e_type type)
 	return (TRUE);
 }
 
+
+
+void	put_size_t_fd(size_t n, int fd)
+{
+	if (n / 10 != 0)
+		ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd(n % 10 + '0', fd);
+}
+
+
 /* @brief check env variable to know is we need to build debug data */
 /*
 	- We need to check env variable and set type in consequences
@@ -61,6 +71,17 @@ static int8_t first_page_allocation(e_type type)
 	
 		- create file with expected name, just need to store the fd
 		- each important call format and write data in fd
+	void write_page_info(t_page *page, size_t size)
+	{
+		char buff[2000];
+			if (page->type & TINY)
+				ft_strcpy(buff, "Page: tiny")
+			else if (page->type & SMALL)		
+				ft_strcpy(buff, "Page: small")
+			else 
+				ft_strcpy(buff, "Page: large")
+	}
+
 	Malloc:
 		- block type
 		- nb bytes expected
@@ -92,6 +113,76 @@ void start_call_malloc()
 	char *test = getenv("");
 }
 */
+
+void write_function_call(int8_t call)
+{
+	char buff[200];
+	int last = 0;
+
+	if (call == MALLOC_CALL) {
+		last = ft_strcpy(buff, "Malloc call\n", ft_strlen("Malloc alloc \n"));
+		buff[last] = 0;
+		return ;
+	}
+	else if (call == REALLOC_CALL ) {
+		last = ft_strcpy(buff, "Realloc call\n", ft_strlen("Realloc try to extend \n"));
+		buff[last] = 0;
+		return ;
+	}
+	last = ft_strcpy(buff, "Free call\n", ft_strlen("Free \n"));
+	buff[last] = 0;
+}
+
+static int str_count_cpy(char *dest, char *src)
+{
+	int len = ft_strlen(src);
+	ft_strcpy(dest, src, len);
+	dest[len + 1] = '\0';
+	return (len + 1);
+}
+
+static size_t maximum_size_by_type(int8_t type)
+{
+	return (type & TINY ? TINY_SIZE : SMALL_SIZE);
+}
+
+void write_block_info(t_block *block, size_t size, int8_t call, int fd)
+{
+	char buff[2000];
+	int last = 0;
+
+	ft_bzero(buff, 2000);
+	write_function_call(call);
+
+	int8_t type = detect_type(block->size);
+	if (type & TINY) {
+		last = str_count_cpy(buff, "block: tiny ");
+	} else if (type & SMALL) {
+		last = str_count_cpy(buff, "block: small ");
+	} else {
+		last = str_count_cpy(buff, "block: large ");
+	}	
+	last = str_count_cpy(&buff[last], "of size: ");
+	// write_reset_buff
+	if (call == REALLOC_CALL) {
+		put_size_t_fd(block->size, fd);
+		last = str_count_cpy(buff, " allocated, try to add: ");
+		// write_reset_buff
+		put_size_t_fd(size, fd);
+		last = str_count_cpy(buff, " additional bytes\nNew expected size: ");
+		// write_reset_buff
+		put_size_t_fd(size + block->size, fd);
+		if (!(type & LARGE) && size + block-> size <= maximum_size_by_type(type)) {
+			last = str_count_cpy(buff, " Extend block success no need to move data\n");
+		} else {
+			last = str_count_cpy(buff, " No enought space to extend block need to call malloc\n");
+		}
+		// write_reset_buff
+	} else {
+		put_size_t_fd(size, fd);
+	}
+}
+
 /** @brief The malloc() function allocates “size” bytes of memory and returns a pointer to the
  *	allocated memory
  * 	@param size_t size: size of desired allocation in bytes
