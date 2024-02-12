@@ -19,17 +19,16 @@ void start_call_malloc()
 int8_t init_first_page()
 {
 	if (!g_data) {
-		// ft_printf_fd(1, RED"\n\nINIT FIRST PAGE\n\n"RESET);
 		t_page *page = init_page(TINY, 0, PRE_ALLOCATE);
 		if (!page) {
-			return (-1);
+			return (FALSE);
 		}		
 		page_add_back(&g_data, page);
-		t_page* page2 = init_page(SMALL, 0, PRE_ALLOCATE);
-		if (!page2) {
-			return (-1);
+		page = init_page(SMALL, 0, PRE_ALLOCATE);
+		if (!page) {
+			return (FALSE);
 		}		
-		page_add_back(&g_data, page2);
+		page_add_back(&g_data, page);
 	}
 	return (TRUE);
 }
@@ -52,7 +51,7 @@ void *malloc(size_t size)
 	/* lock mutex */
 	pthread_mutex_lock(&g_libft_malloc_mutex);
 	
-	if(init_first_page() == -1) {
+	if(init_first_page() == FALSE) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
 	}
