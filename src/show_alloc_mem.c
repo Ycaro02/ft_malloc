@@ -1,11 +1,9 @@
 #include "../include/malloc.h"
 
-
 void	put_hex(size_t nbr, int fd)
 {
-	char	*base_16;
-
-	base_16 = "0123456789abcdef";
+	char	*base_16 = "0123456789abcdef";
+	
 	if (nbr > 15)
 		put_hex(nbr / 16, fd);
 	ft_putchar_fd(base_16[nbr % 16], fd);
@@ -20,7 +18,7 @@ void display_hex_data(t_block *block, void *ptr)
 		ft_printf_fd(1, PURPLE"|0x");
 		put_hex((size_t) (((char *) ptr)[idx]), 1);
 		ft_printf_fd(1, "|"RESET);
-		/* 10 ascii val for \n, 32 for space */
+		/* if idx % 7 == 0 print '\n' else space*/
 		char sep = (((idx % 7) == 0) * '\n') + (((idx % 7) != 0) * ' ');
 		ft_printf_fd(1, "%c", sep);
 	} 
@@ -31,15 +29,17 @@ void display_hex_data(t_block *block, void *ptr)
 */
 static size_t print_bloc(t_page *data, int8_t hex_flag)
 {
-	int total = 0;
-	if (data->type & TINY)
+	int 	total = 0;
+	t_block	*block;
+	if (data->type & TINY) {
 		ft_printf_fd(1, "TINY");
-	else if (data->type & SMALL)
+	} else if (data->type & SMALL) {
 		ft_printf_fd(1, "SMALL");
-	else
+	} else {
 		ft_printf_fd(1, "LARGE");
+	}
 	ft_printf_fd(1, " : %p\n", data);
-	t_block *block = data->block;
+	block = data->block;
 	while (block) {
 		void *ptr = (void *)block + BLOCK_SIZE;
 		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
@@ -59,8 +59,8 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 
 void show_alloc_mem_hex()
 {
-	t_page *tmp;
-	tmp = g_data;
+	t_page *tmp = g_data;
+	
 	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
 	display_line(NULL, '-');
 	while (tmp) {
