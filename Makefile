@@ -6,7 +6,7 @@
 #    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/12 17:46:33 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/12 18:11:36 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS	=	src/malloc.c 						\
 			src/utils.c 						\
 			src/realloc.c						\
 			src/free.c							\
-			src/trace_alloc.c
+			src/trace_alloc.c					\
+			src/handle_env.c					\
 
 
 LIBFT	= 	libft/libft.a

@@ -106,62 +106,50 @@ extern pthread_mutex_t g_libft_malloc_mutex;
 /* need to include getenv here for bonus, basicly this definition is in stdilib.h */
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 
-int8_t  check_debug_flag(int8_t flag);
-int     get_debug_fd();
 
 void check_for_leak();
 
-e_type detect_type(size_t size);
 
 /* Library function */
-void    show_alloc_mem();
-void    *malloc(size_t size);
-void    *realloc(void *ptr, size_t size);
-void    free(void *ptr);
+void        show_alloc_mem();
+void        *malloc(size_t size);
+void        *realloc(void *ptr, size_t size);
+void        free(void *ptr);
 
 //free.c
-void    free_meta_block(t_block* block, t_page *data);
-int8_t  page_empty(t_page *block);
-void    free_page(t_page *data);
-void    free_meta_data();
+void        free_meta_block(t_block* block, t_page *data);
+int8_t      page_empty(t_page *block);
+void        free_page(t_page *data);
+void        free_meta_data();
 
 //page_gestion.c
-t_block *init_data(e_type type, size_t size);
-t_page  *init_page(e_type type, size_t size, e_type pre_aloc);
-e_type  detect_type(size_t size);
-size_t  get_page_size(e_type type, size_t size);
-void    page_add_back(t_page **lst, t_page *data);
+t_block     *init_data(e_type type, size_t size);
+t_page      *init_page(e_type type, size_t size, e_type pre_aloc);
+e_type      detect_type(size_t size);
+size_t      get_page_size(e_type type, size_t size);
+void        page_add_back(t_page **lst, t_page *data);
 
 //utils.c
-void    display_line(char *str, char to_display);
-size_t  get_align_by_type(e_type type);
-int     get_lst_block_len(t_block *lst);
+void        display_line(char *str, char to_display);
+size_t      get_align_by_type(e_type type);
+int         get_lst_block_len(t_block *lst);
 // void    free_block();
-void    print_define(void);
+void        print_define(void);
 
 //block.c
-t_block	*init_block(t_block *block, size_t size, int pos, t_page *data);
-size_t align_mem_block(size_t m_size, size_t size);
-t_block *try_add_block(char type, size_t size);
-void    block_add_back(t_block **lst, t_block *block);
+t_block	    *init_block(t_block *block, size_t size, int pos, t_page *data);
+size_t      align_mem_block(size_t m_size, size_t size);
+t_block     *try_add_block(char type, size_t size);
+void        block_add_back(t_block **lst, t_block *block);
 
 /* trace_alloc.c */
-void write_block_info(t_block *block, size_t size, int8_t call, int fd);
-void write_function_name(int8_t call, int fd);
-// ft_printf.c
-// int	ft_printf_fd(int fd, const char *s, ...);
+void        write_block_info(t_block *block, size_t size, int8_t call, int fd);
+void        write_function_name(int8_t call, int fd);
 
-
-/* show mem format
-    TINY : 0xA0000
-    0xA0020 - 0xA004A : 42 bytes
-    0xA006A - 0xA00BE : 84 bytes
-    SMALL : 0xAD000
-    0xAD020 - 0xADEAD : 3725 bytes
-    LARGE : 0xB0000
-    0xB0020 - 0xBBEEF : 48847 bytes
-    Total : 52698 bytes
-*/  
+/* handle env.c */
+int         handle_env_variable(int8_t *special_flag);
+int8_t      check_debug_flag(int8_t flag);
+int         get_debug_fd();
 
 /*
 Debugging

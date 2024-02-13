@@ -98,20 +98,20 @@ t_block	*init_block(t_block *block, size_t size, int pos, t_page *data)
 }
 
 /* Basic function block lst add back see page add back */
-void    block_add_back(t_block **lst, t_block *new)
+void	block_add_back(t_block **lst, t_block *block)
 {
 	t_block  *current;
 
-	if (new == NULL)
+	if (block == NULL)
 			return ;
 	if (*lst == NULL) {
-			*lst = new;
+			*lst = block;
 			return ;
 	}
 	current = *lst;
 	while (current->next != NULL)
 			current = current->next;
-	current->next = new;
+	current->next = block;
 }
 
 /* ptr arithmétique
