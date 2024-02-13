@@ -136,6 +136,7 @@ int test4(char *version)
     }
     # ifdef USE_LIBFT_MALLOC /* define at compilation time */
         print("Show alloc mem after\n");
+	    show_alloc_mem_hex();
         show_alloc_mem();    
     #endif
 }

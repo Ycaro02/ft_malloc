@@ -86,5 +86,4 @@ void show_alloc_mem()
 	ft_printf_fd(1, "Total: %U bytes\n", total);
 	display_line(NULL, '-');
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
-	show_alloc_mem_hex();
 }

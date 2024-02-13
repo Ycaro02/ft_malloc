@@ -137,6 +137,7 @@ int main(void)
 	// realloc_test();
 	// free_test();
 	alloc_free_test();
+	show_alloc_mem_hex();
 	check_for_leak();
 	free_meta_data();
 	display_line("Free all", '-');
