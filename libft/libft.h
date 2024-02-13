@@ -6,16 +6,18 @@
 /*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:40:12 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/12 17:44:55 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/12 17:55:00 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
+// # include <stdlib.h>
+# include <stddef.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include "../malloc.h"
 
 char	*ft_ultoa(unsigned long n);
 int		ft_isalpha(int c);
