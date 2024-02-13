@@ -8,6 +8,8 @@ void free_meta_data()
 	t_page *ptr = g_data;
 	int save_fd = -1;
 
+	pthread_mutex_lock(&g_libft_malloc_mutex);
+
 	if (g_data) {
 		if (check_debug_flag(ALLOCATION_TRACE)) {
 			save_fd = get_debug_fd();
@@ -21,6 +23,10 @@ void free_meta_data()
 	if (save_fd != -1) {
 		close(save_fd);
 	}
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	/* after investigate we don't need to destroy mutex, structure don't do some allocation
+		, destroy function just set invalid value to prevent bad call*/
+	// pthread_mutex_destroy(&g_libft_malloc_mutex);
 }
 
 /* @brief munmap call */

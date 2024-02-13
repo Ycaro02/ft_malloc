@@ -15,10 +15,17 @@ inline static int8_t init_first_page()
 		t_page *page;
 		int 	fd = -1;
 		int8_t special_flag = PRE_ALLOCATE;
-		
+
+		/* if g_data freed need to re init mutex */
+		// int ret = pthread_mutex_init(&g_libft_malloc_mutex, NULL);
+		// if (ret == EINVAL || ret == EBUSY) {
+		// 	ft_printf_fd(2, "Error mutex init\n");
+		// 	return (FALSE);
+		// }
 		fd = handle_env_variable(&special_flag);
 		page = init_page(TINY, 0, special_flag);
 		if (!page) {
+			pthread_mutex_unlock(&g_libft_malloc_mutex);
 			return (FALSE);
 		}
 		page->fd = fd;
@@ -26,6 +33,7 @@ inline static int8_t init_first_page()
 		/* first page->type contain all debug context no more needed */
 		page = init_page(SMALL, 0, PRE_ALLOCATE);
 		if (!page) {
+			pthread_mutex_unlock(&g_libft_malloc_mutex);
 			return (FALSE);
 		}		
 		page_add_back(&g_data, page);
@@ -45,11 +53,12 @@ void *malloc(size_t size)
 	e_type type;
 	t_block *block;
 
+	pthread_mutex_lock(&g_libft_malloc_mutex);
+	
 	if (size <= 0) {  /* maybe to change malloc 1 for 0 input ? */
+		pthread_mutex_unlock(&g_libft_malloc_mutex);
 		return (NULL);
 	}
-
-	pthread_mutex_lock(&g_libft_malloc_mutex);
 
 	if(init_first_page() == FALSE) {
 		pthread_mutex_unlock(&g_libft_malloc_mutex);

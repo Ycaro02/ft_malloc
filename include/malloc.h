@@ -3,8 +3,6 @@
 
 # include <pthread.h>   /* mutex Need to be include first ? */
 
-# include <mcheck.h>
-
 # include <unistd.h>    /* write */
 # include <stddef.h>    /* NULL */
 # include <sys/mman.h>  /* mmap */
@@ -107,20 +105,25 @@ extern pthread_mutex_t g_libft_malloc_mutex;
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 
 
-void check_for_leak();
 
 
 /* Library function */
-void        show_alloc_mem();
 void        *malloc(size_t size);
 void        *realloc(void *ptr, size_t size);
 void        free(void *ptr);
+void        show_alloc_mem();
+/* BONUS */
+void        show_alloc_mem_hex();
+void        check_for_leak();
 
-//free.c
+
+/* Free all page. close debug fd if in use and destroy mutex */
+void        free_meta_data();
+
+// free.c
 void        free_meta_block(t_block* block, t_page *data);
 int8_t      page_empty(t_page *block);
 void        free_page(t_page *data);
-void        free_meta_data();
 
 //page_gestion.c
 t_block     *init_data(e_type type, size_t size);

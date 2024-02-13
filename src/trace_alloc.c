@@ -117,10 +117,11 @@ void check_for_leak()
 			if (block->size != 0 ) {
 				char *color = RED;
 				int8_t type = detect_type(block->size);
-				if (type & TINY)
+				if (type & TINY) {
 					color = YELLOW;
-				else if (type & SMALL)
+				} else if (type & SMALL) {
 					color = PURPLE;
+				}
 				ft_printf_fd(2, "%sLeak in page: %p, block %p, potential data %p of size %u not free\n"RESET\
 				, color, current, block, (void *)block + BLOCK_SIZE, block->size);
 			}

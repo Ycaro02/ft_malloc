@@ -12,14 +12,15 @@ void	put_hex(size_t nbr, int fd)
 
 void display_hex_data(t_block *block, void *ptr)
 {
-	ft_printf_fd(1, " -> ");
 	for (size_t idx = 0; idx < block->size; ++idx) {
 		ft_printf_fd(1, RED"Idx%s %s|%d|"RESET, RESET, YELLOW, idx);
 		ft_printf_fd(1, PURPLE"|0x");
 		put_hex((size_t) (((char *) ptr)[idx]), 1);
 		ft_printf_fd(1, "|"RESET);
 		/* if idx % 7 == 0 print '\n' else space*/
-		char sep = (((idx % 7) == 0) * '\n') + (((idx % 7) != 0) * ' ');
+		char sep = (((idx != 0) && (idx % 7 == 0)) * '\n') + (((idx == 0) || (idx % 7 != 0)) * ' ');
+
+		// sep = (((idx != 0) && (idx % 7 == 0)) * '\n')
 		ft_printf_fd(1, "%c", sep);
 	} 
 }
@@ -43,12 +44,10 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 	while (block) {
 		void *ptr = (void *)block + BLOCK_SIZE;
 		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
-		ft_printf_fd(1, ": %U bytes", ptr + block->size - ptr);
+		ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
 		
 		if (hex_flag) {
 			display_hex_data(block, ptr);
-		} else {
-			ft_printf_fd(1, "\n");
 		}
 		ft_printf_fd(1, "\n");
 		total += ptr + block->size - ptr;
@@ -87,7 +86,5 @@ void show_alloc_mem()
 	ft_printf_fd(1, "Total: %U bytes\n", total);
 	display_line(NULL, '-');
 	pthread_mutex_unlock(&g_libft_malloc_mutex);
-
-	ft_printf_fd(1, "Dump hex:\n");
 	show_alloc_mem_hex();
 }

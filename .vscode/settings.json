@@ -81,7 +81,11 @@
         "streambuf": "c",
         "pthread.h": "c",
         "mcheck.h": "c",
-        "stubs.h": "c"
+        "stubs.h": "c",
+        "fcntl.h": "c",
+        "mman.h": "c",
+        "errno.h": "c",
+        "struct___jmp_buf_tag.h": "c"
     },
 
     "highlight.regexes": {
