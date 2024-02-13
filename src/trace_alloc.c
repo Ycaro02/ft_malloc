@@ -109,6 +109,7 @@ void check_for_leak()
 {
 	t_page	*current = g_data;
 	t_block *block;
+	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
 
 	while (current) {
 		block = current->block;
@@ -127,8 +128,10 @@ void check_for_leak()
 		}
 		current = current->next;;
 	}
+	pthread_mutex_unlock(&g_libft_malloc_mutex);
 	// free_meta_data();
 }
+
 
 /*
 	- We need to check env variable and set type in consequences
