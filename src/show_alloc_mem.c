@@ -12,6 +12,20 @@ void	put_hex(size_t nbr, int fd)
 }
 
 
+void display_hex_data(t_block *block, void *ptr)
+{
+	ft_printf_fd(1, " -> ");
+	for (size_t idx = 0; idx < block->size; ++idx) {
+		ft_printf_fd(1, RED"Idx%s %s|%d|"RESET, RESET, YELLOW, idx);
+		ft_printf_fd(1, PURPLE"|0x");
+		put_hex((size_t) (((char *) ptr)[idx]), 1);
+		ft_printf_fd(1, "|"RESET);
+		/* 10 ascii val for \n, 32 for space */
+		char sep = (((idx % 7) == 0) * '\n') + (((idx % 7) != 0) * ' ');
+		ft_printf_fd(1, "%c", sep);
+	} 
+}
+
 /** @brief	Display page function, iter on each block and display his information
  * 	@param	t_page *data, pointer on page to display
 */
@@ -27,25 +41,15 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 	ft_printf_fd(1, " : %p\n", data);
 	t_block *block = data->block;
 	while (block) {
-		size_t i = 0;
 		void *ptr = (void *)block + BLOCK_SIZE;
 		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
 		ft_printf_fd(1, ": %U bytes", ptr + block->size - ptr);
 		
 		if (hex_flag) {
-			ft_printf_fd(1, " -> ");
-			for (i = 0; i < block->size; ++i) {
-				ft_printf_fd(1, RED"Idx%s %s|%d|"RESET, RESET, YELLOW, i);
-				ft_printf_fd(1, PURPLE"|0x");
-				put_hex((size_t) (((char *) ptr)[i]), 1);
-				ft_printf_fd(1, "|"RESET);
-				/* 10 ascii val for \n, 32 for space */
-				char sep = (((i % 7) == 0) * '\n') + (((i % 7) != 0) * ' ');
-				ft_printf_fd(1, "%c", sep);
-			} 
-		}
-		else
+			display_hex_data(block, ptr);
+		} else {
 			ft_printf_fd(1, "\n");
+		}
 		ft_printf_fd(1, "\n");
 		total += ptr + block->size - ptr;
 		block = block->next;
