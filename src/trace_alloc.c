@@ -84,8 +84,6 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 	put_size_t_fd(size, fd);
 	handle_reset_color(fd);
 
-
-
 	if (call == REALLOC_CALL) {
         display_realloc_block(block, type, size, fd);
     }

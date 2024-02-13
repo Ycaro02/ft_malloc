@@ -6,8 +6,11 @@
 */
 e_type detect_type(size_t size)
 {
+	/* (size > SMALL_SIZE) * 2) 
+		Large bool need no be count * 2 idx = 2
+		1 for small perfect for bool otherwise tiny block*/
 	e_type const type_array[3] = {TINY, SMALL, LARGE};
-	/* (size > SMALL_SIZE) * 2) Large bool need no be count * 2, cause he is idx 2, 1 for small perfect for bool otherwise tiny block*/
+
 	return ((type_array[(size > TINY_SIZE && size <= SMALL_SIZE) + ((size > SMALL_SIZE) << 1)]));
 }
 
@@ -18,9 +21,9 @@ e_type detect_type(size_t size)
 */
 inline size_t get_page_size(e_type type, size_t size)
 {
-	size_t const page_size[3] = {TINY_PAGE_SIZE, SMALL_PAGE_SIZE, align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE)};
 	/* (TINY >> 1)=0, (SMALL >> 1)=1, (LARGE >> 1)=2 */
-	// ft_printf_fd(2, BLUE"\nNEW For %d page = %U\n"RESET, (int)type, page_size[type >> 1]);
+	size_t const page_size[3] = {TINY_PAGE_SIZE, SMALL_PAGE_SIZE, align_mem_block(size + DATA_SIZE + BLOCK_SIZE, PAGE_SIZE)};
+
 	return (page_size[type >> 1]);
 }
 
@@ -89,7 +92,7 @@ void    page_add_back(t_page **lst, t_page *data)
 	current->next = data;
 }
 
-/* Map addresses starting near ADDR and extending for LEN bytes.  from
+/* Mmap: Map addresses starting near ADDR and extending for LEN bytes.  from
    OFFSET into the file FD describes according to PROT and FLAGS.  If ADDR
    is nonzero, it is the desired mapping address.  If the MAP_FIXED bit is
    set in FLAGS, the mapping will be at ADDR exactly (which must be

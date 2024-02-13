@@ -152,13 +152,7 @@ int8_t      check_debug_flag(int8_t flag);
 int         get_debug_fd();
 
 /*
-Debugging
-Exemple de bonus:
-- Lors d'un free, le projet "défragmente" la mémoire libre en regroupant les blocs libres concomitants en un seul
-- Malloc possède des variables d'environnement de debug
-- Une fonction permet de faire un dump hexa des zones allouées
 The debug malloc library also uses these environment variables:
-
  *  MALLOC_INITVERBOSE
     	Enable some initial verbose output regarding other variables that are enabled.
  *  MALLOC_BTDEPTH
@@ -178,7 +172,6 @@ The debug malloc library also uses these environment variables:
  *  MALLOC_CKACCESS_LEVEL
         Specify the level of checking performed by the MALLOC_CKACCESS option to mallopt().
 */
-
 
 /*
     RSC:
