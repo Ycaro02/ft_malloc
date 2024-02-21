@@ -40,6 +40,6 @@ int handle_env_variable(int8_t *special_flag)
 		}
 	}
 	*special_flag += bool_check_env(MALLOC_COLOR_ENV, ENABLE_COLOR);
-	*special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
+	// *special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
 	return (fd);
 }

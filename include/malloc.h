@@ -10,7 +10,7 @@
 # include "basic_define.h"
 # include "../libft/libft.h"
 
-/* Return of getpagesize function casted in size_t */
+/* Return of getpagesize function casted in size_t 4096 */
 # define PAGE_SIZE              (size_t)getpagesize()
 /* TINY block size */
 # define TINY_SIZE              (size_t)128
@@ -61,7 +61,7 @@
 
 # define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
 # define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
-# define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
+// # define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
 /** e_type enum to represent different block with power of 2, store status of env var or special page too  */
 enum type_block_e {
     TINY=1,
@@ -70,11 +70,8 @@ enum type_block_e {
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
     ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
     ENABLE_COLOR=32,        /*  Enable color for allocation trace option */
-    DETECT_LEAK=64,         /*  Detect leak and store issue in file named by this var or default file/stderr */
-    /* FREE_PRE_ALLOCATE=128 maybe find solution to free page, maybe call from main at the end of the program */
+    // DETECT_LEAK=64,         /*  Detect leak and store issue in file named by this var or default file/stderr */
 };
-
-/* + dump hexa + dump data stored ?*/
 
 enum e_free_status {
     BLOCK_ALREADY_FREE=-1,
@@ -108,12 +105,6 @@ typedef struct s_page {
 extern t_page *g_data;
 /* Global mutex to be thread safe */
 extern pthread_mutex_t g_libft_malloc_mutex;
-
-/* need to include getenv here for bonus, basicly this definition is in stdilib.h */
-extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
-
-
-
 
 /* Library function */
 void        *malloc(size_t size);
@@ -161,6 +152,10 @@ void        write_function_name(int8_t call, int fd);
 int         handle_env_variable(int8_t *special_flag);
 int8_t      check_debug_flag(int8_t flag);
 int         get_debug_fd();
+
+/* need to include getenv here for bonus, basicly this definition is in stdilib.h */
+extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
+
 
 /*
 The debug malloc library also uses these environment variables:

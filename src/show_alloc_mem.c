@@ -33,7 +33,6 @@ static void display_type(int8_t type)
 	} else {
 		ft_printf_fd(1, LARGE_NAME);
 	}
-
 }
 
 /** @brief	Display page function, iter on each block and display his information
@@ -43,13 +42,7 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 {
 	int 	total = 0;
 	t_block	*block;
-	// if (data->type & TINY) {
-	// 	ft_printf_fd(1, "TINY");
-	// } else if (data->type & SMALL) {
-	// 	ft_printf_fd(1, "SMALL");
-	// } else {
-	// 	ft_printf_fd(1, "LARGE");
-	// }
+
 	display_type(data->type);
 	ft_printf_fd(1, " : %p\n", data);
 	block = data->block;
