@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_put_and_count.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfour <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:21:26 by nfour             #+#    #+#             */
-/*   Updated: 2022/10/05 15:20:50 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/21 13:50:07 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_put_p_nbr(unsigned long nbr, int *count, int fd)
 {
 	char	*base_16;
 
-	base_16 = "0123456789abcdef";
+	base_16 = "0123456789ABCDEF";
 	if (nbr > 15)
 		ft_put_p_nbr(nbr / 16, count, fd);
 	ft_putchar_fd(base_16[nbr % 16], fd);

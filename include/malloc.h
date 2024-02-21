@@ -17,6 +17,10 @@
 /* SMALL block size */
 # define SMALL_SIZE             (size_t)1024
 
+# define TINY_NAME              "TINY"
+# define SMALL_NAME             "SMALL"
+# define LARGE_NAME             "LARGE"
+
 /*
     TINY:
     4096 / 128 = 32 -> 32 block in one PAGE_SIZE

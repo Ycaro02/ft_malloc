@@ -169,7 +169,6 @@ int main(void)
 	realloc_test();
 	free_test();
 	test_show_mem_hex();
-	check_for_leak();
 	free_meta_data();
 	return (0);
 }

@@ -24,6 +24,18 @@ void display_hex_data(t_block *block, void *ptr)
 	} 
 }
 
+static void display_type(int8_t type)
+{
+	if (type & TINY) {
+		ft_printf_fd(1, TINY_NAME);
+	} else if (type & SMALL) {
+		ft_printf_fd(1, SMALL_NAME);
+	} else {
+		ft_printf_fd(1, LARGE_NAME);
+	}
+
+}
+
 /** @brief	Display page function, iter on each block and display his information
  * 	@param	t_page *data, pointer on page to display
 */
@@ -31,13 +43,14 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 {
 	int 	total = 0;
 	t_block	*block;
-	if (data->type & TINY) {
-		ft_printf_fd(1, "TINY");
-	} else if (data->type & SMALL) {
-		ft_printf_fd(1, "SMALL");
-	} else {
-		ft_printf_fd(1, "LARGE");
-	}
+	// if (data->type & TINY) {
+	// 	ft_printf_fd(1, "TINY");
+	// } else if (data->type & SMALL) {
+	// 	ft_printf_fd(1, "SMALL");
+	// } else {
+	// 	ft_printf_fd(1, "LARGE");
+	// }
+	display_type(data->type);
 	ft_printf_fd(1, " : %p\n", data);
 	block = data->block;
 	while (block) {
@@ -51,7 +64,9 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 		total += ptr + block->size - ptr;
 		block = block->next;
 	}
-	ft_printf_fd(1, "\n");
+	/*char c = (hex_flag == 0) * '\n' */
+	if (hex_flag)
+		ft_printf_fd(1, "\n");
 	return (total);
 }
 
