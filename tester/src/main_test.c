@@ -163,6 +163,7 @@ void test_show_mem_hex()
 
 int main(void)
 {
+	print_define();
 	alloc_free_test();
 	free_meta_data();
 	realloc_test();

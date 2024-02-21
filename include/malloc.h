@@ -40,13 +40,14 @@
 
 /*
     See print_define in utils
-    100 * (TINY_BLOCK_SIZE + DATA_SIZE) / TINY_SIZE = 6, 1 for small
-    We can use ~128 - (6 * 0.28) block in TINY page, 128 - 9 = 119;
-    102 block in SMALL, keep 2 for metadata
-    OLD 126 block in SMALL, just keep 2 for metadata
+    DATA_SIZE + (100 * TINY_BLOCK_SIZE)
+    40 - (16 * 100) = 1640 bytes for metadata:
+    - represent 12 tiny block or one small
+    On 128 tiny block we case use ~(128 - 12) = 116
+    On 104 small block we can use 104 -1 = 103
 */
-# define BLOCK_SIZE         sizeof(t_block)
-# define DATA_SIZE          sizeof(t_page)
+# define BLOCK_SIZE         sizeof(t_block) /* 16 bytes struct */
+# define DATA_SIZE          sizeof(t_page)  /* 40 bytes struct */
 
 /* Aligne value for large block TOCHECK */
 # define ALIGN_VALUE        64
