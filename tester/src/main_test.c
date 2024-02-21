@@ -34,6 +34,7 @@ void basic_alloc_free_test()
 	char *large = malloc(6000);
 	for (int j = 0; j < 6000; j++)
 		large[j] = 'b';
+	
 	char **tiny = malloc(sizeof(char *) * 5);
 	for (int i = 0; i < 5; ++i) {
 		tiny [i] = malloc(99);
@@ -41,6 +42,7 @@ void basic_alloc_free_test()
 			tiny[i][j] = 'P';
 		}
 	}
+	
 	char **small = malloc(sizeof(char *) * 5);
 	for (int i = 0; i < 5; ++i) {
 		small [i] = malloc(400);
@@ -52,7 +54,7 @@ void basic_alloc_free_test()
 	ft_printf_fd(1, YELLOW"Start basic alloc free test \n"RESET);
 	display_line(NULL, '-');
 	display_line("initial data", '-');
-	show_alloc_mem();
+	show_alloc_mem(); /* show initial data */
 	display_line("Free tiny[0] and small [0]", '-');
 	free(tiny[0]);
 	free(small[0]);
@@ -164,11 +166,11 @@ void test_show_mem_hex()
 int main(void)
 {
 	print_define();
-	alloc_free_test();
+	alloc_free_test(); /* first */ 
 	free_meta_data();
-	realloc_test();
+	realloc_test(); /* second */
 	free_test();
-	test_show_mem_hex();
+	test_show_mem_hex(); /* third */
 	free_meta_data();
 	return (0);
 }
