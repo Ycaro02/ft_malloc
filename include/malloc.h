@@ -62,11 +62,11 @@
 # define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
 # define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
 // # define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
-/** e_type enum to represent different block with power of 2, store status of env var or special page too  */
+/** e_type enum to represent different block with power of 2, store status of env var or special page  */
 enum type_block_e {
-    TINY=1,
-    SMALL=2,
-    LARGE=4,
+    TINY=1,                 /*  Tiny size block */
+    SMALL=2,                /*  Small size block */
+    LARGE=4,                /*  Large size block */
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
     ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
     ENABLE_COLOR=32,        /*  Enable color for allocation trace option */
