@@ -46,11 +46,14 @@
     On 128 tiny block we case use ~(128 - 12) = 116
     On 104 small block we can use 104 -1 = 103
 */
-# define BLOCK_SIZE         sizeof(t_block) /* 16 bytes struct */
-# define DATA_SIZE          sizeof(t_page)  /* 40 bytes struct */
+# define BLOCK_SIZE         sizeof(t_block)     /* 16 bytes struct */
+# define DATA_SIZE          (sizeof(t_page) + 8) /* 40 bytes struct, 48 to align block */
 
 /* Aligne value for large block TOCHECK */
-# define ALIGN_VALUE        64
+// # define ALIGN_VALUE        64
+# define ALIGN_VALUE        16
+
+/**/
 
 # define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
 # define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
