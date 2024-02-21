@@ -10,29 +10,24 @@ void print(char *s)
 
 int     align_test5()
 {
-    int     i;
-    int     alignment;
+    int     i  = 1, ret = 0, alignment = 2 * sizeof(size_t);;
     char    *addr;
 
-    i = 20000;
-    alignment = 2 * sizeof(size_t);
-    while (i <= 20100)
+    while (i <= 100)
     {
         addr = (char*)malloc(i);
-        if (addr == NULL)
-        {
-            print("Failed to allocate memory\n");
+        if (addr == NULL) {
+            ft_printf_fd(1, RED"Failed to allocate memory\n"RESET);
             exit(1);
         }
         if ((((unsigned long) (addr)) % alignment) != 0) {
             ft_printf_fd(1, RED"malloc returned a non aligned boundary %p\n"RESET, addr);
+            ret = 1;
         } 
-        // else {
-        //     ft_printf_fd(1, GREEN"malloc returned a aligned boundary %p\n"RESET, addr);
-        // }
         i++;
         free(addr);
     }
+    return (ret);
 }
 
 
@@ -47,6 +42,10 @@ int main()
     malloc(1024 * 1024 * 128);
     show_alloc_mem();
     free_meta_data();
-    align_test5();
+    ft_printf_fd("%sAligne size: %s%sOK\n"RESET, YELLOW, RESET, GREEN);
+    int ret = align_test5();
+    if (ret == 0) {
+        ft_printf_fd(1, "%sAligne size: %s%sOK\n"RESET, YELLOW, RESET, GREEN);
+    }
     return (0);
 }

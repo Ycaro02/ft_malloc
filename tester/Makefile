@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
+#    By: ycaro <ycaro@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/12 17:52:39 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/21 16:10:43 by ycaro            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ test3b:	${NAME}
 test4:	${NAME}
 		./${NAME} 32
 
-test5:	${NAME}
+test5:
 		@gcc src/test5.c ../libft_malloc.so -o ${LAST_TEST} 2> /dev/null && ./${LAST_TEST}
 
 clean:
