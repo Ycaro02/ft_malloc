@@ -6,7 +6,7 @@
 #    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/12 18:11:36 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/21 10:10:38 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ test :		${NAME}
 
 testv :		${NAME}
 			@$(CC) ${CFLAGS} -o $(TEST) ${MAIN} $(OBJS) ${LIBFT} ${THREAD}
+			@echo "\033[7;32m -----  Compiling malloc test  ----- \033[0m"
 			@valgrind ${REPLACE_MALLOC_LIB} ${HELGRIND} ./${TEST}
 # @valgrind ${HELGRIND} ./${TEST}
 

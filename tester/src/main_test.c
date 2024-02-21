@@ -1,19 +1,6 @@
 #include "../../include/malloc.h"
 #define MAX 10000
 
-// t_page *g_data = NULL;
-
-// void basic_test(int max, int len)
-// {
-// 	for (int j = 0; j < max; j++)
-// 	{
-// 		char *test = (char *)malloc(len + 1);
-// 		for (int i = 0; i < len; i++)
-// 			test[i] = '3';
-// 		test[len] = '\0';
-// 	}
-// }
-
 void free_test()
 {
 	char *test[10];
@@ -26,44 +13,58 @@ void free_test()
 		for (int j = 0; j < 100; j++)
 			test[i][j] = 'o';
 	}
+	ft_printf_fd(1, YELLOW"Start free test\n"RESET);
 	display_line(NULL, '-');
-	display_line("before free", '-');
 	show_alloc_mem();
 	free(test[0]);
 	free(test[1]);
-	display_line("after free test[0/1] ", '-');
+	display_line("after free test[0]/[1] ", '-');
 	show_alloc_mem();
 	for (int i = 2; i < 6; i++)
 		free(test[i]);
 	free(large);
 	display_line("after free all", '-');
 	show_alloc_mem();
-
+	ft_printf_fd(1, GREEN"Free test OK\n"RESET);
 }
 
 
 void basic_alloc_free_test()
 {
-	char *test[10];
-	char *large = malloc(4000);
-	for (int j = 0; j < 4000; j++)
+	char *large = malloc(6000);
+	for (int j = 0; j < 6000; j++)
 		large[j] = 'b';
-	for (int i = 0; i < 6; i++)
-	{
-		test[i] = malloc(50 * i + 50);
-		for (int j = 0; j < 100; j++)
-			test[i][j] = 'o';
+	char **tiny = malloc(sizeof(char *) * 5);
+	for (int i = 0; i < 5; ++i) {
+		tiny [i] = malloc(99);
+		for (int j = 0; j < 99 ; ++j) {
+			tiny[i][j] = 'P';
+		}
 	}
+	char **small = malloc(sizeof(char *) * 5);
+	for (int i = 0; i < 5; ++i) {
+		small [i] = malloc(400);
+		for (int j = 0; j < 400 ; ++j) {
+			small[i][j] = 'L';
+		}
+	}
+
+	ft_printf_fd(1, YELLOW"Start basic alloc free test \n"RESET);
 	display_line(NULL, '-');
 	display_line("initial data", '-');
 	show_alloc_mem();
-	display_line("Free first tiny", '-');
-	free(test[0]);
+	display_line("Free tiny[0] and small [0]", '-');
+	free(tiny[0]);
+	free(small[0]);
 	show_alloc_mem();
 	display_line("Realloc it", '-');
 	char *a = malloc(12);
+	char *b = malloc(420);
 	a[0] = 'c';
+	b[0] = 'l';
 	show_alloc_mem();
+	free_meta_data();
+	ft_printf_fd(1, GREEN"Basic alloc free test OK \n"RESET);
 }
 
 void alloc_free_test()
@@ -75,6 +76,7 @@ void alloc_free_test()
 		tiny[i] = malloc(3);
 		tiny[i][0] = 'k';
 	}
+	ft_printf_fd(1, YELLOW"Start alloc free test \n"RESET);
 	display_line("New data", '-');
 	show_alloc_mem();
 	display_line("Free 3 elem", '-');
@@ -89,9 +91,44 @@ void alloc_free_test()
 	show_alloc_mem();
 	free(large);
 	show_alloc_mem();
+	ft_printf_fd(1, GREEN"Alloc free test OK \n"RESET);
 }
 
 void realloc_test()
+{
+	// char *b = malloc(3000);
+	// b[0] = 2;
+	ft_printf_fd(1, YELLOW"Start Realloc test \n"RESET);
+	char *a = malloc(2);
+	ft_printf_fd(1, "After 2 first malloc\n");
+	a[0] = 'a';
+	show_alloc_mem();
+	int len = 100;
+	char *test = NULL;
+	test = realloc(test, len);
+	if (!test) {
+		ft_printf_fd(1, "Realloc1 return NULL\n");
+		show_alloc_mem();
+		free_meta_data();
+		return ;
+	}
+	for (int i = 0; i < len; i++)
+		test[i] = 'P';
+	test[len - 1] = '\0';
+	ft_printf_fd(1, "After first realloc\n");
+	show_alloc_mem();
+	len = 900;
+	test = realloc(test, len);
+	if (!test) {
+		ft_printf_fd(1, "Realloc2 return NULL\n");
+		free_meta_data();
+		return ;
+	}
+	ft_printf_fd(1, GREEN"Realloc ok\n"RESET);
+	free_meta_data();
+}
+
+void test_show_mem_hex()
 {
 	// char *b = malloc(3000);
 	// b[0] = 2;
@@ -108,40 +145,30 @@ void realloc_test()
 		free_meta_data();
 		return ;
 	}
-	for (int i = 0; i < len; i++)
-		test[i] = 'k';
+	for (int i = 0; i < len - 1; i++)
+		test[i] = 'P';
 	ft_printf_fd(1, "After first realloc\n");
 	show_alloc_mem();
-	len = 900;
-	test = realloc(test, len);
-	if (!test) {
-		ft_printf_fd(1, "Realloc2 return NULL\n");
-		// show_alloc_mem();
-		free_meta_data();
-		show_alloc_mem();
-		return ;
+	show_alloc_mem_hex();
+	test = realloc(test, 500);
+	for (int i = len-1; i < 599; i++) {
+		test[i] = 2;
 	}
-	ft_printf_fd(1, "Realloc ok\n");
-	// for (int i = 0; i < len; i++)
-	// 	test[i] = 'l';
-	// len = 3000;
-	// show_alloc_mem();
-	// test = realloc(test, len);
-	// for (int i = 0; i < len; i++)
-	// 	test[i] = 'z';
-	// show_alloc_mem();
+	ft_printf_fd(1, "After second realloc\n");
+	show_alloc_mem_hex();
+	ft_printf_fd(1, GREEN"Show mem hex OK\n"RESET);
 }
+
+
 
 int main(void)
 {
-	// realloc_test();
-	// free_test();
 	alloc_free_test();
-	show_alloc_mem_hex();
+	free_meta_data();
+	realloc_test();
+	free_test();
+	test_show_mem_hex();
 	check_for_leak();
 	free_meta_data();
-	display_line("Free all", '-');
-	show_alloc_mem();
-	check_for_leak();
 	return (0);
 }

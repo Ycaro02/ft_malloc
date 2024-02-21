@@ -43,16 +43,16 @@ static size_t print_bloc(t_page *data, int8_t hex_flag)
 	block = data->block;
 	while (block) {
 		void *ptr = (void *)block + BLOCK_SIZE;
-		ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
-		ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
-		
 		if (hex_flag) {
 			display_hex_data(block, ptr);
+		} else {
+			ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
+			ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
 		}
-		ft_printf_fd(1, "\n");
 		total += ptr + block->size - ptr;
 		block = block->next;
 	}
+	ft_printf_fd(1, "\n");
 	return (total);
 }
 
