@@ -39,6 +39,7 @@ t_page *init_page(e_type type, size_t size, e_type pre_aloc)
 	size_t page_size;
 
 	page_size = get_page_size(type, size);
+
 	data = mmap(0, page_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	if (data == MAP_FAILED) {
 		ft_printf_fd(2, "mmap call failed check erno for details\n");
@@ -71,6 +72,9 @@ t_block *init_data(e_type type, size_t size)
 	}
 	data = init_page(type, size, 0);
 	page_add_back(&g_data, data);
+	if (check_debug_flag(ALLOCATION_TRACE)) {
+		ft_printf_fd(get_debug_fd(), GREEN"Create new page (mmap called) %p first block: %p\n"RESET, data, data->block); /* Only for call history */
+	}
 	return (data->block);
 }
 

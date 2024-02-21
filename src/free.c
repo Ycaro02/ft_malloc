@@ -81,7 +81,7 @@ static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 			if (page_empty(current) == TRUE) {
 				prev == NULL ? (g_data = current->next) : (prev->next = current->next);
 				if (check_debug_flag(ALLOCATION_TRACE))
-					ft_printf_fd(get_debug_fd(), RED"Free empty page %p\n"RESET, current); /* Only for call history */
+					ft_printf_fd(get_debug_fd(), RED"Free empty page (munmap called) %p last block: %p data %p\n"RESET, current, block, ptr); /* Only for call history */
 				free_page(current); /* munmap call */
 				// ft_printf_fd(2, "MUNMAP CALLED\n");
 			}

@@ -30,6 +30,10 @@ inline static int8_t init_first_page()
 		}
 		page->fd = fd;
 		page_add_back(&g_data, page);
+
+		if (check_debug_flag(ALLOCATION_TRACE)) {
+			ft_printf_fd(get_debug_fd(), GREEN"Create first tiny  page (mmap called) %p\n"RESET, page); /* Only for call history */
+		}
 		/* first page->type contain all debug context no more needed */
 		page = init_page(SMALL, 0, PRE_ALLOCATE);
 		if (!page) {
@@ -37,6 +41,9 @@ inline static int8_t init_first_page()
 			return (FALSE);
 		}		
 		page_add_back(&g_data, page);
+		if (check_debug_flag(ALLOCATION_TRACE)) {
+			ft_printf_fd(get_debug_fd(), GREEN"Create first small page (mmap called) %p\n"RESET, page); /* Only for call history */
+		}
 	}
 	return (TRUE);
 }

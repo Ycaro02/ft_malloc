@@ -20,7 +20,6 @@ void display_hex_data(t_block *block, void *ptr)
 		/* if idx % 7 == 0 print '\n' else space*/
 		char sep = (((idx != 0) && (idx % 7 == 0)) * '\n') + (((idx == 0) || (idx % 7 != 0)) * ' ');
 
-		// sep = (((idx != 0) && (idx % 7 == 0)) * '\n')
 		ft_printf_fd(1, "%c", sep);
 	} 
 }

@@ -6,7 +6,7 @@ static char *check_env_variable(char *to_check)
 {
 	char *env = getenv(to_check);
 	if (env) {
-		ft_printf_fd(1, "%s =  %s\n", to_check, env);
+		ft_printf_fd(1, PURPLE"%s enable: %s\n"RESET, to_check, env);
 		return (env);
 	}
 	return (NULL);

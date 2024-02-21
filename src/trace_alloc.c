@@ -37,7 +37,7 @@ static void display_realloc_block(t_block *block, e_type type, size_t size, int 
 	handle_reset_color(fd);
 
     if (!(type & LARGE) && size + block->size <= get_page_size(type, size)) {
-        ft_printf_fd(fd, " Extend block success no need to move data\n");
+        ft_printf_fd(fd, " Extend block success no need to move data");
     } else {
         ft_printf_fd(fd, " No enought space to extend block need to call malloc");
     }
@@ -55,11 +55,11 @@ void write_function_name(int8_t call, int fd)
 	}
 
 	if (call == MALLOC_CALL) {
-		ft_printf_fd(fd ,"Malloc  call: ");
+		ft_printf_fd(fd ,"Malloc  call:\n");
 	} else if (call == REALLOC_CALL ) {
-		ft_printf_fd(fd , "Realloc call: ");
+		ft_printf_fd(fd , "Realloc call:\n");
 	} else {
-		ft_printf_fd(fd , "Free    call: ");
+		ft_printf_fd(fd , "Free    call:\n");
 	}
 	handle_reset_color(fd);
 }
@@ -81,7 +81,7 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 	ft_printf_fd(fd, "of size: ");
 
 	handle_add_color(fd, GREEN);
-	put_size_t_fd(size, fd);
+	put_size_t_fd(block->size, fd);
 	handle_reset_color(fd);
 
 	if (call == REALLOC_CALL) {
