@@ -13,7 +13,7 @@ static char *check_env_variable(char *to_check)
 }
 
 /* @brief basic check flag function return bool value */
-inline int8_t check_debug_flag(int8_t flag) { return ((g_data->type & flag) == flag); }
+inline int16_t check_debug_flag(int16_t flag) { return ((g_data->type & flag) == flag); }
 
 /* @brief get debug file fd */
 inline int get_debug_fd() { return (g_data->fd); }
@@ -29,7 +29,7 @@ void display_env_var(char *env, char *to_check)
 	ft_printf_fd(1, "%s%s %s: %s\n"RESET, color, to_check, str, env);
 }
 
-static int8_t bool_check_env(char *to_check, int8_t flag)
+static int16_t bool_check_env(char *to_check, int16_t flag)
 {
 	char *env = getenv(to_check);
 
@@ -38,7 +38,7 @@ static int8_t bool_check_env(char *to_check, int8_t flag)
 	return ((env != NULL) * flag);
 }
 
-int handle_env_variable(int8_t *special_flag)
+int handle_env_variable(int16_t *special_flag)
 {
 	int 	fd = -1;
 	char	*trace_file = check_env_variable(MALLOC_TRACE_ENV);

@@ -6,9 +6,9 @@ static void *exec_realloc(t_block *block, size_t size)
 	size_t	i = 0, block_size = block->size;;
 	char 	*content = (char *)((void *)block + BLOCK_SIZE), *new_ptr = NULL;
 	
-	pthread_mutex_unlock(&g_libft_malloc_mutex); /* unlock before malloc call */
+	pthread_mutex_unlock(&g_malloc_mutex); /* unlock before malloc call */
 	new_ptr = malloc(block->size + size);
-	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock after malloc call cause unlock at the end of realloc, maybe can optimise that */
+	pthread_mutex_lock(&g_malloc_mutex); /* lock after malloc call cause unlock at the end of realloc, maybe can optimise that */
 	
 	if (!new_ptr) {
 		return (NULL);
@@ -22,7 +22,7 @@ static void *exec_realloc(t_block *block, size_t size)
 }
 
 /** @brief Check data type and empty space in page to know if realloc is needed **/
-static int8_t need_realloc(t_page *page, t_block *block, size_t size)
+static int16_t need_realloc(t_page *page, t_block *block, size_t size)
 {
 	size_t align = size;
 	size_t new_size = block->size + size;
@@ -44,7 +44,7 @@ static int8_t need_realloc(t_page *page, t_block *block, size_t size)
 */
 static void *check_for_realloc_block(t_page *prev, t_page *current, t_block *block, void *ptr, size_t size)
 {
-	int8_t realloc_needed = FALSE;
+	int16_t realloc_needed = FALSE;
 	while (block) {
 		if (ptr == (void *)block + BLOCK_SIZE) {
 			
@@ -112,12 +112,12 @@ void *realloc(void *ptr, size_t size)
 		free(ptr); /* thread safe in free */
 		return (NULL);
 	}
-	pthread_mutex_lock(&g_libft_malloc_mutex);
+	pthread_mutex_lock(&g_malloc_mutex);
 	new_ptr = get_block_addr(ptr, size);
 	if (!new_ptr) {
 		ft_printf_fd(2, RED"Realloc invalid pointer %p\n"RESET,ptr);
 	}
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 	return (new_ptr);
 }
 

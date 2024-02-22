@@ -24,7 +24,7 @@ void display_hex_data(t_block *block, void *ptr)
 	} 
 }
 
-static void display_type(int8_t type)
+static void display_type(int16_t type)
 {
 	if (type & TINY) {
 		ft_printf_fd(1, TINY_NAME);
@@ -38,7 +38,7 @@ static void display_type(int8_t type)
 /** @brief	Display page function, iter on each block and display his information
  * 	@param	t_page *data, pointer on page to display
 */
-static size_t print_bloc(t_page *data, int8_t hex_flag)
+static size_t print_bloc(t_page *data, int16_t hex_flag)
 {
 	int 	total = 0;
 	t_block	*block;
@@ -67,13 +67,13 @@ void show_alloc_mem_hex()
 {
 	t_page *tmp = g_data;
 	
-	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
+	pthread_mutex_lock(&g_malloc_mutex); /* lock before read g_data */
 	display_line(NULL, '-');
 	while (tmp) {
 		print_bloc(tmp, 1);
 		tmp = tmp->next;
 	}
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 }
 
 
@@ -83,7 +83,7 @@ void show_alloc_mem()
 	t_page *tmp;
 	size_t total = 0;
 	
-	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
+	pthread_mutex_lock(&g_malloc_mutex); /* lock before read g_data */
 	tmp = g_data;
 	display_line(NULL, '-');
 	while (tmp) {
@@ -92,5 +92,5 @@ void show_alloc_mem()
 	}
 	ft_printf_fd(1, "Total: %U bytes\n", total);
 	display_line(NULL, '-');
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 }

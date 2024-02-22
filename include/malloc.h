@@ -6,7 +6,7 @@
 # include <stddef.h>            /* NULL */
 # include <sys/mman.h>          /* mmap */
 # include <fcntl.h>             /* open */
-# include <sys/types.h>         /* int8_t */
+# include <sys/types.h>         /* int16_t */
 # include "basic_define.h"      /* Color ... */
 # include "../libft/libft.h"    /* Libft without stdlib */
 
@@ -95,6 +95,8 @@ enum type_block_e {
     GARBAGE_COLLECTOR_FREE=128, /* Free all page at the end of program */
 };
 
+
+# define SANITIZE_TYPE          (PRE_ALLOCATE + ALLOCATION_TRACE + ENABLE_COLOR + DETECT_LEAK + GARBAGE_COLLECTOR_FREE)
 typedef enum type_block_e   e_type;
 
 /**
@@ -124,7 +126,7 @@ typedef struct s_block {
 }   t_block;
 
 typedef struct s_page {
-    int8_t          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
+    int16_t          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
     int             fd;         /* fd deb file */
     size_t          size;       /* size of total page, multiple of get_page_size */
     size_t          size_free;  /* size free in bytes*/
@@ -140,7 +142,7 @@ typedef struct s_page {
 extern t_page           *g_data;
 
 /* Global mutex to be thread safe */
-extern pthread_mutex_t  g_libft_malloc_mutex;
+extern pthread_mutex_t  g_malloc_mutex;
 
 /********************************************************************
  *                        Library function                          *
@@ -167,7 +169,7 @@ void        free_meta_data();
 
 /* free.c */
 void        free_meta_block(t_block* block, t_page *data);
-int8_t      page_empty(t_page *block);
+int16_t      page_empty(t_page *block);
 void        free_page(t_page *data);
 
 /* page_gestion.c */
@@ -190,12 +192,12 @@ t_block     *try_add_block(char type, size_t size);
 void        block_add_back(t_block **lst, t_block *block);
 
 /* trace_alloc.c */
-void        write_block_info(t_block *block, size_t size, int8_t call, int fd);
-void        write_function_name(int8_t call, int fd);
+void        write_block_info(t_block *block, size_t size, int16_t call, int fd);
+void        write_function_name(int16_t call, int fd);
 
 /* handle env.c */
-int         handle_env_variable(int8_t *special_flag);
-int8_t      check_debug_flag(int8_t flag);
+int         handle_env_variable(int16_t *special_flag);
+int16_t      check_debug_flag(int16_t flag);
 int         get_debug_fd();
 
 /* need to declare getenv for bonus, basicly this declaration is in stdlib.h */

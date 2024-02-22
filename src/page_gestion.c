@@ -27,6 +27,11 @@ inline size_t get_page_size(e_type type, size_t size)
 	return (page_size[type >> 1]);
 }
 
+/*	
+	* Don't worry about 'type >> 1', pre allocate/debug value in type, is given in different args to prevent this 
+	* in init_first page when we call init_page function 
+*/
+
 /** @brief	Init page with mmmap call 
  *	@param	e_type enum represent the type of desired block
  *	@param	size_t size: size of desired block allocation in bytes

@@ -12,7 +12,7 @@ void free_meta_data()
 	if (!g_data)
 		return ;
 	ft_printf_fd(1, GREEN"Free meta data called\n"RESET);
-	pthread_mutex_lock(&g_libft_malloc_mutex);
+	pthread_mutex_lock(&g_malloc_mutex);
 	if (check_debug_flag(ALLOCATION_TRACE)) {
 		save_fd = get_debug_fd();
 	}
@@ -24,7 +24,7 @@ void free_meta_data()
 	if (save_fd != -1) {
 		close(save_fd);
 	}
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 	/* after investigate we don't need to destroy mutex, structure don't do some allocation
 		, destroy function just set invalid value to prevent bad call*/
 }
@@ -33,7 +33,7 @@ void free_meta_data()
 void free_page(t_page *data) { munmap(data, data->size); }
 
 /* @brief check for empty page (all block size == 0) and not pre allocated page */
-int8_t page_empty(t_page *data)
+int16_t page_empty(t_page *data)
 {
 	t_block *block;
 	if (data->type & PRE_ALLOCATE)
@@ -123,18 +123,18 @@ static int call_free(void *ptr)
 void free(void *ptr)
 {
 	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
-	pthread_mutex_lock(&g_libft_malloc_mutex);
+	pthread_mutex_lock(&g_malloc_mutex);
 	if (check_debug_flag(ALLOCATION_TRACE))
 		write_function_name(FREE_CALL, get_debug_fd()); /* Only for call history */
 	if (!ptr) {
 		ft_printf_fd(get_debug_fd(), "%sCall free NULL need to disable this%s\n", RED, RESET);
-		pthread_mutex_unlock(&g_libft_malloc_mutex);
+		pthread_mutex_unlock(&g_malloc_mutex);
 		return ;
 	}
 	else if (call_free(ptr) == FALSE) {
 		ft_printf_fd(2, RED"Free: Invalid pointer %p \n"RESET, ptr);
 	}
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
 		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
 }

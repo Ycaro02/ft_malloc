@@ -43,7 +43,7 @@ static void display_realloc_block(t_block *block, e_type type, size_t size, int 
     }
 }
 
-void write_function_name(int8_t call, int fd)
+void write_function_name(int16_t call, int fd)
 {
 	if (check_debug_flag(ENABLE_COLOR)) {
 		char *color = GREEN;
@@ -64,9 +64,9 @@ void write_function_name(int8_t call, int fd)
 	handle_reset_color(fd);
 }
 
-void write_block_info(t_block *block, size_t size, int8_t call, int fd)
+void write_block_info(t_block *block, size_t size, int16_t call, int fd)
 {
-	int8_t type = detect_type(block->size);
+	int16_t type = detect_type(block->size);
 
 	handle_add_color(fd, YELLOW);
 	if (type & TINY) {
@@ -110,13 +110,13 @@ void check_for_leak()
 	if (!g_data)
 		return ;
 
-	pthread_mutex_lock(&g_libft_malloc_mutex); /* lock before read g_data */
+	pthread_mutex_lock(&g_malloc_mutex); /* lock before read g_data */
 	while (current) {
 		block = current->block;
 		while (block) {
 			if (block->size != 0 ) {
 				char *color = RED;
-				int8_t type = detect_type(block->size);
+				int16_t type = detect_type(block->size);
 				if (type & TINY) {
 					color = YELLOW;
 				} else if (type & SMALL) {
@@ -129,5 +129,5 @@ void check_for_leak()
 		}
 		current = current->next;;
 	}
-	pthread_mutex_unlock(&g_libft_malloc_mutex);
+	pthread_mutex_unlock(&g_malloc_mutex);
 }
