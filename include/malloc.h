@@ -10,6 +10,11 @@
 # include "basic_define.h"      /* Color ... */
 # include "../libft/libft.h"    /* Libft without stdlib */
 
+
+
+/********************************************************************
+ *                        DEFINE		                            *
+ ********************************************************************/
 /* Return of getpagesize function casted in size_t 4096 */
 # define PAGE_SIZE              (size_t)getpagesize()
 
@@ -70,6 +75,10 @@
 # define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
 # define MALLOC_GARBAGE_ENV "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
 
+
+/********************************************************************
+ *                        ENUM  		                            *
+ ********************************************************************/
 /** 
  * e_type enum to represent different block type with power of 2
  * store status of env var or special page  
@@ -105,7 +114,9 @@ enum e_function_call {
     FREE_CALL,
 };
 
-
+/********************************************************************
+ *                        STRUCT		                            *
+ ********************************************************************/
 typedef struct s_block {
     size_t          size;   /* size of desired/wanted data by user */
     struct s_block *next;   /* pointer on next block */
@@ -120,18 +131,28 @@ typedef struct s_page {
     struct s_page   *next;      /* pointer on next page */
 }   t_page;
 
+/********************************************************************
+ *                        GLOBAL		                            *
+ ********************************************************************/
+
 /* Global pointer on linked list of page*/
 extern t_page           *g_data;
+
 /* Global mutex to be thread safe */
 extern pthread_mutex_t  g_libft_malloc_mutex;
 
-/* Library function */
+/********************************************************************
+ *                        Library function                          *
+ ********************************************************************/
 void        *malloc(size_t size);
 void        *realloc(void *ptr, size_t size);
 void        free(void *ptr);
 void        show_alloc_mem();
 
-/* BONUS */
+/********************************************************************
+ *                        Bonus function                            *
+ ********************************************************************/
+
 /* Hexa dump of memory allocated */
 void        show_alloc_mem_hex();
 /* Search for no free block */
@@ -139,7 +160,10 @@ void        check_for_leak();
 /* Free all page function, close debug fd too */
 void        free_meta_data();
 
-/* Private lib function */
+/********************************************************************
+ *                        Private lib function                      *
+ ********************************************************************/
+
 /* free.c */
 void        free_meta_block(t_block* block, t_page *data);
 int8_t      page_empty(t_page *block);
@@ -173,7 +197,7 @@ int         handle_env_variable(int8_t *special_flag);
 int8_t      check_debug_flag(int8_t flag);
 int         get_debug_fd();
 
-/* need to include getenv here for bonus, basicly this definition is in stdlib.h */
+/* need to declare getenv for bonus, basicly this declaration is in stdlib.h */
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 /* same for atexit */
 extern int  atexit(void(*function)(void));
