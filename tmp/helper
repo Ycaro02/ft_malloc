@@ -1,1 +1,20 @@
 for gcc option compiling .so lib: https://www.blaess.fr/christophe/2012/01/28/mise-au-point-de-bibliotheque-dynamique-1-compilation-versions-et-liens-symboliques/
+
+/*
+The debug malloc library also uses these environment variables:
+ *  MALLOC_DUMP_LEAKS
+        Trigger leak detection on exit of the program.
+ *  MALLOC_TRACE
+        Enable tracing of all calls to malloc(), free(), calloc(), realloc(), etc.
+        A trace of the various calls is store in the file named by this variable.
+*/
+/*
+    RSC:
+    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_3.html            MALLOC ENV VAR
+    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_13.html#SEC246    MMAP
+    'MAP_ANON:
+    This flag tells the system to create an anonymous mapping, not connected to a file. filedes and off are ignored, and the region is initialized with zeros.
+    Anonymous maps are used as the basic primitive to extend the heap on some systems. They are also useful to share data between multiple tasks without creating a file.
+    On some systems using private anonymous mmaps is more efficient than using malloc for large blocks.
+    This is not an issue with the GNU C library, as the included malloc automatically uses mmap where appropriate.'
+*/

@@ -63,7 +63,10 @@
 # define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
 # define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
 # define MALLOC_GARBAGE_ENV "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
-/** e_type enum to represent different block with power of 2, store status of env var or special page  */
+/** 
+ * e_type enum to represent different block type with power of 2
+ * store status of env var or special page  
+*/
 enum type_block_e {
     TINY=1,                 /*  Tiny size block */
     SMALL=2,                /*  Small size block */
@@ -75,12 +78,18 @@ enum type_block_e {
     GARBAGE_COLLECTOR_FREE=128,
 };
 
+/**
+ * Free block status
+*/
 enum e_free_status {
     BLOCK_ALREADY_FREE=-1,
     BLOCK_FREE_SUCCESS,
     BLOCK_NOT_FOUND,
 };
 
+/**
+ * Enum for display block
+*/
 enum e_function_call {
     MALLOC_CALL,
     REALLOC_CALL,
@@ -114,33 +123,32 @@ void        *realloc(void *ptr, size_t size);
 void        free(void *ptr);
 void        show_alloc_mem();
 /* BONUS */
+/* Hexa dump of memory allocated */
 void        show_alloc_mem_hex();
+/* Search for no free block */
 void        check_for_leak();
-
-
-/* Free all page. close debug fd if in use and destroy mutex */
+/* Free all page function, close debug fd too */
 void        free_meta_data();
 
-// free.c
+/* free.c */
 void        free_meta_block(t_block* block, t_page *data);
 int8_t      page_empty(t_page *block);
 void        free_page(t_page *data);
 
-//page_gestion.c
+/* page_gestion.c */
 t_block     *init_data(e_type type, size_t size);
 t_page      *init_page(e_type type, size_t size, e_type pre_aloc);
 e_type      detect_type(size_t size);
 size_t      get_page_size(e_type type, size_t size);
 void        page_add_back(t_page **lst, t_page *data);
 
-//utils.c
+/* utils.c */
 void        display_line(char *str, char to_display);
 size_t      get_align_by_type(e_type type);
 int         get_lst_block_len(t_block *lst);
-// void    free_block();
 void        print_define(void);
 
-//block.c
+/* block.c */
 t_block	    *init_block(t_block *block, size_t size, int pos, t_page *data);
 size_t      align_mem_block(size_t m_size, size_t size);
 t_block     *try_add_block(char type, size_t size);
@@ -158,40 +166,6 @@ int         get_debug_fd();
 /* need to include getenv here for bonus, basicly this definition is in stdilib.h */
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
 /* same for atexit */
-int atexit( void ( * function ) (void) );
-
-/*
-The debug malloc library also uses these environment variables:
- *  MALLOC_INITVERBOSE
-    	Enable some initial verbose output regarding other variables that are enabled.
- *  MALLOC_BTDEPTH
-        The depth of the backtrace for allocations (i.e. where the allocation occurred) 
-        on CPUs that support deeper backtrace levels. Currently the builtin-return-address feature of gcc 
-        is used to implement deeper backtraces for the debug malloc library. The default value is 0.
- *  MALLOC_TRACEBT
-        Set the depth of the backtrace for errors and warnings on CPUs that support deeper backtrace levels.
-        Currently the builtin-return-address feature of gcc is used to 
-        implement deeper backtraces for the debug malloc library. The default value is 0.
- *  MALLOC_DUMP_LEAKS
-        Trigger leak detection on exit of the program.
-        The output of the leak detection is sent to the file named by this variable.
- *  MALLOC_TRACE
-        Enable tracing of all calls to malloc(), free(), calloc(), realloc(), etc.
-        A trace of the various calls is store in the file named by this variable.
- *  MALLOC_CKACCESS_LEVEL
-        Specify the level of checking performed by the MALLOC_CKACCESS option to mallopt().
-*/
-
-/*
-    RSC:
-
-    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_3.html            MALLOC ENV VAR
-    https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_chapter/libc_13.html#SEC246    MMAP
-    'MAP_ANON:
-This flag tells the system to create an anonymous mapping, not connected to a file. filedes and off are ignored, and the region is initialized with zeros.
-Anonymous maps are used as the basic primitive to extend the heap on some systems. They are also useful to share data between multiple tasks without creating a file.
-On some systems using private anonymous mmaps is more efficient than using malloc for large blocks.
-This is not an issue with the GNU C library, as the included malloc automatically uses mmap where appropriate.'
-*/
+extern int  atexit(void(*function)(void));
 
 # endif /* FT_MALLOC_H */
