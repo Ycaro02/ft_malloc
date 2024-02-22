@@ -35,7 +35,7 @@ compile_real_test_get_minor() {
 }
 
 test_libft_malloc_get_minor() {
-    echo -e "${PURPLE}Test ${FILE_SRC} libft malloc ${RESET}"
+    echo -e "${PURPLE}Test ${1} libft malloc ${RESET}"
     ${LINUX_RUN} /usr/bin/time -v ./${1} 2> .tmp/out_${1}
     MALLOC_PAGE=$(cat .tmp/out_${1} | grep Minor | rev | cut -d ' ' -f 1  | rev)
     echo -e "${RED}${MALLOC_PAGE}${RESET}"
