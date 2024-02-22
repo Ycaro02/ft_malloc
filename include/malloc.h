@@ -34,7 +34,7 @@
  * 4096 / 128 = 32 -> 32 block in one PAGE_SIZE
  * 32 * 4 = 128 > 100
 */
-# define TINY_MULT 4
+# define TINY_MULT              4
 # define TINY_BLOCK_PER_PAGE    (PAGE_SIZE / TINY_SIZE * TINY_MULT) ///128
 
 /*
@@ -42,7 +42,7 @@
  * 4096 / 1024 = 4 -> 4 blocks in on PAGE_SIZE
  * 4 * 26 = 104;
 */
-# define SMALL_MULT 26
+# define SMALL_MULT             26
 # define SMALL_BLOCK_PER_PAGE   (PAGE_SIZE / SMALL_SIZE * SMALL_MULT)
 
 /*  TINY_PAGE_SIZE  = 4096 * 4 = 16324 bytes */
@@ -59,22 +59,22 @@
  * On 128 tiny block we can use ~(128 - 12) = 116
  * On 104 small block we can use 104 -1 = 103
 */
-# define BLOCK_SIZE         sizeof(t_block)         /* 16 bytes struct */
-# define DATA_SIZE          (sizeof(t_page) + 8)    /* 40 bytes struct, 48 to align block */
+# define BLOCK_SIZE             sizeof(t_block)         /* 16 bytes struct */
+# define DATA_SIZE              (sizeof(t_page) + 8)    /* 40 bytes struct, 48 to align block */
 
 /* Aligne value */
-# define ALIGN_VALUE        16
+# define ALIGN_VALUE            16
 
 /*  
     * This variable represent the path of the debug file, the option will not
     * be enable if the given path can't be open or create
  */
-# define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
+# define MALLOC_TRACE_ENV       "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
 
 /* Basic gestion just need to had to value te enable */
-# define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
-# define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
-# define MALLOC_GARBAGE_ENV "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
+# define MALLOC_COLOR_ENV       "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
+# define MALLOC_LEAKS_ENV       "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
+# define MALLOC_GARBAGE_ENV     "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
 
 
 /********************************************************************
@@ -95,8 +95,6 @@ enum type_block_e {
     GARBAGE_COLLECTOR_FREE=128, /* Free all page at the end of program */
 };
 
-
-# define SANITIZE_TYPE          (PRE_ALLOCATE + ALLOCATION_TRACE + ENABLE_COLOR + DETECT_LEAK + GARBAGE_COLLECTOR_FREE)
 typedef enum type_block_e   e_type;
 
 /**
@@ -120,13 +118,16 @@ enum e_function_call {
 /********************************************************************
  *                        STRUCT		                            *
  ********************************************************************/
+
+/* block structure */
 typedef struct s_block {
-    size_t          size;   /* size of desired/wanted data by user */
-    struct s_block *next;   /* pointer on next block */
+    size_t              size;   /* size of desired/wanted data by user */
+    struct s_block      *next;   /* pointer on next block */
 }   t_block;
 
+/* page structure */
 typedef struct s_page {
-    int16_t          type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
+    int16_t         type;       /* type of page allocate TINY, SMALL, LARGE, debug storing info */
     int             fd;         /* fd deb file */
     size_t          size;       /* size of total page, multiple of get_page_size */
     size_t          size_free;  /* size free in bytes*/
@@ -147,6 +148,7 @@ extern pthread_mutex_t  g_malloc_mutex;
 /********************************************************************
  *                        Library function                          *
  ********************************************************************/
+
 void        *malloc(size_t size);
 void        *realloc(void *ptr, size_t size);
 void        free(void *ptr);
@@ -169,7 +171,7 @@ void        free_meta_data();
 
 /* free.c */
 void        free_meta_block(t_block* block, t_page *data);
-int16_t      page_empty(t_page *block);
+int16_t     page_empty(t_page *block);
 void        free_page(t_page *data);
 
 /* page_gestion.c */
@@ -197,7 +199,7 @@ void        write_function_name(int16_t call, int fd);
 
 /* handle env.c */
 int         handle_env_variable(int16_t *special_flag);
-int16_t      check_debug_flag(int16_t flag);
+int16_t     check_debug_flag(int16_t flag);
 int         get_debug_fd();
 
 /* need to declare getenv for bonus, basicly this declaration is in stdlib.h */
