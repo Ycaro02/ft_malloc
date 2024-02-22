@@ -83,7 +83,6 @@ static int try_free(t_page *prev, t_page *current, t_block *block, void *ptr)
 				if (check_debug_flag(ALLOCATION_TRACE))
 					ft_printf_fd(get_debug_fd(), RED"Free empty page (munmap called) %p last block: %p data %p\n"RESET, current, block, ptr); /* Only for call history */
 				free_page(current); /* munmap call */
-				// ft_printf_fd(2, "MUNMAP CALLED\n");
 			}
 			return (BLOCK_FREE_SUCCESS);
 		}
@@ -122,7 +121,6 @@ static int call_free(void *ptr)
  */
 void free(void *ptr)
 {
-	// ft_printf_fd(1, "%sFree called %p %s\n", YELLOW, ptr, RESET);
 	pthread_mutex_lock(&g_malloc_mutex);
 	if (check_debug_flag(ALLOCATION_TRACE))
 		write_function_name(FREE_CALL, get_debug_fd()); /* Only for call history */
@@ -135,6 +133,4 @@ void free(void *ptr)
 		ft_printf_fd(2, RED"Free: Invalid pointer %p \n"RESET, ptr);
 	}
 	pthread_mutex_unlock(&g_malloc_mutex);
-		// ft_printf_fd(2, "Invalid ptr - block_size == %p\n", ptr - BLOCK_SIZE);
-		// ft_printf_fd(2, "Invalid ptr == %p\n", ptr);
 }
