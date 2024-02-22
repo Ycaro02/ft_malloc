@@ -75,7 +75,7 @@
 # define MALLOC_COLOR_ENV       "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
 # define MALLOC_LEAKS_ENV       "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
 # define MALLOC_GARBAGE_ENV     "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
-
+# define MALLOC_DISPLAY_ENV     "ENV_DISPLAY_MALLOC"    /* Environement variable for ENV_DISPLAY */
 
 /********************************************************************
  *                        ENUM  		                            *
@@ -93,6 +93,7 @@ enum type_block_e {
     ENABLE_COLOR=32,            /*  Enable color for allocation trace option */
     DETECT_LEAK=64,             /*  Detect leak output issue on stderr, or the given fd  */
     GARBAGE_COLLECTOR_FREE=128, /* Free all page at the end of program */
+    ENV_DISPLAY=256,
 };
 
 typedef enum type_block_e   e_type;

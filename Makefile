@@ -6,7 +6,7 @@
 #    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/21 10:10:38 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/22 15:52:49 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ MAIN	= 	tester/src/main_test.c
 
 CALL_TESTER="make -s -C tester"
 
+MALLOC_ENV=$(shell env | grep MALLOC | cut -d '=' -f 1 | tr '\n' ' ')
+
 all:		${NAME}
 
 %.o : %.c
@@ -88,6 +90,9 @@ testv :		${NAME}
 			@echo "\033[7;32m -----  Compiling malloc test  ----- \033[0m"
 			@valgrind ${REPLACE_MALLOC_LIB} ${HELGRIND} ./${TEST}
 # @valgrind ${HELGRIND} ./${TEST}
+
+env:
+			@echo "\033[6;32m${MALLOC_ENV}\033[0m"
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"

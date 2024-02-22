@@ -29,11 +29,13 @@ void display_env_var(char *env, char *to_check)
 	ft_printf_fd(1, "%s%s %s: %s\n"RESET, color, to_check, str, env);
 }
 
-static int16_t bool_check_env(char *to_check, int16_t flag)
+static int16_t bool_check_env(char *to_check, int16_t flag, int16_t display)
 {
 	char *env = getenv(to_check);
 
-	// display_env_var(env, to_check);
+	if (display != 0) {
+		display_env_var(env, to_check);
+	}
 	/*if env == NULL --> 0 * FLAG, otherwise --> 1 *FLAG*/
 	return ((env != NULL) * flag);
 }
@@ -41,8 +43,11 @@ static int16_t bool_check_env(char *to_check, int16_t flag)
 int handle_env_variable(int16_t *special_flag)
 {
 	int 	fd = -1;
-	char	*trace_file = check_env_variable(MALLOC_TRACE_ENV);
-
+	char	*trace_file = NULL;
+	int16_t	display = bool_check_env(MALLOC_DISPLAY_ENV, ENV_DISPLAY\
+		, bool_check_env(MALLOC_DISPLAY_ENV, ENV_DISPLAY, 0));
+	
+	trace_file = check_env_variable(MALLOC_TRACE_ENV);
 	if (trace_file) {
 		fd = open(trace_file, O_CREAT | O_APPEND | O_WRONLY, 00666);
 		if (fd > 0) {
@@ -52,8 +57,8 @@ int handle_env_variable(int16_t *special_flag)
 			fd = -1;
 		}
 	}
-	*special_flag += bool_check_env(MALLOC_COLOR_ENV, ENABLE_COLOR);
-	*special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
-	*special_flag += bool_check_env(MALLOC_GARBAGE_ENV, GARBAGE_COLLECTOR_FREE);
+	*special_flag += bool_check_env(MALLOC_COLOR_ENV, ENABLE_COLOR, display);
+	*special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK, display);
+	*special_flag += bool_check_env(MALLOC_GARBAGE_ENV, GARBAGE_COLLECTOR_FREE, display);
 	return (fd);
 }
