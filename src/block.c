@@ -121,9 +121,4 @@ void	block_add_back(t_block **lst, t_block *block)
 	block = (t_block *)ptr;
 	or:
 	block = (t_block *)((void *)data + DATA_SIZE + skip);
-
-	old compute block addr for large 
-	// if (type & LARGE) LARGE gestion in page
-	// block_size = data->size - DATA_SIZE - BLOCK_SIZE;
-	// block_size = align_mem_block(sizeof(t_block) + size, ALIGN_VALUE);
 */

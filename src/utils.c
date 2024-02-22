@@ -15,7 +15,9 @@ void display_line(char *str, char to_display)
 	write(1, "\n", 1);
 }
 
-/** @brief get aligned size accordate to block type*/
+/** @brief get aligned size accordate to block type
+ *  @return ALIGN_VALUE for large block, otherwise respective block size
+*/
 size_t get_align_by_type(e_type type)
 {
     int align = ALIGN_VALUE;

@@ -15,6 +15,7 @@
 /********************************************************************
  *                        DEFINE		                            *
  ********************************************************************/
+
 /* Return of getpagesize function casted in size_t 4096 */
 # define PAGE_SIZE              (size_t)getpagesize()
 
