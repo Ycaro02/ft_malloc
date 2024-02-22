@@ -20,7 +20,7 @@ jobs:
       run: make
 
     - name: Run test
-      run: make test
+      run: make test testv rtest
 
     - name: clean
       run: make fclean
