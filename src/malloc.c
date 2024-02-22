@@ -16,12 +16,6 @@ inline static int8_t init_first_page()
 		int 	fd = -1;
 		int8_t special_flag = PRE_ALLOCATE;
 
-		/* if g_data freed need to re init mutex */
-		// int ret = pthread_mutex_init(&g_libft_malloc_mutex, NULL);
-		// if (ret == EINVAL || ret == EBUSY) {
-		// 	ft_printf_fd(2, "Error mutex init\n");
-		// 	return (FALSE);
-		// }
 		fd = handle_env_variable(&special_flag);
 		page = init_page(TINY, 0, special_flag);
 		if (!page) {
@@ -43,6 +37,12 @@ inline static int8_t init_first_page()
 		page_add_back(&g_data, page);
 		if (check_debug_flag(ALLOCATION_TRACE)) {
 			ft_printf_fd(get_debug_fd(), GREEN"Create first small page (mmap called) %p\n"RESET, page); /* Only for call history */
+		}
+		if (check_debug_flag(GARBAGE_COLLECTOR_FREE)) {
+			atexit(free_meta_data);
+		}
+		if (check_debug_flag(DETECT_LEAK)) {
+			atexit(check_for_leak);
 		}
 	}
 	return (TRUE);

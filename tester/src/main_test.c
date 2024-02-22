@@ -65,7 +65,7 @@ void basic_alloc_free_test()
 	a[0] = 'c';
 	b[0] = 'l';
 	show_alloc_mem();
-	free_meta_data();
+	// free_meta_data();
 	ft_printf_fd(1, GREEN"Basic alloc free test OK \n"RESET);
 }
 
@@ -93,6 +93,7 @@ void alloc_free_test()
 	show_alloc_mem();
 	free(large);
 	show_alloc_mem();
+	free_meta_data();
 	ft_printf_fd(1, GREEN"Alloc free test OK \n"RESET);
 }
 
@@ -110,8 +111,6 @@ void realloc_test()
 	test = realloc(test, len);
 	if (!test) {
 		ft_printf_fd(1, "Realloc1 return NULL\n");
-		show_alloc_mem();
-		free_meta_data();
 		return ;
 	}
 	for (int i = 0; i < len; i++)
@@ -123,7 +122,6 @@ void realloc_test()
 	test = realloc(test, len);
 	if (!test) {
 		ft_printf_fd(1, "Realloc2 return NULL\n");
-		free_meta_data();
 		return ;
 	}
 	ft_printf_fd(1, GREEN"Realloc ok\n"RESET);
@@ -144,7 +142,6 @@ void test_show_mem_hex()
 	if (!test) {
 		ft_printf_fd(1, "Realloc1 return NULL\n");
 		show_alloc_mem();
-		free_meta_data();
 		return ;
 	}
 	for (int i = 0; i < len - 1; i++)
@@ -167,10 +164,8 @@ int main(void)
 {
 	print_define();
 	alloc_free_test(); /* first */ 
-	free_meta_data();
 	realloc_test(); /* second */
 	free_test();
 	test_show_mem_hex(); /* third */
-	free_meta_data();
 	return (0);
 }

@@ -21,6 +21,14 @@ inline int get_debug_fd() { return (g_data->fd); }
 static int8_t bool_check_env(char *to_check, int8_t flag)
 {
 	char *env = getenv(to_check);
+
+	char *str = "Enable";
+	char *color = GREEN;
+	if (!env) {
+		str = "Disable";
+		color = RED;
+	}
+	ft_printf_fd(1, "%s%s %s: %s\n"RESET, color, to_check, str, env);
 	/*if env == NULL --> 0 * FLAG, otherwise --> 1 *FLAG*/
 	return ((env != NULL) * flag);
 }
@@ -40,6 +48,7 @@ int handle_env_variable(int8_t *special_flag)
 		}
 	}
 	*special_flag += bool_check_env(MALLOC_COLOR_ENV, ENABLE_COLOR);
-	// *special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
+	*special_flag += bool_check_env(MALLOC_LEAKS_ENV, DETECT_LEAK);
+	*special_flag += bool_check_env(MALLOC_GARBAGE_ENV, GARBAGE_COLLECTOR_FREE);
 	return (fd);
 }

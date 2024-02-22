@@ -61,7 +61,8 @@
 
 # define MALLOC_TRACE_ENV   "TRACE_MALLOC"          /* Environement variable for ALLOCATION TRACE */
 # define MALLOC_COLOR_ENV   "COLOR_MALLOC"          /* Environement variable for ENABLE COLOR */
-// # define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
+# define MALLOC_LEAKS_ENV   "CHECK_LEAKS_MALLOC"    /* Environement variable for DETECT_LEAK */
+# define MALLOC_GARBAGE_ENV "GARBAGE_FREE_MALLOC"   /* Environement variable for GARBAGE_COLLECTOR_FREE */
 /** e_type enum to represent different block with power of 2, store status of env var or special page  */
 enum type_block_e {
     TINY=1,                 /*  Tiny size block */
@@ -70,7 +71,8 @@ enum type_block_e {
     PRE_ALLOCATE=8,         /*  Pre allocated page for tiny and small block */
     ALLOCATION_TRACE=16,    /*  Enable tracing of all alloc calls, a trace of the various calls is store in the file named by this variable.  */
     ENABLE_COLOR=32,        /*  Enable color for allocation trace option */
-    // DETECT_LEAK=64,         /*  Detect leak and store issue in file named by this var or default file/stderr */
+    DETECT_LEAK=64,         /*  Detect leak and store issue in file named by this var or default file/stderr */
+    GARBAGE_COLLECTOR_FREE=128,
 };
 
 enum e_free_status {
@@ -155,7 +157,8 @@ int         get_debug_fd();
 
 /* need to include getenv here for bonus, basicly this definition is in stdilib.h */
 extern char *getenv (const char *__name) __THROW __nonnull ((1)) __wur;
-
+/* same for atexit */
+int atexit( void ( * function ) (void) );
 
 /*
 The debug malloc library also uses these environment variables:
