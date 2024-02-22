@@ -72,11 +72,15 @@ test4:	${NAME}
 test5:
 		@gcc src/test5.c ../libft_malloc.so -o ${LAST_TEST} 2> /dev/null && ./${LAST_TEST}
 
+rtest:	${NAME}
+		@${CHECK_LIB}
+		./correct.sh
+
 clean:
 		@${RM} ${NAME} ${REAL_TEST} ${LAST_TEST}
 
 fclean:	clean
-		@${RM} ${NAME} ${REAL_TEST} ${LAST_TEST}
+		@${RM} ${NAME} ${REAL_TEST} ${LAST_TEST} libft_malloc.so
 
 re:		fclean all
 

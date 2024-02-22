@@ -70,6 +70,9 @@ ${NAME}:	$(OBJS)
 			@echo "\033[7;32m -----  Compiling malloc done  ----- \033[0m"
 			@ln -sf ${NAME} ${LINK_NAME}
 
+rtest:
+			@"${CALL_TESTER}" rtest
+
 test :		${NAME}
 			@"${CALL_TESTER}" test0
 			@"${CALL_TESTER}" test1
