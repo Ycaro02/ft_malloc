@@ -6,11 +6,11 @@
 /*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 17:21:26 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/21 13:50:07 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/22 13:31:41 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include "../include/ft_printf_fd_tools.h"
 
 void	ft_put_size_t_nbr(size_t nbr, int *count, int fd)
 {

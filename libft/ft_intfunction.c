@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_intfunction.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfour <nfour@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:51:54 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/09 16:59:27 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/22 13:31:41 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include "../include/ft_printf_fd_tools.h"
 
 int	ft_count_digit(int nb)
 {

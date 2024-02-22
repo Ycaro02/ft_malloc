@@ -6,17 +6,19 @@
 /*   By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:40:12 by nfour             #+#    #+#             */
-/*   Updated: 2024/02/12 17:55:00 by nfour            ###   ########.fr       */
+/*   Updated: 2024/02/22 13:37:47 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-// # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <stdarg.h>
+/*
+    * No stdlib
+    * #include <stdlib.h>
+*/
 # include "../malloc.h"
 
 char	*ft_ultoa(unsigned long n);
@@ -57,8 +59,6 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
 int 	ft_strcpy(char* dst, char *src, int len);	
-
-
 void 	ft_free_tab(char **tab);
 char    *ft_strjoin_free(char *s1, char *s2, char option);
 int 	ft_lower_strcmp(char *s1, char *s2);

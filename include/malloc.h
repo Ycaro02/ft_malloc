@@ -7,8 +7,9 @@
 # include <stddef.h>    /* NULL */
 # include <sys/mman.h>  /* mmap */
 # include <fcntl.h>     /* open */
-# include "basic_define.h"
-# include "../libft/libft.h"
+# include <sys/types.h> /* int8_t */
+# include "basic_define.h"  /* Color ... */
+# include "../libft/libft.h" /* Libft without stdlib */
 
 /* Return of getpagesize function casted in size_t 4096 */
 # define PAGE_SIZE              (size_t)getpagesize()
