@@ -79,7 +79,6 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
 	handle_reset_color(fd);
 
 	ft_printf_fd(fd, "of size: ");
-
 	handle_add_color(fd, GREEN);
 	put_size_t_fd(block->size, fd);
 	handle_reset_color(fd);
@@ -89,13 +88,11 @@ void write_block_info(t_block *block, size_t size, int8_t call, int fd)
     }
 
 	ft_printf_fd(fd, "\nBlock : ");
-
 	handle_add_color(fd, CYAN);
 	ft_printf_fd(fd, "%p ", block);
 	handle_reset_color(fd);
 
 	ft_printf_fd(fd, " Data : ");
-
 	handle_add_color(fd, CYAN);
 	ft_printf_fd(fd, "%p\n", (void *)block + BLOCK_SIZE);
 	handle_reset_color(fd);

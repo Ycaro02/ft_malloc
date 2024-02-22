@@ -11,7 +11,6 @@ void free_meta_data()
 
 	if (!g_data)
 		return ;
-	
 	ft_printf_fd(1, GREEN"Free meta data called\n"RESET);
 	pthread_mutex_lock(&g_libft_malloc_mutex);
 	if (check_debug_flag(ALLOCATION_TRACE)) {

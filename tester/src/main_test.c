@@ -116,7 +116,7 @@ void realloc_test()
 	for (int i = 0; i < len; i++)
 		test[i] = 'P';
 	test[len - 1] = '\0';
-	ft_printf_fd(1, "After first realloc\n");
+	ft_printf_fd(1, "After first realloc (realloc(NULL, 100))\n");
 	show_alloc_mem();
 	len = 900;
 	test = realloc(test, len);
@@ -124,6 +124,9 @@ void realloc_test()
 		ft_printf_fd(1, "Realloc2 return NULL\n");
 		return ;
 	}
+	ft_printf_fd(1, "After second realloc test was 100 bytes block (realloc(test, 900))\n");
+
+	show_alloc_mem();
 	ft_printf_fd(1, GREEN"Realloc ok\n"RESET);
 	free_meta_data();
 }

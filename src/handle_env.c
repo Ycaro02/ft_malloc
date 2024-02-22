@@ -18,10 +18,8 @@ inline int8_t check_debug_flag(int8_t flag) { return ((g_data->type & flag) == f
 /* @brief get debug file fd */
 inline int get_debug_fd() { return (g_data->fd); }
 
-static int8_t bool_check_env(char *to_check, int8_t flag)
+void display_env_var(char *env, char *to_check)
 {
-	char *env = getenv(to_check);
-
 	char *str = "Enable";
 	char *color = GREEN;
 	if (!env) {
@@ -29,6 +27,13 @@ static int8_t bool_check_env(char *to_check, int8_t flag)
 		color = RED;
 	}
 	ft_printf_fd(1, "%s%s %s: %s\n"RESET, color, to_check, str, env);
+}
+
+static int8_t bool_check_env(char *to_check, int8_t flag)
+{
+	char *env = getenv(to_check);
+
+	// display_env_var(env, to_check);
 	/*if env == NULL --> 0 * FLAG, otherwise --> 1 *FLAG*/
 	return ((env != NULL) * flag);
 }
@@ -39,7 +44,7 @@ int handle_env_variable(int8_t *special_flag)
 	char	*trace_file = check_env_variable(MALLOC_TRACE_ENV);
 
 	if (trace_file) {
-		fd = open(trace_file, O_CREAT | O_APPEND | O_RDWR, 00777);
+		fd = open(trace_file, O_CREAT | O_APPEND | O_WRONLY, 00666);
 		if (fd > 0) {
 			*special_flag += ALLOCATION_TRACE;
 		} else {
