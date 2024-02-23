@@ -6,7 +6,7 @@
 #    By: nfour <<marvin@42.fr>>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:33:38 by nfour             #+#    #+#              #
-#    Updated: 2024/02/22 15:52:49 by nfour            ###   ########.fr        #
+#    Updated: 2024/02/23 11:09:39 by nfour            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ testv :		${NAME}
 # @valgrind ${HELGRIND} ./${TEST}
 
 env:
-			@echo "\033[6;32m${MALLOC_ENV}\033[0m"
+			@echo "\033[3;32m${MALLOC_ENV}\033[0m"
 
 clean:
 			@echo "\033[7;31m\n -----  Cleaning all objects...  ----- \033[0m\n"

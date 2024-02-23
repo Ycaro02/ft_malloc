@@ -52,8 +52,10 @@ int handle_env_variable(int16_t *special_flag)
 		fd = open(trace_file, O_CREAT | O_APPEND | O_WRONLY, 00666);
 		if (fd > 0) {
 			*special_flag += ALLOCATION_TRACE;
+			ft_printf_fd(1, "%s%s Enable: %s\n"RESET, GREEN, MALLOC_TRACE_ENV, trace_file);
+
 		} else {
-			ft_printf_fd(2, "Error can't open or create file %s\n", trace_file);
+			ft_printf_fd(2, RED"Error can't open or create file %s\n"RESET, trace_file);
 			fd = -1;
 		}
 	}

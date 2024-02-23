@@ -125,7 +125,7 @@ void free(void *ptr)
 	if (check_debug_flag(ALLOCATION_TRACE))
 		write_function_name(FREE_CALL, get_debug_fd()); /* Only for call history */
 	if (!ptr) {
-		ft_printf_fd(get_debug_fd(), "%sCall free NULL need to disable this%s\n", RED, RESET);
+		// ft_printf_fd(get_debug_fd(), "%sCall free NULL need to disable this%s\n", RED, RESET);
 		pthread_mutex_unlock(&g_malloc_mutex);
 		return ;
 	}

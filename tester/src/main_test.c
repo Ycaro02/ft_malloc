@@ -136,8 +136,10 @@ void test_show_mem_hex()
 	// char *b = malloc(3000);
 	// b[0] = 2;
 	char *a = malloc(2);
+	char *b = malloc(8);
 	ft_printf_fd(1, "After 2 first malloc\n");
 	a[0] = 'a';
+	b[0] = 'b';
 	show_alloc_mem();
 	int len = 100;
 	char *test = NULL;
