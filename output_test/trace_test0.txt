@@ -1,0 +1,6 @@
+[1;32mCreate first tiny  page (mmap called) 0x7F20D4971000
+[0m[1;32mCreate first small page (mmap called) 0x7F20D4725000
+[0mMalloc  call:
+small block of size: 715
+Block : 0x7F20D4725030  Data : 0x7F20D4725040
+-------------------------------------------
