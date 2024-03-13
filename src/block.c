@@ -4,7 +4,7 @@
  * 	@param t_block *lst_block, pointer on blocks lst
  * 	@return int position of empty block, -1 for nothing found
 */
-static t_block *mark_empty_block(t_block* lst_block, size_t size)
+static t_block *search_empty_block(t_block* lst_block, size_t size)
 {
     int pos = 0;
     while(lst_block) {
@@ -32,7 +32,7 @@ static t_block *add_block(t_page *data, int pos, size_t size, t_block *new, t_bl
 	size_t align = get_align_by_type(data->type); 	/* get aligned size for allocation */
 	/* if space free in page >= block size metadata + aligned_size || if this size <= space free in page */
 	if (data->size_free >= (align + BLOCK_SIZE)) {
-		new = mark_empty_block(data->block, size);
+		new = search_empty_block(data->block, size);
 		if (new) {
 			data->size_free -= (align + BLOCK_SIZE);
 			return (new);
