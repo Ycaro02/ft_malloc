@@ -56,8 +56,8 @@ static size_t print_bloc(t_page *data, int16_t hex_flag)
 		} else {
 			ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
 			ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
-			ft_printf_fd(1, "block metadata size-> %u next-> %p\n", block->size, block->next);
-			ft_printf_fd(1, "block data-> |%s|\n", (char *)ptr);
+			// ft_printf_fd(1, "block metadata size-> %u next-> %p\n", block->size, block->next);
+			// ft_printf_fd(1, "block data-> |%s|\n", (char *)ptr);
 		}
 		total += ptr + block->size - ptr;
 		block = block->next;

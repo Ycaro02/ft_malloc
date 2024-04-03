@@ -146,26 +146,26 @@ int test4(char *version)
 }
 
 
-static void fill_full_tiny_page()
-{
-	char *addr;
-	int i = 0;
+// static void fill_full_tiny_page()
+// {
+// 	char *addr;
+// 	int i = 0;
 
-	int j = 0;
+// 	int j = 0;
 
-	while (i < 100)
-	{
-		addr = (char*)malloc(128);
-		for (int j = 0; j < 128; j++) {
-			addr[j] = 'A';
-		}
-		addr[127] = '\0';
-		i++;
-	}
-	# ifdef USE_LIBFT_MALLOC /* define at compilation time */
-		show_alloc_mem();
-	#endif
-}
+// 	while (i < 100)
+// 	{
+// 		addr = (char*)malloc(128);
+// 		for (int j = 0; j < 128; j++) {
+// 			addr[j] = 'A';
+// 		}
+// 		addr[127] = '\0';
+// 		i++;
+// 	}
+// 	# ifdef USE_LIBFT_MALLOC /* define at compilation time */
+// 		show_alloc_mem();
+// 	#endif
+// }
 
 int main(int argc, char **argv)
 {
@@ -173,7 +173,7 @@ int main(int argc, char **argv)
     if (argc == 2) {
         test_flag = atoi(argv[1]);
     }
-	fill_full_tiny_page();
+	// fill_full_tiny_page();
 
     if (test_flag & TEST0)
         test0(TEST_VERSION_NAME);
