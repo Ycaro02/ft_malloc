@@ -43,6 +43,9 @@ static size_t print_bloc(t_page *data, int16_t hex_flag)
 	int 	total = 0;
 	t_block	*block;
 
+	// size_t block_size = data->type & TINY ? TINY_SIZE : SMALL_SIZE;;
+	// block_size -= BLOCK_SIZE;
+
 	display_type(data->type);
 	ft_printf_fd(1, " : %p\n", data);
 	block = data->block;
@@ -53,6 +56,8 @@ static size_t print_bloc(t_page *data, int16_t hex_flag)
 		} else {
 			ft_printf_fd(1, "%p - %p", ptr, ptr + block->size);
 			ft_printf_fd(1, ": %U bytes\n", ptr + block->size - ptr);
+			ft_printf_fd(1, "block metadata size-> %u next-> %p\n", block->size, block->next);
+			ft_printf_fd(1, "block data-> |%s|\n", (char *)ptr);
 		}
 		total += ptr + block->size - ptr;
 		block = block->next;

@@ -24,7 +24,7 @@ size_t get_align_by_type(e_type type)
 
     if (!(type & LARGE)) 
         type & TINY ? (align = TINY_SIZE) : (align = SMALL_SIZE);
-    return (align);
+    return (align + BLOCK_SIZE);
 }
 
 /** @brief get number of block in lst */

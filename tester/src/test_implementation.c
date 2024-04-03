@@ -27,8 +27,12 @@ void print(char *s) { write(1, s, strlen(s)); }
 void prints(char *s1, char *s2, char *s3, char*s4) { 
     write(1, s1, strlen(s1));
     write(1, s2, strlen(s2));
-    write(1, s3, strlen(s3));
-    write(1, s4, strlen(s4));
+	if (s3){
+    	write(1, s3, strlen(s3));
+	}
+	if (s4) {
+    	write(1, s4, strlen(s4));
+	}
     write(1, "\n", 1);
 }
 
@@ -141,12 +145,36 @@ int test4(char *version)
     #endif
 }
 
+
+static void fill_full_tiny_page()
+{
+	char *addr;
+	int i = 0;
+
+	int j = 0;
+
+	while (i < 100)
+	{
+		addr = (char*)malloc(128);
+		for (int j = 0; j < 128; j++) {
+			addr[j] = 'A';
+		}
+		addr[127] = '\0';
+		i++;
+	}
+	# ifdef USE_LIBFT_MALLOC /* define at compilation time */
+		show_alloc_mem();
+	#endif
+}
+
 int main(int argc, char **argv)
 {
     int test_flag = 0;
     if (argc == 2) {
         test_flag = atoi(argv[1]);
     }
+	fill_full_tiny_page();
+
     if (test_flag & TEST0)
         test0(TEST_VERSION_NAME);
     if (test_flag & TEST1)
